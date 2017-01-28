@@ -1,0 +1,113 @@
+<!-- INCLUDE overall_header.html -->
+
+<!-- IF S_ADD_CATEGORY or S_EDIT_CATEGORY -->
+
+	<script>
+		var form_name = 'add_edit_category';
+	</script>
+
+	<a id="maincontent"></a>
+
+	<!-- IF S_ADD_CATEGORY -->
+		<h1>{L_ACP_KNOWLEDGEBASE_CREATE_CATEGORY} :: {CATEGORY_NAME}</h1>
+
+		<p>{L_ACP_KNOWLEDGEBASE_CREATE_CATEGORY_EXPLAIN}</p>
+	<!-- ELSE -->
+		<h1>{L_ACP_KNOWLEDGEBASE_EDIT_CATEGORY} :: {CATEGORY_NAME}</h1>
+
+		<p>{L_ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN}</p>
+	<!-- ENDIF -->
+
+	<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+	<!-- ENDIF -->
+
+	<form id="add_edit_category" method="post" action="<!-- IF S_ADD_CATEGORY -->{U_ADD_ACTION}<!-- ELSE -->{U_EDIT_ACTION}<!-- ENDIF -->">
+		<fieldset>
+			<legend>{L_ACP_CATEGORY_SETTINGS}</legend>
+			<dl>
+				<dt><label for="category_name">{L_ACP_CATEGORY_NAME}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_NAME_EXPLAIN}</span></dt>
+				<dd><input class="text medium" type="text" id="category_name" name="category_name" value="{CATEGORY_NAME}" maxlength="200" /></dd>
+			</dl>
+			<dl>
+				<dt><label for="category_desc">{L_ACP_CATEGORY_DESC}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_DESC_EXPLAIN}</span></dt>
+				<dd>
+					<textarea name="category_desc" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{CATEGORY_DESC}</textarea>
+				</dd>
+				<dd>
+					<!-- IF S_BBCODE_ALLOWED -->
+						<label><input type="checkbox" class="radio" name="disable_bbcode"<!-- IF S_BBCODE_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_BBCODE}</label>
+					<!-- ENDIF -->
+					<!-- IF S_SMILIES_ALLOWED -->
+						<label><input type="checkbox" class="radio" name="disable_smilies"<!-- IF S_SMILIES_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_SMILIES}</label>
+					<!-- ENDIF -->
+					<!-- IF S_LINKS_ALLOWED -->
+						<label><input type="checkbox" class="radio" name="disable_magic_url"<!-- IF S_MAGIC_URL_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_MAGIC_URL}</label>
+					<!-- ENDIF -->
+				</dd>
+				<dd><strong>{L_OPTIONS}{L_COLON} </strong>{BBCODE_STATUS} :: {URL_STATUS} :: {SMILIES_STATUS}</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+
+<!-- ELSE -->
+
+	<h1>{L_ACP_KNOWLEDGEBASE_MANAGE}</h1>
+
+	<p>{L_ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN}</p>
+
+	<!-- IF .categories -->
+	<table class="table1 forums">
+		<colgroup><col class="row1" /><col class="row1" /><col class="row2" /></colgroup>
+		<thead>
+			<tr>
+				<th colspan="2">{L_ACP_CATEGORIES}</th>
+				<th>{L_ACTION}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN categories -->
+			<tr>
+				<td class="folder">
+					<img src="images/icon_subfolder.gif" alt="{L_ACP_KNOWLEDGEBASE_CATEGORY}" />
+				<td class="forum-desc">
+					<strong>{categories.CATEGORY_NAME}</strong>
+					<!-- IF categories.CATEGORY_DESC --><br /><span>{categories.CATEGORY_DESC}</span><!-- ENDIF -->
+					<br /><br /><span>{L_ACP_ARTICLES}{L_COLON} <strong>{categories.ARTICLES}</strong></span>
+				</td>
+				<td class="actions">
+					<span class="up-disabled" style="display:none;">{ICON_MOVE_UP_DISABLED}</span>
+					<span class="up"><a href="{categories.U_MOVE_UP}">{ICON_MOVE_UP}</a></span>
+					<span class="down-disabled" style="display:none;">{ICON_MOVE_DOWN_DISABLED}</span>
+					<span class="down"><a href="{categories.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a></span>
+					<a href="{categories.U_EDIT}">{ICON_EDIT}</a>
+					<a href="{categories.U_DELETE}">{ICON_DELETE}</a>
+				</td>
+			</tr>
+		<!-- END categories -->
+		</tbody>
+	</table>
+	<!-- ENDIF -->
+
+	<form id="categories" method="post" action="{U_ACTION}">
+
+	<fieldset class="quick">
+		{L_ACP_ADD_CATEGORY}{L_COLON}
+		<input type="text" name="category_name" value="" maxlength="200" placeholder="{L_ACP_CATEGORY_NAME}" />
+		<input class="button2" name="addcategory" type="submit" value="{L_SUBMIT}" />
+		<input type="hidden" name="action" value="add" />
+		{S_FORM_TOKEN}
+	</fieldset>
+	</form>
+
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

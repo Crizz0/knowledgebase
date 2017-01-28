@@ -1,0 +1,84 @@
+<!-- INCLUDECSS @kinerity_knowledgebase/knowledgebase_controller.css -->
+<!-- INCLUDE overall_header.html -->
+<h2 class="forum-title"><a href="{U_KNOWLEDGEBASE}">{L_KNOWLEDGEBASE}</a></h2>
+<p>{L_KNOWLEDGEBASE_EXPLAIN}</p>
+
+<!-- IF S_DISPLAY_POST_BUTTON or S_DISPLAY_TYPE_MENU -->
+	<div class="action-bar bar-top">
+
+	<!-- IF not S_IS_BOT and S_DISPLAY_POST_BUTTON -->
+
+		<a href="{U_POST_NEW_ARTICLE}" class="button" title="{L_POST_ARTICLE}">
+				<span>{L_BUTTON_NEW_ARTICLE}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+		</a>
+
+	<!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_TYPE_MENU -->
+	<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="{L_TYPE}" class="button button-secondary dropdown-trigger dropdown-select">
+			{TYPE}
+			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
+		</span>
+		<div class="dropdown">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+			<!-- BEGIN types -->
+				<li><a href="{types.U_TYPE}">{types.TYPE}</a></li>
+			<!-- END types -->
+			</ul>
+		</div>
+	</div>
+	<!-- ENDIF -->
+	</div>
+<!-- ENDIF -->
+
+<!-- IF .articlerow -->
+		<div class="forumbg">
+		<div class="inner">
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="row-item">
+					<dt><div class="list-inner">{L_ARTICLES}</div></dt>
+					<dd class="views">{L_VIEWS}</dd>
+					<dd class="lastpost"><span>{L_AUTHOR}</span></dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="topiclist topics">
+		<!-- BEGIN articlerow -->
+		<li class="row<!-- IF articlerow.S_ROW_COUNT is even --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+			<dl class="row-item">
+				<dt>
+					<div class="list-inner">
+						<!-- IF articlerow.VISIBILITY_PREFIX -->
+						<span class="article_visibility">[{articlerow.VISIBILITY_PREFIX}]</span>
+						<!-- ENDIF -->
+						<a href="{articlerow.U_VIEW_ARTICLE}" class="topictitle">{articlerow.ARTICLE_TITLE}</a>
+							<br />
+							<span>{articlerow.ARTICLE_DESC}</span>
+						<br />
+						<b>{L_CATEGORIES}{L_COLON}</b> {articlerow.CATEGORIES}
+					</div>
+				</dt>
+				<dd class="views">{articlerow.VIEWS} <dfn>{L_VIEWS}</dfn></dd>
+				<dd class="lastpost">
+					<span><dfn>{L_AUTHOR} </dfn>{articlerow.ARTICLE_AUTHOR_FULL}
+						<br />{articlerow.ARTICLE_TIME}
+					</span>
+				</dd>
+			</dl>
+		</li>
+		<!-- END articlerow -->
+</div>
+</div>
+
+<!-- ELSE -->
+	<div class="panel">
+		<div class="inner">
+		<strong>{L_NO_ARTICLES}</strong>
+		</div>
+	</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

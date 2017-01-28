@@ -1,0 +1,43 @@
+<!-- INCLUDECSS ./../assets/css/font-awesome.min.css -->
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_ACP_KNOWLEDGEBASE_SETTINGS}</h1>
+
+<p>{L_ACP_KNOWLEDGEBASE_SETTINGS_EXPLAIN}</p>
+
+<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+<!-- ENDIF -->
+
+<form id="knowledgebase_settings" method="post" action="{U_ACTION}">
+
+<fieldset>
+	<legend>{L_ACP_KNOWLEDGEBASE_SETTINGS}</legend>
+	<dl>
+		<dt><label for="knowledgebase_enable">{L_ACP_KNOWLEDGEBASE_ENABLE}{L_COLON}</label></dt>
+		<dd><label><input type="radio" class="radio" id="knowledgebase_enable" name="knowledgebase_enable" value="1"<!-- IF S_KNOWLEDGEBASE_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="knowledgebase_enable" value="0"<!-- IF not S_KNOWLEDGEBASE_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="knowledgebase_header_link">{L_ACP_KNOWLEDGEBASE_HEADER_LINK}{L_COLON}</label></dt>
+		<dd><label><input type="radio" class="radio" id="knowledgebase_header_link" name="knowledgebase_header_link" value="1"<!-- IF S_KNOWLEDGEBASE_HEADER_LINK --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="knowledgebase_header_link" value="0"<!-- IF not S_KNOWLEDGEBASE_HEADER_LINK --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="knowledgebase_font_icon">{L_ACP_KNOWLEDGEBASE_FONT_ICON}{L_COLON}</label><br /><span>{L_ACP_KNOWLEDGEBASE_FONT_ICON_EXPLAIN}</span></dt>
+		<dd><input name="knowledgebase_font_icon" id="knowledgebase_font_icon" placeholder="book" type="text" size="15" maxlength="255" value="{KNOWLEDGEBASE_FONT_ICON}" /><i style="font:14px FontAwesome;margin:0 6px;" class="fa-{KNOWLEDGEBASE_FONT_ICON}"></i></dd>
+	</dl>
+</fieldset>
+
+<fieldset class="submit-buttons">
+	<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+	<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+	{S_FORM_TOKEN}
+</fieldset>
+</form>
+
+<!-- INCLUDEJS @kinerity_knowledgebase/knowledgebase.js -->
+<!-- INCLUDE overall_footer.html -->

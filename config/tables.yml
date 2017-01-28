@@ -1,0 +1,4 @@
+parameters:
+    kinerity.knowledgebase.tables.kb_articles: '%core.table_prefix%kb_articles'
+    kinerity.knowledgebase.tables.kb_article_category: '%core.table_prefix%kb_article_category'
+    kinerity.knowledgebase.tables.kb_categories: '%core.table_prefix%kb_categories'

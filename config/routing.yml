@@ -1,0 +1,3 @@
+kinerity_knowledgebase_main_controller:
+    pattern: /kb/{page}
+    defaults: { _controller: kinerity.knowledgebase.main.controller:display }

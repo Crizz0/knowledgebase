@@ -1,0 +1,82 @@
+<!-- INCLUDECSS @kinerity_knowledgebase/knowledgebase_controller.css -->
+<!-- INCLUDE overall_header.html -->
+
+<h2 class="article-title"><a href="{U_VIEW_ARTICLE}">{ARTICLE_TITLE}</a></h2>
+
+	<div id="p{ARTICLE_ID}" class="post bg1">
+		<div class="inner">
+
+		<div class="article-body">
+		<div class="postbody">
+			<div id="post_content{ARTICLE_ID}">
+
+		<!-- DEFINE $SHOW_POST_BUTTONS = (U_EDIT or U_DELETE or U_APPROVE or U_UNAPPROVE or U_DENY) -->
+		<!-- IF not S_IS_BOT -->
+			<!-- IF $SHOW_POST_BUTTONS -->
+				<ul class="post-buttons">
+					<!-- IF U_APPROVE -->
+						<li>
+							<a href="{U_APPROVE}" title="{L_APPROVE_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-check fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_APPROVE}</span>
+							</a>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF U_UNAPPROVE -->
+						<li>
+							<a href="{U_UNAPPROVE}" title="{L_UNAPPROVE_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-minus fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_UNAPPROVE}</span>
+							</a>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF U_DENY -->
+						<li>
+							<a href="{U_DENY}" title="{L_DENY_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-ban fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_DENY}</span>
+							</a>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF U_EDIT -->
+						<li>
+							<a href="{U_EDIT}" title="{L_EDIT_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_EDIT}</span>
+							</a>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF U_DELETE -->
+						<li>
+							<a href="{U_DELETE}" title="{L_DELETE_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_DELETE}</span>
+							</a>
+						</li>
+					<!-- ENDIF -->
+				</ul>
+			<!-- ENDIF -->
+		<!-- ENDIF -->
+
+		<h2 class="article-title"><a href="{U_VIEW_ARTICLE}">{ARTICLE_TITLE}</a></h2>
+		<p class="article-meta"><strong>{L_WRITTEN_BY}{L_COLON}</strong> {ARTICLE_AUTHOR_FULL}<br />
+		<strong>{L_WRITTEN_ON}{L_COLON}</strong> {ARTICLE_DATE}<br />
+		<!-- IF ARTICLE_EDIT_DATE --><strong>{L_LAST_MODIFIED}{L_COLON}</strong> {ARTICLE_EDIT_DATE}<br /><!-- ENDIF -->
+		<strong>{L_VIEWS}{L_COLON}</strong> {ARTICLE_VIEWS}</p>
+		<p class="article-description"><strong>{L_DESCRIPTION}{L_COLON}</strong> {ARTICLE_DESC}</p>
+		<p class="article-categories"><strong>{L_CATEGORIES}{L_COLON}</strong> {CATEGORIES}</p>
+
+			<div class="content">
+			<div class="codebox">
+				<p>{L_LINK_TO_ARTICLE}: <a href="#" onclick="selectCode(this); return false;">{L_SELECT_ALL_CODE}</a></p>
+				<code>[url={U_VIEW_ARTICLE_LINK}]{L_KNOWLEDGEBASE} - {ARTICLE_TITLE}[/url]</code>
+			</div>
+
+			<hr />
+			{MESSAGE}
+			</div>
+
+			</div>
+
+		</div>
+		</div>
+
+		</div>
+	</div>
+
+<!-- INCLUDE overall_footer.html -->

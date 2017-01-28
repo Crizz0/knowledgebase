@@ -1,0 +1,51 @@
+dl.row-item dt .list-inner {
+	padding-left: 5px;
+}
+
+.article_visibility {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.forum-title {
+	margin-bottom: 10px;
+}
+
+.article-body {
+	padding: 5px;
+}
+
+.article-body .postbody {
+	float: none;
+	width: auto;
+}
+
+.article-body h2.article-title, .article-body h3.article-title {
+	color: #d21a4e;
+	font-family: Arial, sans-serif;
+	font-size: 1.7em;
+	font-weight: bold;
+	line-height: 125%;
+	margin: 0 0 10px;
+}
+
+.article-body h2.article-title a {
+	text-decoration: none !important;
+}
+
+.article-body .article-meta {
+	float: right;
+}
+
+.article-body .article-description {
+	margin: 10px 0 10px 0;
+}
+
+.article-body .article-categories {
+	margin-bottom: 15px;
+}
+
+/* KB responsive lists */
+/*@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
+
+}*/
