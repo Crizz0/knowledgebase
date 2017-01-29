@@ -777,7 +777,7 @@ class main_controller implements main_interface
 					'U_EDIT'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $article_data['article_poster_id']) ? $this->controller_helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit', 'a' => $entity->get_id())) : '',
 
 					'U_VIEW_ARTICLE'		=> $this->controller_helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => $entity->get_id())),
-					'U_VIEW_ARTICLE_LINK'	=> $this->config['enable_mod_rewrite'] ? append_sid($board_url . '/kb/viewarticle', 'a=' . article_id) : append_sid($board_url . '/app.' . $this->php_ext . '/kb/viewarticle', 'a=' . $entity->get_id()),
+					'U_VIEW_ARTICLE_LINK'	=> $this->config['enable_mod_rewrite'] ? append_sid($board_url . '/kb/viewarticle', 'a=' . $entity->get_id()) : append_sid($board_url . '/app.' . $this->php_ext . '/kb/viewarticle', 'a=' . $entity->get_id()),
 				));
 
 				return $this->controller_helper->render('viewarticle_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $entity->get_title());
