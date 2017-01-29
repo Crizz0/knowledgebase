@@ -181,13 +181,13 @@ class main_controller implements main_interface
 				// Check for valid type
 				if (!in_array($type, $type_array))
 				{
-					throw new \phpbb\exception\http_exception(404, $this->user->lang('INVALID_TYPE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('INVALID_TYPE'));
 				}
 
 				// Prevent altering the URI to bypass the $sql_where var
 				if (!$this->auth->acl_get('m_kb_approve') && $type != 'approved')
 				{
-					throw new \phpbb\exception\http_exception(403, $this->user->lang('NOT_AUTHORISED'));
+					throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
 				}
 
 				// Grab all articles
@@ -696,7 +696,7 @@ class main_controller implements main_interface
 					'U_MORE_SMILIES'	=> append_sid("{$this->root_path}posting.$this->php_ext", 'mode=smilies'),
 				));
 
-				return $this->controller_helper->render('posting_body.html', $this->user->lang('KNOWLEDGEBASE') . ' - ' . $this->user->lang('POST_ARTICLE'));
+				return $this->controller_helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $this->lang->lang('POST_ARTICLE'));
 			break;
 
 			/*case 'viewcategory':
@@ -708,7 +708,7 @@ class main_controller implements main_interface
 					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_CATEGORY'));
 				}
 
-				return $this->controller_helper->render('viewcategory_body.html', $this->user->lang('KNOWLEDGEBASE') . ' - ');
+				return $this->controller_helper->render('viewcategory_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ');
 			break;*/
 
 			case 'viewarticle':
