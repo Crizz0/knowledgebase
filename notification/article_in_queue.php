@@ -22,19 +22,21 @@ class article_in_queue extends \phpbb\notification\type\base
 	protected $helper;
 
 	/**
-	 * Set the controller helper
-	 *
-	 * @param \phpbb\controller\helper $helper
-	 * @return void
-	 */
+	* Set the controller helper
+	*
+	* @param \phpbb\controller\helper $helper
+	* @return void
+	*/
 	public function set_controller_helper(\phpbb\controller\helper $helper)
 	{
 		$this->helper = $helper;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get notification type name
+	*
+	* @return void
+	*/
 	public function get_type()
 	{
 		return 'kinerity.knowledgebase.notification.type.article_in_queue';
@@ -43,29 +45,38 @@ class article_in_queue extends \phpbb\notification\type\base
 	/**
 	* Language key used to output the text
 	*
-	* @var string
+	* @var $language_key
+	* @return void
 	*/
 	protected $language_key = 'NOTIFICATION_ARTICLE_IN_QUEUE';
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Is this type available to the current user (defines whether or not it will be shown in the UCP Edit notification options)
+	*
+	* @return bool True/False whether or not this is available to the user
+	*/
 	public function is_available()
 	{
 		return false;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get the id of the notification
+	*
+	* @param array $data The data for the notification
+	* @return int Id of the notification
+	*/
 	public static function get_item_id($data)
 	{
 		return $data['article_id'];
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get the id of the parent
+	*
+	* @param array $data The data for the notification
+	* @return int Id of the parent
+	*/
 	public static function get_item_parent_id($data)
 	{
 		// No parent
@@ -73,8 +84,12 @@ class article_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Find the users who will receive notifications
+	*
+	* @param array $data The type specific data for the notification
+	* @param array $options Options for finding users for notification
+	* @return array
+	*/
 	public function find_users_for_notification($data, $options = array())
 	{
 		$users = array();
@@ -95,27 +110,33 @@ class article_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Users needed to query before this notification can be displayed
+	*
+	* @return array Array of user_ids
+	*/
 	public function users_to_query()
 	{
 		return array();
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get the HTML formatted title of this notification
+	*
+	* @return string
+	*/
 	public function get_title()
 	{
 		return $this->language->lang(
-            $this->language_key,
-            $this->get_data('article_title')
-        );
+			$this->language_key,
+			$this->get_data('article_title')
+		);
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get the url to this item
+	*
+	* @return string URL
+	*/
 	public function get_url()
 	{
 		$article_id = $this->get_data('article_id');
@@ -124,24 +145,34 @@ class article_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get email template
+	*
+	* @return string|bool
+	*/
 	public function get_email_template()
 	{
 		return false;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Get email template variables
+	*
+	* @return array
+	*/
 	public function get_email_template_variables()
 	{
 		return array();
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* Function for preparing the data for insertion in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $data The data for the updated rules
+	* @param array $pre_create_data Data from pre_create_insert_array()
+	*
+	* @return array Array of data ready to be inserted into the database
+	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('article_id', $data['article_id']);
