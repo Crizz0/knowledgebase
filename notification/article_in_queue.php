@@ -77,21 +77,17 @@ class article_in_queue extends \phpbb\notification\type\base
 	 */
 	public function find_users_for_notification($data, $options = array())
 	{
-		// Grab all registered users (excluding bots and guests)
+		$users = array();
+		$allowed = $this->auth->acl_get_list(false, 'm_kb_approve');
+
 		$sql = 'SELECT user_id
 			FROM ' . USERS_TABLE . '
-			WHERE user_type <> ' . USER_IGNORE;
+			WHERE user_type <> ' . USER_IGNORE . '
+				AND ' . $this->db->sql_in_set('user_id', array_keys($allowed));
 		$result = $this->db->sql_query($sql);
-
-		$allowed = $this->auth->acl_get_list(false, array('m_kb_approve'), false);
-
-		$users = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if (in_array($row['user_id'], $allowed))
-			{
-				$users[$row['user_id']] = $this->notification_manager->get_default_methods();
-			}
+			$users[$row['user_id']] = $this->notification_manager->get_default_methods();
 		}
 		$this->db->sql_freeresult($result);
 
