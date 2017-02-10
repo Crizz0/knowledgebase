@@ -1,19 +1,7 @@
 imports:
-    - { resource: tables.yml }
+    - { resource: parameters.yml }
 
 services:
-    kinerity.knowledgebase.listener:
-        class: kinerity\knowledgebase\event\listener
-        arguments:
-            - '@auth'
-            - '@config'
-            - '@controller.helper'
-            - '@language'
-            - '@template'
-            - '%core.php_ext%'
-        tags:
-            - { name: event.listener }
-
     kinerity.knowledgebase.admin.controller:
         class: kinerity\knowledgebase\controller\admin_controller
         arguments:
@@ -29,6 +17,7 @@ services:
             - '@user'
             - '%core.root_path%'
             - '%core.php_ext%'
+            - '%kinerity.knowledgebase.tables.kb_articles%'
             - '%kinerity.knowledgebase.tables.kb_article_category%'
             - '%kinerity.knowledgebase.tables.kb_categories%'
 
@@ -38,7 +27,6 @@ services:
             - '@auth'
             - '@cache'
             - '@config'
-            - '@service_container'
             - '@controller.helper'
             - '@dbal.conn'
             - '@language'
@@ -53,22 +41,54 @@ services:
             - '%kinerity.knowledgebase.tables.kb_article_category%'
             - '%kinerity.knowledgebase.tables.kb_categories%'
 
-    kinerity.knowledgebase.article.entity:
-        class: kinerity\knowledgebase\entity\article
-        shared: false # service MUST not be shared for this to work!
+    kinerity.knowledgebase.listener:
+        class: kinerity\knowledgebase\event\listener
         arguments:
-            - '@dbal.conn'
-            - '%kinerity.knowledgebase.tables.kb_articles%'
+            - '@auth'
+            - '@config'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
 
-    kinerity.knowledgebase.category.entity:
-        class: kinerity\knowledgebase\entity\category
+    kinerity.knowledgebase.functions.entity:
+        class: kinerity\knowledgebase\entity\functions
         shared: false # service MUST not be shared for this to work!
         arguments:
             - '@dbal.conn'
             - '%kinerity.knowledgebase.tables.kb_categories%'
 
     kinerity.knowledgebase.notification.type.article_in_queue:
-        class: kinerity\knowledgebase\notification\article_in_queue
+        class: kinerity\knowledgebase\notification\type\article_in_queue
+        shared: false # service MUST not be shared for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+        tags:
+            - { name: notification.type }
+
+    kinerity.knowledgebase.notification.type.approve_article:
+        class: kinerity\knowledgebase\notification\type\approve_article
+        shared: false # service MUST not be shared for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+        tags:
+            - { name: notification.type }
+
+    kinerity.knowledgebase.notification.type.deny_article:
+        class: kinerity\knowledgebase\notification\type\deny_article
+        shared: false # service MUST not be shared for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+        tags:
+            - { name: notification.type }
+
+    kinerity.knowledgebase.notification.type.disapprove_article:
+        class: kinerity\knowledgebase\notification\type\disapprove_article
         shared: false # service MUST not be shared for this to work!
         parent: notification.type.base
         calls:

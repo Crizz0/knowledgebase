@@ -10,7 +10,7 @@
 		<div class="postbody">
 			<div id="post_content{ARTICLE_ID}">
 
-		<!-- DEFINE $SHOW_POST_BUTTONS = (U_EDIT or U_DELETE or U_APPROVE or U_UNAPPROVE or U_DENY) -->
+		<!-- DEFINE $SHOW_POST_BUTTONS = (U_EDIT or U_DELETE or U_APPROVE or U_DISAPPROVE or U_DENY) -->
 		<!-- IF not S_IS_BOT -->
 			<!-- IF $SHOW_POST_BUTTONS -->
 				<ul class="post-buttons">
@@ -21,10 +21,10 @@
 							</a>
 						</li>
 					<!-- ENDIF -->
-					<!-- IF U_UNAPPROVE -->
+					<!-- IF U_DISAPPROVE -->
 						<li>
-							<a href="{U_UNAPPROVE}" title="{L_UNAPPROVE_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-minus fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_UNAPPROVE}</span>
+							<a href="{U_DISAPPROVE}" title="{L_DISAPPROVE_ARTICLE}" class="button button-icon-only">
+								<i class="icon fa-minus fa-fw" aria-hidden="true"></i><span class="sr-only">{L_BUTTON_DISAPPROVE}</span>
 							</a>
 						</li>
 					<!-- ENDIF -->
@@ -58,7 +58,7 @@
 		<strong>{L_WRITTEN_ON}{L_COLON}</strong> {ARTICLE_DATE}<br />
 		<!-- IF ARTICLE_EDIT_DATE --><strong>{L_LAST_MODIFIED}{L_COLON}</strong> {ARTICLE_EDIT_DATE}<br /><!-- ENDIF -->
 		<strong>{L_VIEWS}{L_COLON}</strong> {ARTICLE_VIEWS}</p>
-		<p class="article-description"><strong>{L_DESCRIPTION}{L_COLON}</strong> {ARTICLE_DESC}</p>
+		<p class="article-description"><strong>{L_DESCRIPTION}{L_COLON}</strong> {ARTICLE_DESCRIPTION}</p>
 		<p class="article-categories"><strong>{L_CATEGORIES}{L_COLON}</strong> {CATEGORIES}</p>
 
 			<div class="content">

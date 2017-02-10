@@ -1,15 +1,18 @@
 <?php
 /**
-*
-* Knowledge Base extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2017 kinerity <https://www.project-w.org>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Knowledge Base extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2017, kinerity, https://www.acsyste.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace kinerity\knowledgebase\acp;
 
+/**
+ * Knowledge Base ACP module.
+ */
 class knowledgebase_module
 {
 	public $page_title;
@@ -22,9 +25,6 @@ class knowledgebase_module
 
 		/** @var \phpbb\language\language $lang */
 		$lang = $phpbb_container->get('language');
-
-		// Add the Knowledge Base lang file
-		$lang->add_lang('knowledgebase_acp', 'kinerity/knowledgebase');
 
 		// Get an instance of the admin controller
 		$admin_controller = $phpbb_container->get('kinerity.knowledgebase.admin.controller');

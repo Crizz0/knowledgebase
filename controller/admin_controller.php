@@ -1,20 +1,20 @@
 <?php
 /**
-*
-* Knowledge Base extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2017 kinerity <https://www.project-w.org>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Knowledge Base extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2017, kinerity, https://www.acsyste.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace kinerity\knowledgebase\controller;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
-* Admin controller
-*/
+ * Knowledge Base admin controller
+ */
 class admin_controller implements admin_interface
 {
 	/** @var \phpbb\cache\service */
@@ -26,8 +26,8 @@ class admin_controller implements admin_interface
 	/** @var ContainerInterface */
 	protected $container;
 
-	/** @var \phpbb\controller\helper $controller_helper */
-	protected $controller_helper;
+	/** @var \phpbb\controller\helper */
+	protected $helper;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -53,40 +53,43 @@ class admin_controller implements admin_interface
 	/** @var string phpEx */
 	protected $php_ext;
 
-	/** @var string kb_article_category */
+	/** @var string */
+	protected $kb_articles_table;
+
+	/** @var string */
 	protected $kb_article_category_table;
 
-	/** @var string kb_categories */
+	/** @var string */
 	protected $kb_categories_table;
 
 	/** @var string Custom form action */
 	protected $u_action;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\cache\service              $cache             Cache object
-	* @param \phpbb\config\config              $config            Config object
-	* @param ContainerInterface                $container         Service container interface
-	* @param \phpbb\controller\helper          $controller_helper Controller helper object
-	* @param \phpbb\db\driver\driver_interface $db                Database object
-	* @param \phpbb\language\language          $lang              Language object
-	* @param \phpbb\log\log                    $log               Log object
-	* @param \phpbb\request\request            $request           Request object
-	* @param \phpbb\template\template          $template          Template object
-	* @param \phpbb\user                       $user              User object
-	* @param string                            $root_path         phpBB root path
-	* @param string                            $php_ext           phpEx
-	* @param string                            $kb_article_category_table
-	* @param string                            $kb_categories_table
-	* @access public
-	*/
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $container, \phpbb\controller\helper $controller_helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_article_category_table, $kb_categories_table)
+	 * Constructor
+	 *
+	 * @param \phpbb\cache\service               $cache
+	 * @param \phpbb\config\config               $config
+	 * @param ContainerInterface                 $container
+	 * @param \phpbb\controller\helper           $helper
+	 * @param \phpbb\db\driver\driver_interface  $db
+	 * @param \phpbb\language\language           $lang
+	 * @param \phpbb\log\log                     $log
+	 * @param \phpbb\request\request             $request
+	 * @param \phpbb\template\template           $template
+	 * @param \phpbb\user                        $user
+	 * @param string                             $root_path
+	 * @param string                             $php_ext
+	 * @param string                             $kb_articles_table
+	 * @param string                             $kb_article_category_table
+	 * @param string                             $kb_categories_table
+	 */
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $container, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_articles_table, $kb_article_category_table, $kb_categories_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->container = $container;
-		$this->controller_helper = $controller_helper;
+		$this->helper = $helper;
 		$this->db = $db;
 		$this->lang = $lang;
 		$this->log = $log;
@@ -95,16 +98,17 @@ class admin_controller implements admin_interface
 		$this->user = $user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
+		$this->kb_articles_table = $kb_articles_table;
 		$this->kb_article_category_table = $kb_article_category_table;
 		$this->kb_categories_table = $kb_categories_table;
 	}
 
 	/**
-	* Display the options a user can configure for this extension
-	*
-	* @return void
-	* @access public
-	*/
+	 * Display the options a user can configure for this extension
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function display_options()
 	{
 		// Create a form key for preventing CSRF attacks
@@ -152,12 +156,13 @@ class admin_controller implements admin_interface
 		));
 	}
 
+
 	/**
-	* Set the options a user can configure
-	*
-	* @return void
-	* @access protected
-	*/
+	 * Set the options a user can configure
+	 *
+	 * @return void
+	 * @access protected
+	 */
 	protected function set_options()
 	{
 		// Validate font icon field characters
@@ -173,11 +178,11 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Display the categories
-	*
-	* @return void
-	* @access public
-	*/
+	 * Display the categories
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function display_categories()
 	{
 		$sql = 'SELECT *
@@ -195,12 +200,12 @@ class admin_controller implements admin_interface
 		{
 			$row = $rowset[$category_id];
 
-			$entity = $this->container->get('kinerity.knowledgebase.category.entity')->load($row['category_id']);
+			$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
 
 			// Set output block vars for display in the template
 			$categories = array(
-				'CATEGORY_NAME'	=> $entity->get_title(),
-				'CATEGORY_DESC'	=> $entity->get_description_for_display(),
+				'CATEGORY_NAME'			=> $entity->get_title(),
+				'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
 
 				'U_DELETE'		=> "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
 				'U_EDIT'		=> "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
@@ -226,31 +231,32 @@ class admin_controller implements admin_interface
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
 			'U_ACTION'		=> "{$this->u_action}",
-			'U_ADD_CATEGORY'	=> "{$this->u_action}&amp;action=add",
+
+			'U_ADD_CATEGORY'		=> "{$this->u_action}&amp;action=add",
 		));
 	}
 
 	/**
-	* Add a category
-	*
-	* @return void
-	* @access public
-	*/
+	 * Add a category
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function add_category()
 	{
 		// Add form key
 		add_form_key('add_edit_category');
 
-		// Initiate a category entity
-		$entity = $this->container->get('kinerity.knowledgebase.category.entity');
+		// Initiate an entity
+		$entity = $this->container->get('kinerity.knowledgebase.functions.entity');
 
 		// Collect the form data
 		$data = array(
-			'category_name'		=> $this->request->variable('category_name', '', true),
-			'category_desc'		=> $this->request->variable('category_desc', '', true),
-			'bbcode'			=> !$this->request->variable('disable_bbcode', false),
-			'magic_url'			=> !$this->request->variable('disable_magic_url', false),
-			'smilies'			=> !$this->request->variable('disable_smilies', false),
+			'category_name'				=> $this->request->variable('category_name', '', true),
+			'category_description'		=> $this->request->variable('category_description', '', true),
+			'bbcode'					=> !$this->request->variable('disable_bbcode', false),
+			'magic_url'					=> !$this->request->variable('disable_magic_url', false),
+			'smilies'					=> !$this->request->variable('disable_smilies', false),
 		);
 
 		// Process the new category
@@ -265,28 +271,27 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Edit a category
-	*
-	* @param int $category_id The category identifier to edit
-	* @return void
-	* @access public
-	*/
+	 * Edit a category
+	 *
+	 * @param int $category_id The category identifier to edit
+	 * @return void
+	 * @access public
+	 */
 	public function edit_category($category_id)
 	{
 		// Add form key
 		add_form_key('add_edit_category');
 
-		// Initiate and load the category entity
-		/* @var $entity \kinerity\knowledgebase\entity\category */
-		$entity = $this->container->get('kinerity.knowledgebase.category.entity')->load($category_id);
+		// Initiate and load the entity
+		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 		// Collect the form data
 		$data = array(
-			'category_name'	=> $this->request->variable('category_name', $entity->get_title(), true),
-			'category_desc'	=> $this->request->variable('category_desc', $entity->get_description_for_edit(), true),
-			'bbcode'		=> !$this->request->variable('disable_bbcode', false),
-			'magic_url'		=> !$this->request->variable('disable_magic_url', false),
-			'smilies'		=> !$this->request->variable('disable_smilies', false),
+			'category_name'				=> $this->request->variable('category_name', $entity->get_title(), true),
+			'category_description'		=> $this->request->variable('category_description', $entity->get_description_for_edit(), true),
+			'bbcode'					=> !$this->request->variable('disable_bbcode', false),
+			'magic_url'					=> !$this->request->variable('disable_magic_url', false),
+			'smilies'					=> !$this->request->variable('disable_smilies', false),
 		);
 
 		// Process the edited category
@@ -294,20 +299,20 @@ class admin_controller implements admin_interface
 
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
-			'S_EDIT_CATEGORY'	=> true,
+			'S_EDIT_CATEGORY'		=> true,
 
-			'U_EDIT_ACTION'	=> "{$this->u_action}&amp;category_id={$category_id}&amp;action=edit",
+			'U_EDIT_ACTION'		=> "{$this->u_action}&amp;category_id={$category_id}&amp;action=edit",
 		));
 	}
 
 	/**
-	* Process category data to be added or edited
-	*
-	* @param \kinerity\knowledgebase\entity\category_interface $entity The category entity object
-	* @param array $data The form data to be processed
-	* @return void
-	* @access protected
-	*/
+	 * Process category data to be added or edited
+	 *
+	 * @param array $entity The entity object
+	 * @param array $data The form data to be processed
+	 * @return void
+	 * @access protected
+	 */
 	protected function add_edit_category_data($entity, $data)
 	{
 		// Get form's POST actions (submit)
@@ -337,7 +342,7 @@ class admin_controller implements admin_interface
 		// Grab the form's category data fields
 		$category_fields = array(
 			'title'			=> $data['category_name'],
-			'description'	=> $data['category_desc'],
+			'description'	=> $data['category_description'],
 		);
 
 		// Set the category's data in the entity
@@ -360,15 +365,9 @@ class admin_controller implements admin_interface
 		if ($submit)
 		{
 			// Test if the form is valid
-			if (!check_form_key('add_edit_category'))
+			if (!check_form_key('add_edit_category') || $entity->get_title() == '')
 			{
 				$errors[] = $this->lang->lang('FORM_INVALID');
-			}
-
-			// Do not allow an empty rule title
-			if ($entity->get_title() == '')
-			{
-				$errors[] = $this->lang->lang('ACP_CATEGORY_NAME_EMPTY');
 			}
 		}
 
@@ -418,14 +417,14 @@ class admin_controller implements admin_interface
 			'S_ERROR'			=> $s_errors,
 			'ERROR_MSG'			=> $s_errors ? implode('<br />', $errors) : '',
 
-			'CATEGORY_NAME'		=> $entity->get_title(),
-			'CATEGORY_DESC'		=> $entity->get_description_for_edit(),
+			'CATEGORY_NAME'				=> $entity->get_title(),
+			'CATEGORY_DESCRIPTION'		=> $entity->get_description_for_edit(),
 
 			'S_BBCODE_DISABLE_CHECKED'		=> !$entity->description_bbcode_enabled(),
 			'S_SMILIES_DISABLE_CHECKED'		=> !$entity->description_smilies_enabled(),
 			'S_MAGIC_URL_DISABLE_CHECKED'	=> !$entity->description_magic_url_enabled(),
 
-			'BBCODE_STATUS'			=> $this->lang->lang('BBCODE_IS_ON', '<a href="' . $this->controller_helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
+			'BBCODE_STATUS'			=> $this->lang->lang('BBCODE_IS_ON', '<a href="' . $this->helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
 			'SMILIES_STATUS'		=> $this->lang->lang('SMILIES_ARE_ON'),
 			'URL_STATUS'			=> $this->lang->lang('URL_IS_ON'),
 
@@ -436,26 +435,26 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Delete a category
-	*
-	* @param int $category_id The category identifier to delete
-	* @return void
-	* @access public
-	*/
+	 * Delete a category
+	 *
+	 * @param int $category_id The category identifier to delete
+	 * @return void
+	 * @access public
+	 */
 	public function delete_category($category_id)
 	{
 		// TODO
 	}
 
 	/**
-	* Move a category up/down
-	*
-	* @param int $category_id The category identifier to move
-	* @param string $direction The direction (up|down)
-	* @param int $amount The number of places to move the category
-	* @return void
-	* @access public
-	*/
+	 * Move a category up/down
+	 *
+	 * @param int $category_id The category identifier to move
+	 * @param string $direction The direction (up|down)
+	 * @param int $amount The number of places to move the category
+	 * @return void
+	 * @access public
+	 */
 	public function move_category($category_id, $direction, $amount = 1)
 	{
 		$sql = 'SELECT *
@@ -466,11 +465,11 @@ class admin_controller implements admin_interface
 		$this->db->sql_freeresult($result);
 
 		/**
-		* Fetch all the siblings between the module's current spot
-		* and where we want to move it to. If there are less than $amount
-		* siblings between the current spot and the target then the
-		* module will move as far as possible
-		*/
+		 * Fetch all the siblings between the module's current spot
+		 * and where we want to move it to. If there are less than $amount
+		 * siblings between the current spot and the target then the
+		 * module will move as far as possible
+		 */
 		$sql = 'SELECT category_id, category_name, left_id, right_id
 			FROM ' . $this->kb_categories_table . "
 			WHERE " . (($direction == 'up') ? "right_id < {$item['right_id']} ORDER BY right_id DESC" : "left_id > {$item['left_id']} ORDER BY left_id ASC");
@@ -490,12 +489,12 @@ class admin_controller implements admin_interface
 		}
 
 		/**
-		* $left_id and $right_id define the scope of the nodes that are affected by the move.
-		* $diff_up and $diff_down are the values to subtract or add to each node's left_id
-		* and right_id in order to move them up or down.
-		* $move_up_left and $move_up_right define the scope of the nodes that are moving
-		* up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
-		*/
+		 * $left_id and $right_id define the scope of the nodes that are affected by the move.
+		 * $diff_up and $diff_down are the values to subtract or add to each node's left_id
+		 * and right_id in order to move them up or down.
+		 * $move_up_left and $move_up_right define the scope of the nodes that are moving
+		 * up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
+		 */
 		if ($direction == 'up')
 		{
 			$left_id = $target['left_id'];
@@ -539,12 +538,12 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Set page url
-	*
-	* @param string $u_action Custom form action
-	* @return void
-	* @access public
-	*/
+	 * Set page url
+	 *
+	 * @param string $u_action Custom form action
+	 * @return void
+	 * @access public
+	 */
 	public function set_page_url($u_action)
 	{
 		$this->u_action = $u_action;

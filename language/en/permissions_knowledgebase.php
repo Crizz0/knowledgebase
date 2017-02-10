@@ -1,12 +1,12 @@
 <?php
 /**
-*
-* Knowledge Base extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2017 kinerity <https://www.project-w.org>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Knowledge Base extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2017, kinerity, https://www.acsyste.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 /**
 * DO NOT CHANGE
@@ -36,6 +36,7 @@ if (empty($lang) || !is_array($lang))
 // Some characters you may want to copy&paste:
 // ’ » “ ” …
 //
+
 $lang = array_merge($lang, array(
 	'ACL_CAT_KNOWLEDGEBASE'	=> 'Knowledge Base',
 

@@ -1,38 +1,38 @@
 <?php
 /**
-*
-* Knowledge Base extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2017 kinerity <https://www.project-w.org>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Knowledge Base extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2017, kinerity, https://www.acsyste.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace kinerity\knowledgebase\exception;
 
 /**
-* Base exception
-*/
+ * Base exception
+ */
 class base extends \Exception
 {
 	/**
-	* Null if the message is a string, array if the message was submitted as an array
-	* @var string|array
-	*/
+	 * Null if the message is a string, array if the message was submitted as an array
+	 * @var string|array
+	 */
 	protected $message_full;
 
 	protected $previous;
 
 	/**
-	* Constructor
-	*
-	* Different from normal exceptions in that we do not enforce $message to be a string.
-	*
-	* @param string|array $message
-	* @param int $code
-	* @param \Exception $previous
-	* @access public
-	*/
+	 * Constructor
+	 *
+	 * Different from normal exceptions in that we do not enforce $message to be a string.
+	 *
+	 * @param string|array $message
+	 * @param int $code
+	 * @param \Exception $previous
+	 * @access public
+	 */
 	public function __construct($message = null, $code = 0, \Exception $previous = null)
 	{
 		parent::__construct();
@@ -54,12 +54,12 @@ class base extends \Exception
 	}
 
 	/**
-	* Basic message translation for our exceptions
-	*
-	* @param \phpbb\language\language $lang
-	* @return string
-	* @access public
-	*/
+	 * Basic message translation for our exceptions
+	 *
+	 * @param \phpbb\language\language $lang
+	 * @return string
+	 * @access public
+	 */
 	public function get_message(\phpbb\language\language $lang)
 	{
 		// Make sure our language file has been loaded
@@ -74,18 +74,18 @@ class base extends \Exception
 	}
 
 	/**
-	* Translate all portions of the message sent to the exception
-	*
-	* Goes through each element of the array and tries to translate them
-	*
-	* @param \phpbb\language\language $lang
-	* @param string|array $message_portions The message portions to translate
-	* @param string|null $parent_message Send a string to translate all of the
-	*     portions with the parent message (typically used to format a string
-	*     with the given message portions). Null to ignore. Default: Null
-	* @return array|string Array if $parent_message === null else a string
-	* @access protected
-	*/
+	 * Translate all portions of the message sent to the exception
+	 *
+	 * Goes through each element of the array and tries to translate them
+	 *
+	 * @param \phpbb\language\language $lang
+	 * @param string|array $message_portions The message portions to translate
+	 * @param string|null $parent_message Send a string to translate all of the
+	 *     portions with the parent message (typically used to format a string
+	 *     with the given message portions). Null to ignore. Default: Null
+	 * @return array|string Array if $parent_message === null else a string
+	 * @access protected
+	 */
 	protected function translate_portions(\phpbb\language\language $lang, $message_portions, $parent_message = null)
 	{
 		// Make sure our language file has been loaded
@@ -127,12 +127,12 @@ class base extends \Exception
 	}
 
 	/**
-	* Add our language file
-	*
-	* @param \phpbb\language\language $lang
-	* @return void
-	* @access public
-	*/
+	 * Add our language file
+	 *
+	 * @param \phpbb\language\language $lang
+	 * @return void
+	 * @access public
+	 */
 	public function add_lang(\phpbb\language\language $lang)
 	{
 		static $is_loaded = false;
@@ -151,15 +151,15 @@ class base extends \Exception
 	}
 
 	/**
-	* Output a string of this error message
-	*
-	* This will hopefully be never called, always catch the expected exceptions
-	* and call get_message to translate them into an error that a user can
-	* understand
-	*
-	* @return string
-	* @access public
-	*/
+	 * Output a string of this error message
+	 *
+	 * This will hopefully be never called, always catch the expected exceptions
+	 * and call get_message to translate them into an error that a user can
+	 * understand
+	 *
+	 * @return string
+	 * @access public
+	 */
 	public function __toString()
 	{
 		return is_array($this->message_full) ? (string) var_export($this->message_full, true) : (string) $this->message_full;

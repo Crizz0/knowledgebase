@@ -33,9 +33,9 @@
 				<dd><input class="text medium" type="text" id="category_name" name="category_name" value="{CATEGORY_NAME}" maxlength="200" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="category_desc">{L_ACP_CATEGORY_DESC}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_DESC_EXPLAIN}</span></dt>
+				<dt><label for="category_description">{L_ACP_CATEGORY_DESCRIPTION}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_DESCRIPTION_EXPLAIN}</span></dt>
 				<dd>
-					<textarea name="category_desc" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{CATEGORY_DESC}</textarea>
+					<textarea name="category_description" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{CATEGORY_DESCRIPTION}</textarea>
 				</dd>
 				<dd>
 					<!-- IF S_BBCODE_ALLOWED -->
@@ -80,7 +80,7 @@
 					<img src="images/icon_subfolder.gif" alt="{L_ACP_KNOWLEDGEBASE_CATEGORY}" />
 				<td class="forum-desc">
 					<strong>{categories.CATEGORY_NAME}</strong>
-					<!-- IF categories.CATEGORY_DESC --><br /><span>{categories.CATEGORY_DESC}</span><!-- ENDIF -->
+					<!-- IF categories.CATEGORY_DESCRIPTION --><br /><span>{categories.CATEGORY_DESCRIPTION}</span><!-- ENDIF -->
 					<br /><br /><span>{L_ACP_ARTICLES}{L_COLON} <strong>{categories.ARTICLES}</strong></span>
 				</td>
 				<td class="actions">

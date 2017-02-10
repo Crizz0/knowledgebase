@@ -1,53 +1,36 @@
 <?php
 /**
-*
-* Knowledge Base extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2017 kinerity <https://www.project-w.org>
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ *
+ * Knowledge Base extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2017, kinerity, https://www.acsyste.com
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
 namespace kinerity\knowledgebase\entity;
 
 /**
-* Entity for a single category
-*/
-class category implements category_interface
+ * Functions for a single entity
+ */
+class functions implements functions_interface
 {
-	/**
-	* Data for this entity
-	*
-	* @var array
-	*	category_id
-	*	left_id
-	*	right_id
-	*	category_name
-	*	category_desc
-	*	bbcode_uid
-	*	bbcode_bitfield
-	*	bbcode_options
-	* @access protected
-	*/
+	/** @var array */
 	protected $data;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/**
-	* The database table the categories are stored in
-	*
-	* @var string
-	*/
+	/** @var string */
 	protected $kb_categories_table;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\db\driver\driver_interface    $db                    Database object
-	* @param string                               $kb_categories_table   Name of the table used to store board rules data
-	* @access public
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\db\driver\driver_interface  $db
+	 * @param string                             $kb_categories_table
+	 * @access public
+	 */
 	public function __construct(\phpbb\db\driver\driver_interface $db, $kb_categories_table)
 	{
 		$this->db = $db;
@@ -55,13 +38,12 @@ class category implements category_interface
 	}
 
 	/**
-	* Load the data from the database for this category
-	*
-	* @param int $id Category identifier
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	* @throws \kinerity\knowledgebase\exception\out_of_bounds
-	*/
+	 * Load the data from the database for this entity
+	 *
+	 * @param int
+	 * @access public
+	 * @throws \kinerity\knowledgebase\exception\out_of_bounds
+	 */
 	public function load($id)
 	{
 		$sql = 'SELECT *
@@ -73,7 +55,7 @@ class category implements category_interface
 
 		if ($this->data === false)
 		{
-			// A category does not exist
+			// A entity does not exist
 			throw new \kinerity\knowledgebase\exception\out_of_bounds('category_id');
 		}
 
@@ -81,19 +63,18 @@ class category implements category_interface
 	}
 
 	/**
-	* Insert the category for the first time
-	*
-	* Will throw an exception if the category was already inserted (call save() instead)
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	* @throws \kinerity\knowledgebase\exception\out_of_bounds
-	*/
+	 * Insert the entity for the first time
+	 *
+	 * Will throw an exception if the entity was already inserted (call save() instead)
+	 *
+	 * @access public
+	 * @throws \kinerity\knowledgebase\exception\out_of_bounds
+	 */
 	public function insert()
 	{
 		if (!empty($this->data['category_id']))
 		{
-			// The category already exists
+			// The entity already exists
 			throw new \kinerity\knowledgebase\exception\out_of_bounds('category_id');
 		}
 
@@ -110,7 +91,7 @@ class category implements category_interface
 		// Make extra sure there is no category_id set
 		unset($this->data['category_id']);
 
-		// Insert the category data to the database
+		// Insert the entity data to the database
 		$sql = 'INSERT INTO ' . $this->kb_categories_table . ' ' . $this->db->sql_build_array('INSERT', $this->data);
 		$this->db->sql_query($sql);
 
@@ -121,20 +102,19 @@ class category implements category_interface
 	}
 
 	/**
-	* Save the current settings to the database
-	*
-	* This must be called before closing or any changes will not be saved!
-	* If adding a category (saving for the first time), you must call insert() or an exception will be thrown
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	* @throws \kinerity\knowledgebase\exception\out_of_bounds
-	*/
+	 * Save the current settings to the database
+	 *
+	 * This must be called before closing or any changes will not be saved!
+	 * If adding a entity (saving for the first time), you must call insert() or an exception will be thrown
+	 *
+	 * @access public
+	 * @throws \kinerity\knowledgebase\exception\out_of_bounds
+	 */
 	public function save()
 	{
 		if (empty($this->data['category_id']))
 		{
-			// The category does not exist
+			// The entity does not exist
 			throw new \kinerity\knowledgebase\exception\out_of_bounds('category_id');
 		}
 
@@ -152,11 +132,10 @@ class category implements category_interface
 	}
 
 	/**
-	* Get id
-	*
-	* @return int Category identifier
-	* @access public
-	*/
+	 * Get id
+	 *
+	 * @access public
+	 */
 	public function get_id()
 	{
 		return isset($this->data['category_id']) ? (int) $this->data['category_id'] : 0;
@@ -165,7 +144,6 @@ class category implements category_interface
 	/**
 	* Get title
 	*
-	* @return string Title
 	* @access public
 	*/
 	public function get_title()
@@ -174,13 +152,12 @@ class category implements category_interface
 	}
 
 	/**
-	* Set title
-	*
-	* @param string $title
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	* @throws \kinerity\knowledgebase\exception\unexpected_value
-	*/
+	 * Set title
+	 *
+	 * @param string
+	 * @access public
+	 * @throws \kinerity\knowledgebase\exception\unexpected_value
+	 */
 	public function set_title($title)
 	{
 		// Enforce a string
@@ -199,15 +176,14 @@ class category implements category_interface
 	}
 
 	/**
-	* Get description for edit
-	*
-	* @return string
-	* @access public
-	*/
+	 * Get description for edit
+	 *
+	 * @access public
+	 */
 	public function get_description_for_edit()
 	{
 		// Use defaults if these haven't been set yet
-		$description = isset($this->data['category_desc']) ? $this->data['category_desc'] : '';
+		$description = isset($this->data['category_description']) ? $this->data['category_description'] : '';
 		$uid = isset($this->data['bbcode_uid']) ? $this->data['bbcode_uid'] : '';
 		$options = isset($this->data['bbcode_options']) ? (int) $this->data['bbcode_options'] : 0;
 
@@ -218,16 +194,15 @@ class category implements category_interface
 	}
 
 	/**
-	* Get description for display
-	*
-	* @param bool $censor_text True to censor the text (Default: true)
-	* @return string
-	* @access public
-	*/
+	 * Get description for display
+	 *
+	 * @param bool
+	 * @access public
+	 */
 	public function get_description_for_display($censor_text = true)
 	{
 		// If these haven't been set yet; use defaults
-		$description = isset($this->data['category_desc']) ? $this->data['category_desc'] : '';
+		$description = isset($this->data['category_description']) ? $this->data['category_description'] : '';
 		$uid = isset($this->data['bbcode_uid']) ? $this->data['bbcode_uid'] : '';
 		$bitfield = isset($this->data['bbcode_bitfield']) ? $this->data['bbcode_bitfield'] : '';
 		$options = isset($this->data['bbcode_options']) ? (int) $this->data['bbcode_options'] : 0;
@@ -237,12 +212,11 @@ class category implements category_interface
 	}
 
 	/**
-	* Set description
-	*
-	* @param string $description
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Set description
+	 *
+	 * @param string
+	 * @access public
+	 */
 	public function set_description($description)
 	{
 		// Prepare the text for storage
@@ -250,7 +224,7 @@ class category implements category_interface
 		generate_text_for_storage($description, $uid, $bitfield, $flags, $this->description_bbcode_enabled(), $this->description_magic_url_enabled(), $this->description_smilies_enabled());
 
 		// Set the description to our data array
-		$this->data['category_desc'] = $description;
+		$this->data['category_description'] = $description;
 		$this->data['bbcode_uid'] = $uid;
 		$this->data['bbcode_bitfield'] = $bitfield;
 		// Flags are already set
@@ -259,22 +233,20 @@ class category implements category_interface
 	}
 
 	/**
-	* Check if bbcode is enabled on the description
-	*
-	* @return bool
-	* @access public
-	*/
+	 * Check if bbcode is enabled on the description
+	 *
+	 * @access public
+	 */
 	public function description_bbcode_enabled()
 	{
 		return ($this->data['bbcode_options'] & OPTION_FLAG_BBCODE);
 	}
 
 	/**
-	* Enable bbcode on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Enable bbcode on the description
+	 *
+	 * @access public
+	 */
 	public function description_enable_bbcode()
 	{
 		$this->set_description_option(OPTION_FLAG_BBCODE);
@@ -283,11 +255,10 @@ class category implements category_interface
 	}
 
 	/**
-	* Disable bbcode on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Disable bbcode on the description
+	 *
+	 * @access public
+	 */
 	public function description_disable_bbcode()
 	{
 		$this->set_description_option(OPTION_FLAG_BBCODE, true);
@@ -296,22 +267,20 @@ class category implements category_interface
 	}
 
 	/**
-	* Check if magic_url is enabled on the description
-	*
-	* @return bool
-	* @access public
-	*/
+	 * Check if magic_url is enabled on the description
+	 *
+	 * @access public
+	 */
 	public function description_magic_url_enabled()
 	{
 		return ($this->data['bbcode_options'] & OPTION_FLAG_LINKS);
 	}
 
 	/**
-	* Enable magic url on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Enable magic url on the description
+	 *
+	 * @access public
+	 */
 	public function description_enable_magic_url()
 	{
 		$this->set_description_option(OPTION_FLAG_LINKS);
@@ -320,11 +289,10 @@ class category implements category_interface
 	}
 
 	/**
-	* Disable magic url on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Disable magic url on the description
+	 *
+	 * @access public
+	 */
 	public function description_disable_magic_url()
 	{
 		$this->set_description_option(OPTION_FLAG_LINKS, true);
@@ -333,22 +301,20 @@ class category implements category_interface
 	}
 
 	/**
-	* Check if smilies are enabled on the description
-	*
-	* @return bool
-	* @access public
-	*/
+	 * Check if smilies are enabled on the description
+	 *
+	 * @access public
+	 */
 	public function description_smilies_enabled()
 	{
 		return ($this->data['bbcode_options'] & OPTION_FLAG_SMILIES);
 	}
 
 	/**
-	* Enable smilies on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Enable smilies on the description
+	 *
+	 * @access public
+	 */
 	public function description_enable_smilies()
 	{
 		$this->set_description_option(OPTION_FLAG_SMILIES);
@@ -357,11 +323,10 @@ class category implements category_interface
 	}
 
 	/**
-	* Disable smilies on the description
-	*
-	* @return category_interface $this object for chaining calls; load()->set()->save()
-	* @access public
-	*/
+	 * Disable smilies on the description
+	 *
+	 * @access public
+	 */
 	public function description_disable_smilies()
 	{
 		$this->set_description_option(OPTION_FLAG_SMILIES, true);
@@ -370,14 +335,10 @@ class category implements category_interface
 	}
 
 	/**
-	* Set option helper
-	*
-	* @param int $option_value Value of the option
-	* @param bool $negate Negate (unset) option (Default: False)
-	* @param bool $reparse_description Re-parse the description after setting option (Default: True)
-	* @return void
-	* @access protected
-	*/
+	 * Set option helper
+	 *
+	 * @access protected
+	 */
 	protected function set_description_option($option_value, $negate = false, $reparse_description = true)
 	{
 		// Set bbcode_options to 0 if it does not yet exist
@@ -398,9 +359,9 @@ class category implements category_interface
 		}
 
 		// Re-parse the description
-		if ($reparse_description && !empty($this->data['category_desc']))
+		if ($reparse_description && !empty($this->data['category_description']))
 		{
-			$description = $this->data['category_desc'];
+			$description = $this->data['category_description'];
 
 			decode_message($description, $this->data['bbcode_uid']);
 
