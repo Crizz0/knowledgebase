@@ -492,7 +492,7 @@ class main_controller implements main_interface
 				switch ($mode)
 				{
 					case 'delete':
-						if (!$this->auth->acl_get('u_kb_delete') || $this->user->data['user_id'] != $row['poster_id'])
+						if (!$this->auth->acl_get('u_kb_delete') || $this->user->data['user_id'] != $row['article_poster_id'])
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
 						}
@@ -523,7 +523,7 @@ class main_controller implements main_interface
 					break;
 
 					case 'edit':
-						if ((!$this->auth->acl_get('u_kb_edit') || $this->user->data['user_id'] != $row['poster_id']) && !$this->auth->acl_get('m_kb_edit'))
+						if ((!$this->auth->acl_get('u_kb_edit') || $this->user->data['user_id'] != $row['article_poster_id']) && !$this->auth->acl_get('m_kb_edit'))
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
 						}
@@ -775,6 +775,9 @@ class main_controller implements main_interface
 				$sql = 'UPDATE ' . $this->kb_articles_table . ' SET article_views = article_views + 1 WHERE article_id = ' . (int) $article_id;
 				$this->db->sql_query($sql);
 
+				$bbcode_options = (($data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
+					(($data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
+					(($data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
 				$board_url = generate_board_url();
 
 				$this->template->assign_vars(array(
@@ -786,14 +789,14 @@ class main_controller implements main_interface
 					'ARTICLE_TITLE'			=> $data['article_title'],
 					'CATEGORIES'			=> implode(', ', $category_list),
 					'ARTICLE_DESCRIPTION'	=> $data['article_description'],
-					'MESSAGE'				=> generate_text_for_display($data['article_text'], $data['bbcode_uid'], $data['bbcode_bitfield'], $data['bbcode_options']),
+					'MESSAGE'				=> generate_text_for_display($data['article_text'], $data['bbcode_uid'], $data['bbcode_bitfield'], $bbcode_options),
 					'ARTICLE_VIEWS'			=> $data['article_views'],
 
 					'U_APPROVE'		=> $this->auth->acl_get('m_kb_approve') ? ($data['article_visibility'] == constants::ARTICLE_APPROVED ? '' : $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'mcp', 'mode' => 'approve', 'a' => (int) $article_id))) : '',
-					'U_DELETE'		=> $this->auth->acl_get('u_kb_delete') && $this->user->data['user_id'] == $article_data['article_poster_id'] ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'delete', 'a' => (int) $article_id)) : ($this->auth->acl_get('m_kb_delete') ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'mcp', 'mode' => 'delete', 'a' => (int) $article_id)) : ''),
+					'U_DELETE'		=> $this->auth->acl_get('u_kb_delete') && $this->user->data['user_id'] == $data['article_poster_id'] ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'delete', 'a' => (int) $article_id)) : ($this->auth->acl_get('m_kb_delete') ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'mcp', 'mode' => 'delete', 'a' => (int) $article_id)) : ''),
 					'U_DENY'		=> $this->auth->acl_get('m_kb_approve') ? ($data['article_visibility'] == constants::ARTICLE_DENIED ? '' : $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'mcp', 'mode' => 'deny', 'a' => (int) $article_id))) : '',
 					'U_DISAPPROVE'	=> $this->auth->acl_get('m_kb_approve') ? ($data['article_visibility'] == constants::ARTICLE_APPROVED || $data['article_visibility'] == constants::ARTICLE_DENIED ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'mcp', 'mode' => 'disapprove', 'a' => (int) $article_id)) : '') : '',
-					'U_EDIT'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $article_data['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit', 'a' => (int) $article_id)) : '',
+					'U_EDIT'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $data['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit', 'a' => (int) $article_id)) : '',
 
 					'U_VIEW_ARTICLE'		=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id)),
 					'U_VIEW_ARTICLE_LINK'	=> $this->config['enable_mod_rewrite'] ? append_sid($board_url . '/kb/viewarticle', 'a=' . (int) $article_id) : append_sid($board_url . '/app.' . $this->php_ext . '/kb/viewarticle', 'a=' . (int) $article_id),
