@@ -11,6 +11,20 @@ dl.row-item dt .list-inner {
 	margin-bottom: 10px;
 }
 
+.main-content {
+	background-color: #ECF3F7;
+	border-top: 1px solid #FFF;
+	border-radius: 5px;
+	padding: 5px;
+	position: relative;
+}
+
+p.explain {
+	font-weight: bold;
+	font-size: 1.3em;
+	margin-bottom: .5em;
+}
+
 .article-body {
 	padding: 5px;
 }

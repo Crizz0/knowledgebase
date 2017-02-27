@@ -38,6 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
+	'ALL_CATEGORIES'		=> 'All categories',
 	'APPROVE'				=> 'Approve',
 	'APPROVE_ARTICLE'		=> 'Approve article',
 	'APPROVED'				=> 'Approved',
@@ -83,6 +84,8 @@ $lang = array_merge($lang, array(
 
 	'LAST_MODIFIED'		=> 'Last modified',
 	'LINK_TO_ARTICLE'	=> 'Link to this article',
+
+	'NARROW_SEARCH'	=> 'Narrow down your search by selecting a category',
 
 	'NOTIFICATION_ARTICLE_APPROVED'		=> '<strong>Article approved</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DENIED'		=> '<strong>Article denied</strong>: %1$s',

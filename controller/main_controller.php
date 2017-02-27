@@ -123,6 +123,7 @@ class main_controller implements main_interface
 		{
 			case 'index':
 				$type = $this->request->variable('type', 'approved');
+				$category_id = $this->request->variable('c', 0);
 
 				// Basic pagewide vars
 				$this->template->assign_vars(array(
@@ -130,6 +131,7 @@ class main_controller implements main_interface
 
 					'S_DISPLAY_POST_BUTTON'	=> $this->auth->acl_get('u_kb_post') ? true : false,
 					'S_DISPLAY_TYPE_MENU'	=> $this->auth->acl_get('m_kb_approve') ? true : false,
+					'S_TYPE_APPROVED'		=> $type == 'approved' ? true : false,
 
 					'U_POST_NEW_ARTICLE'	=> ($this->auth->acl_get('u_kb_post')) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'post')) : '',
 				));
@@ -170,6 +172,12 @@ class main_controller implements main_interface
 					$sql_where .= 'article_visibility = ' . constants::ARTICLE_APPROVED;
 				}
 
+				if ($category_id != 0)
+				{
+					$sql_where .= ' AND category_id = ' . (int) $category_id . '
+									AND a.article_id = ac.article_id';
+				}
+
 				// Check for valid type
 				if (!in_array($type, $type_array))
 				{
@@ -182,11 +190,46 @@ class main_controller implements main_interface
 					throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
 				}
 
-				// Grab all articles
+				// Grab categories
 				$sql = 'SELECT *
+					FROM ' . $this->kb_categories_table . '
+					ORDER BY left_id ASC';
+				$result = $this->db->sql_query($sql);
+				while ($row = $this->db->sql_fetchrow($result))
+				{
+					$this->template->assign_block_vars('categories', array(
+						'CATEGORY_ID'	=> $row['category_id'],
+						'CATEGORY_NAME'	=> $row['category_name'],
+
+						'S_SELECTED'	=> ($row['category_id'] == $category_id) ? true : false,
+					));
+				}
+				$this->db->sql_freeresult($result);
+
+				// Grab articles
+				if ($category_id == 0)
+				{
+					$sql = 'SELECT *
 					FROM ' . $this->kb_articles_table . "
 					WHERE $sql_where
 					ORDER BY article_title ASC";
+				}
+				else
+				{
+					$sql_ary = array(
+						'SELECT'	=> 'a.*, ac.category_id',
+
+						'FROM'		=> array(
+							$this->kb_articles_table			=> 'a',
+							$this->kb_article_category_table	=> 'ac',
+						),
+
+						'WHERE'		=> $sql_where,
+
+						'ORDER_BY'	=> 'article_title ASC',
+					);
+					$sql = $this->db->sql_build_query('SELECT', $sql_ary);
+				}
 				$result = $this->db->sql_query($sql);
 				while ($row = $this->db->sql_fetchrow($result))
 				{
@@ -221,7 +264,7 @@ class main_controller implements main_interface
 					while ($row = $this->db->sql_fetchrow($result))
 					{
 						// Set the category link here, the list will be imploded later
-						$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/viewcategory", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/viewcategory', 'c=' . (int) $row['category_id']);
+						$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
 						$category_list[$row['article_id']][] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 					}
 					$this->db->sql_freeresult($result);
@@ -720,10 +763,6 @@ class main_controller implements main_interface
 				return $this->helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $this->lang->lang('POST_ARTICLE'));
 			break;
 
-			case 'viewcategory':
-				// TODO
-			break;
-
 			case 'viewarticle':
 				$article_id	= $this->request->variable('a', 0);
 
@@ -766,7 +805,7 @@ class main_controller implements main_interface
 				$result = $this->db->sql_query($sql);
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-					$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/viewcategory", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/viewcategory', 'c=' . (int) $row['category_id']);
+					$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
 					$category_list[] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 				}
 				$this->db->sql_freeresult($result);
