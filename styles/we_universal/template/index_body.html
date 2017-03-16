@@ -33,6 +33,29 @@
 	</div>
 <!-- ENDIF -->
 
+<!-- IF S_TYPE_APPROVED -->
+		<div class="forumbg">
+		<div class="inner">
+		<div class="main-content">
+			<div class="inner">
+
+			<p id="explain" class="explain">{L_NARROW_SEARCH}{L_COLON}</p>
+			<form method="get" id="categories" action="">
+				<fieldset>
+					<select name="c" id="category_id" onchange="document.getElementById('categories').submit()">
+					<option value="all">{L_ALL_CATEGORIES}</option>
+						<!-- BEGIN categories -->
+						<option value="{categories.CATEGORY_ID}"<!-- IF categories.S_SELECTED --> selected="selected"<!-- ENDIF -->>{categories.CATEGORY_NAME}</option>
+						<!-- END categories -->
+					</select>
+				</fieldset>
+			</form>
+			</div>
+		</div>
+	</div>
+	</div>
+<!-- ENDIF -->
+
 <!-- IF .articlerow -->
 		<div class="forumbg">
 		<div class="inner">
