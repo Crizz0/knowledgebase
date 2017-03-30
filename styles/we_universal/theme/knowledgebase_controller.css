@@ -1,9 +1,0 @@
-ul.topiclist.forums li.row dt,
-ul.topiclist.topics li.row dt {
-	width: 100% !important;
-}
-
-dl.row-item dt .list-inner {
-	padding-left: 5px !important;
-	text-align: left !important;
-}
