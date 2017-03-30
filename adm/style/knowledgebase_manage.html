@@ -58,6 +58,40 @@
 		</fieldset>
 	</form>
 
+<!-- ELSEIF S_DELETE_CATEGORY -->
+
+	<script>
+		var form_name = 'delete_category';
+	</script>
+
+	<a id="maincontent"></a>
+
+	<h1>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY} :: {CATEGORY_NAME}</h1>
+
+	<p>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN}</p>
+
+	<form id="delete_category" method="post" action="{U_DELETE_ACTION}">
+		<fieldset>
+			<legend>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY}</legend>
+			<dl>
+				<dt><label for="category_name">{L_ACP_CATEGORY_NAME}{L_COLON}</label></dt>
+				<dd>{CATEGORY_NAME}</dd>
+			</dl>
+			<dl>
+				<dt><label for="delete_action">{L_ACTION}{L_COLON}</label></dt>
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="delete" checked="checked" /> {L_ACP_DELETE_ARTICLES}</label></dd>
+				<!-- IF S_MOVE_ARTICLES_OPTIONS -->
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="move" /> {L_ACP_MOVE_ARTICLES}</label> <select name="id">{MOVE_ARTICLES_OPTIONS}</select></dd>
+				<!-- ENDIF -->
+			</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+
 <!-- ELSE -->
 
 	<h1>{L_ACP_KNOWLEDGEBASE_MANAGE}</h1>

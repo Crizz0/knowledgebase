@@ -443,7 +443,201 @@ class admin_controller implements admin_interface
 	 */
 	public function delete_category($category_id)
 	{
-		// TODO
+		// Add form key
+		add_form_key('delete_category');
+
+		// Initiate and load the entity
+		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
+
+		// Build an array of categories
+		$sql = 'SELECT *
+			FROM ' . $this->kb_categories_table . '
+			ORDER BY left_id ASC';
+		$result = $this->db->sql_query($sql);
+		$options_list = $rows = $data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$rows[] = $row['category_id'];
+
+			if ($row['category_id'] == $category_id)
+			{
+				$category_name = $row['category_name'];
+			}
+			else
+			{
+				$options_list .= '<option value="' . $row['category_id'] . '">' . $row['category_name'] . '</option>';
+			}
+		}
+		$this->db->sql_freeresult($result);
+
+		// Does the category contain articles?
+		$sql = 'SELECT COUNT(article_id) as articles
+			FROM ' . $this->kb_article_category_table . '
+			WHERE category_id = ' . (int) $category_id;
+		$this->db->sql_query($sql);
+		$i = $this->db->sql_fetchfield('articles');
+
+		if ($i == 0)
+		{
+			if (confirm_box(true))
+			{
+				$sql = 'DELETE FROM ' . $this->kb_categories_table . '
+					WHERE category_id = ' . (int) $category_id;
+				$this->db->sql_query($sql);
+
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
+
+				trigger_error($this->lang->lang('ACP_CATEGORY_DELETED') . adm_back_link("{$this->u_action}"));
+			}
+			else
+			{
+				confirm_box(false, $this->lang->lang('ACP_DELETE_CATEGORY_CONFIRM'));
+			}
+		}
+		else
+		{
+			$in = $out = $new_ary = array();
+
+			// Two queries - one for each array
+			$sql = 'SELECT article_id
+				FROM ' . $this->kb_article_category_table . '
+				WHERE category_id = ' . (int) $category_id;
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$in[] = $row['article_id'];
+			}
+			$this->db->sql_freeresult($result);
+
+			$sql = 'SELECT article_id
+				FROM ' . $this->kb_article_category_table . '
+				WHERE category_id != ' . (int) $category_id;
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$out[] = $row['article_id'];
+			}
+			$this->db->sql_freeresult($result);
+
+			$delete_action = $this->request->variable('delete_action', '');
+			$id = $this->request->variable('id', 0);
+
+			// Was submit pressed? If so, process the requested action
+			if ($this->request->is_set_post('submit'))
+			{
+				$j = 0;
+
+				if ($delete_action == 'delete')
+				{
+					// Validate articles that should NOT be deleted
+					$diff_ary = array_diff($in, $out);
+					$intersect_ary = array_intersect($in, $out);
+
+					// Delete articles belonging ONLY to this category
+					foreach ($diff_ary as $row)
+					{
+						$sql = 'DELETE FROM ' . $this->kb_articles_table . '
+							WHERE article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+
+						$sql = 'DELETE FROM ' . $this->kb_article_category_table . '
+							WHERE category_id = ' . (int) $category_id . '
+								AND article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+					}
+
+					// Build a list of articles belonging to categories and delete
+					// the entry in the database for the category being deleting
+					foreach ($intersect_ary as $row)
+					{
+						$j++;
+
+						$sql = 'DELETE FROM ' . $this->kb_article_category_table . '
+							WHERE category_id = ' . (int) $category_id . '
+								AND article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+
+						$sql = 'SELECT article_title
+							FROM ' . $this->kb_articles_table . '
+							WHERE article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+						$subject = $this->db->sql_fetchfield('article_title');
+
+						$list .= '<br />- ' . $subject;
+					}
+
+					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED', $j, $list);
+				}
+				else if ($delete_action == 'move')
+				{
+					// Build a list of articles in the category we are moving articles to
+					$sql = 'SELECT article_id
+						FROM ' . $this->kb_article_category_table . '
+						WHERE category_id = ' . (int) $id;
+					$result = $this->db->sql_query($sql);
+					while ($row = $this->db->sql_fetchrow($result))
+					{
+						$new_ary[] = $row['article_id'];
+					}
+					$this->db->sql_freeresult($result);
+
+					// Validate articles already in the selected category
+					$intersect_ary = array_intersect($in, $new_ary);
+					$diff_ary = array_diff($in, $new_ary);
+
+					// Remove entries for articles already in the new category and build a list
+					foreach ($intersect_ary as $row)
+					{
+						$j++;
+
+						$sql = 'DELETE FROM ' . $this->kb_article_category_table . '
+							WHERE category_id = ' . (int) $category_id . '
+								AND article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+
+						$sql = 'SELECT article_title
+							FROM ' . $this->kb_articles_table . '
+							WHERE article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+						$subject = $this->db->sql_fetchfield('article_title');
+
+						$list .= '<br />- ' . $subject;
+					}
+
+					// Move articles from the old category to the new category
+					foreach ($diff_ary as $row)
+					{
+						$sql = 'UPDATE ' . $this->kb_article_category_table . '
+							SET category_id = ' . (int) $id . '
+							WHERE article_id = ' . (int) $row;
+						$this->db->sql_query($sql);
+					}
+
+					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED', $j, $list);
+				}
+
+				// All articles handled, delete the category and log an entry
+				$sql = 'DELETE FROM ' . $this->kb_categories_table . '
+					WHERE category_id = ' . (int) $category_id;
+				$this->db->sql_query($sql);
+
+				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
+
+				$message = ($j > 0) ? $message : $this->user->lang('ACP_CATEGORY_DELETED');
+				trigger_error($message . adm_back_link($this->u_action));
+			}
+
+			// Set output vars for display in the template
+			$this->template->assign_vars(array(
+				'CATEGORY_NAME'			=> $category_name,
+				'MOVE_ARTICLES_OPTIONS'	=> $options_list,
+
+				'S_DELETE_CATEGORY'			=> true,
+				'S_MOVE_ARTICLES_OPTIONS'	=> $options_list ? true : false,
+
+				'U_DELETE_ACTION'	=> "{$this->u_action}&amp;category_id={$category_id}&amp;action=delete",
+			));
+		}
 	}
 
 	/**
