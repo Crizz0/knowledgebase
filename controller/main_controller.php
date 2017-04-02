@@ -10,6 +10,7 @@
 
 namespace kinerity\knowledgebase\controller;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use kinerity\knowledgebase\constants;
 
 /**
@@ -25,6 +26,9 @@ class main_controller implements main_interface
 
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var ContainerInterface */
+	protected $container;
 
 	/** @var \phpbb\controller\helper */
 	protected $helper;
@@ -71,6 +75,7 @@ class main_controller implements main_interface
 	 * @param \phpbb\auth\auth                   $auth
 	 * @param \phpbb\cache\service               $cache
 	 * @param \phpbb\config\config               $config
+	 * @param ContainerInterface                 $container
 	 * @param \phpbb\controller\helper           $helper
 	 * @param \phpbb\db\driver\driver_interface  $db
 	 * @param \phpbb\language\language           $lang
@@ -85,11 +90,12 @@ class main_controller implements main_interface
 	 * @param string                             $kb_article_category_table
 	 * @param string                             $kb_categories_table
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\notification\manager $notification_manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_articles_table, $kb_article_category_table, $kb_categories_table)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $container, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\notification\manager $notification_manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_articles_table, $kb_article_category_table, $kb_categories_table)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
+		$this->container = $container;
 		$this->helper = $helper;
 		$this->db = $db;
 		$this->lang = $lang;
@@ -174,7 +180,7 @@ class main_controller implements main_interface
 
 				if ($category_id != 0)
 				{
-					$sql_where .= ' AND category_id = ' . (int) $category_id . '
+					$sql_where .= ' AND c.category_id = ' . (int) $category_id . '
 									AND a.article_id = ac.article_id';
 				}
 
@@ -217,11 +223,18 @@ class main_controller implements main_interface
 				else
 				{
 					$sql_ary = array(
-						'SELECT'	=> 'a.*, ac.category_id',
+						'SELECT'	=> 'a.*, ac.category_id, c.category_description',
 
 						'FROM'		=> array(
 							$this->kb_articles_table			=> 'a',
 							$this->kb_article_category_table	=> 'ac',
+						),
+
+						'LEFT_JOIN'	=> array(
+							array(
+								'FROM'	=> array($this->kb_categories_table	=> 'c'),
+								'ON'	=> 'ac.category_id = c.category_id',
+							),
 						),
 
 						'WHERE'		=> $sql_where,
@@ -237,6 +250,15 @@ class main_controller implements main_interface
 					$article_list[] = (int) $row['article_id'];
 				}
 				$this->db->sql_freeresult($result);
+
+				if ($category_id != 0)
+				{
+					$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
+
+					$this->template->assign_vars(array(
+						'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
+					));
+				}
 
 				if (sizeof($article_list))
 				{
