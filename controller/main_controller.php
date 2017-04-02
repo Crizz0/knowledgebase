@@ -180,7 +180,7 @@ class main_controller implements main_interface
 
 				if ($category_id != 0)
 				{
-					$sql_where .= ' AND c.category_id = ' . (int) $category_id . '
+					$sql_where .= ' AND ac.category_id = ' . (int) $category_id . '
 									AND a.article_id = ac.article_id';
 				}
 
@@ -223,18 +223,11 @@ class main_controller implements main_interface
 				else
 				{
 					$sql_ary = array(
-						'SELECT'	=> 'a.*, ac.category_id, c.category_description',
+						'SELECT'	=> 'a.*, ac.category_id',
 
 						'FROM'		=> array(
 							$this->kb_articles_table			=> 'a',
 							$this->kb_article_category_table	=> 'ac',
-						),
-
-						'LEFT_JOIN'	=> array(
-							array(
-								'FROM'	=> array($this->kb_categories_table	=> 'c'),
-								'ON'	=> 'ac.category_id = c.category_id',
-							),
 						),
 
 						'WHERE'		=> $sql_where,
