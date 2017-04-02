@@ -25,6 +25,11 @@ p.explain {
 	margin-bottom: .5em;
 }
 
+p.description {
+	font-size: 1.3em;
+	margin-bottom: .5em;
+}
+
 .article-body {
 	padding: 5px;
 }
