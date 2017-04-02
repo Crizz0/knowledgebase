@@ -94,7 +94,7 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_ARTICLE_IN_QUEUE'		=> '<strong>Approbation d’article de la Base de Connaissance</strong> demandée: %1$s',
 
 	'NO_ARTICLE'	=> 'L’article demandé n’existe pas.',
-	'NO_ARTICLES'	=> 'Il n’y a pas d’article dans cette catégorie dans la Base de Connaissance.',
+	'NO_ARTICLES'	=> 'Il n’y a pas d’article dans cette catégorie ou dans la Base de Connaissance.',
 	'NO_CATEGORY'	=> 'La catégorie demandée n’existe pas.',
 	'NO_PAGE_MODE'	=> 'Mode de la page invalide ou inexistant.',
 
