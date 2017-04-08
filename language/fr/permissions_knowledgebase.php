@@ -39,18 +39,18 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACL_CAT_KNOWLEDGEBASE'	=> 'Base de Connaissance',
+	'ACL_CAT_KNOWLEDGEBASE'	=> 'Base de connaissance',
 
-	'ACL_U_KB_READ'			=> 'Peut voir la Base de Connaissance',
-	'ACL_U_KB_POST'			=> 'Peut créer des nouveaux articles',
-	'ACL_U_KB_EDIT'			=> 'Peut éditer ses propres articles',
-	'ACL_U_KB_DELETE'		=> 'Peut effacer ses propres articles',
-	'ACL_U_KB_NOAPPROVE'	=> 'Peut poster des articles sans approbation',
+	'ACL_U_KB_READ'			=> 'Peut consulter la base de connaissance.',
+	'ACL_U_KB_POST'			=> 'Peut créer des nouveaux articles.',
+	'ACL_U_KB_EDIT'			=> 'Peut modifier ses propres articles.',
+	'ACL_U_KB_DELETE'		=> 'Peut supprimer ses propres articles.',
+	'ACL_U_KB_NOAPPROVE'	=> 'Peut poster des articles sans approbation.',
 
-	'ACL_M_KB_EDIT'			=> 'Peut éditer les articles',
-	'ACL_M_KB_DELETE'		=> 'Peut effacer les articles',
-	'ACL_M_KB_APPROVE'		=> 'Peut approuver les articles<br /><em>Cette permission inclus désapprouver et refuser !</em>',
-	'ACL_M_KB_CHGPOSTER'	=> 'Peut modifier l’auteur d’un article',
+	'ACL_M_KB_EDIT'			=> 'Peut modifier les articles.',
+	'ACL_M_KB_DELETE'		=> 'Peut supprimer les articles.',
+	'ACL_M_KB_APPROVE'		=> 'Peut approuver les articles.<br /><em>Cette permission inclut l’action de désapprobation et de refus d’un article !</em>',
+	'ACL_M_KB_CHGPOSTER'	=> 'Peut modifier l’auteur d’un article.',
 
-	'ACL_A_KB_MANAGE'		=> 'Peut gèrer la Base de Connaissance',
+	'ACL_A_KB_MANAGE'		=> 'Peut gérer la base de connaissance.',
 ));
