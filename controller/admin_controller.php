@@ -185,58 +185,46 @@ class admin_controller implements admin_interface
 	 */
 	public function display_categories()
 	{
-		$sql = 'SELECT *
-			FROM ' . $this->kb_categories_table . '
-			ORDER BY left_id ASC';
-		$result = $this->db->sql_query($sql);
+		$sql_ary = array(
+			'SELECT'   => 'category_id',
+			'FROM'     => array($this->kb_categories_table => 'kb'),
+			'ORDER_BY' => 'kb.left_id',
+		);
+		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$rowlist[] = (int) $row['category_id'];
-			$rowset[$row['category_id']] = $row;
+			$category_id = (int) $row['category_id'];
+
+			/** @var \kinerity\knowledgebase\entity\functions $entity */
+			$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
+
+			// Set output block vars for display in the template
+			$categories = array(
+				'CATEGORY_NAME'        => $entity->get_title(),
+				'CATEGORY_DESCRIPTION' => $entity->get_description_for_display(),
+
+				'U_DELETE'    => "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
+				'U_EDIT'      => "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
+				'U_MOVE_DOWN' => "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
+				'U_MOVE_UP'   => "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
+			);
+
+			$sql = 'SELECT COUNT(article_id) AS articles
+				FROM ' . $this->kb_article_category_table . ' ac
+				WHERE category_id = ' . $category_id;
+			$articles_result = $this->db->sql_query($sql);
+			$categories['ARTICLES'] = $this->db->sql_fetchfield('articles');
+			$this->db->sql_freeresult($articles_result);
+
+			$this->template->assign_block_vars('categories', $categories);
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!empty($rowlist))
-		{
-			foreach ($rowlist as $category_id)
-			{
-				$row = $rowset[$category_id];
-
-				/** @var \kinerity\knowledgebase\entity\functions $entity */
-				$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
-
-				// Set output block vars for display in the template
-				$categories = array(
-					'CATEGORY_NAME'			=> $entity->get_title(),
-					'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
-
-					'U_DELETE'		=> "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
-					'U_EDIT'		=> "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
-					'U_MOVE_DOWN'	=> "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
-					'U_MOVE_UP'		=> "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
-				);
-
-				$sql = 'SELECT COUNT(article_id) AS articles
-					FROM ' . $this->kb_article_category_table . ' ac
-					WHERE category_id = ' . $row['category_id'];
-				$result = $this->db->sql_query($sql);
-				while ($data = $this->db->sql_fetchrow($result))
-				{
-					$categories['ARTICLES'] = $data['articles'];
-				}
-				$this->db->sql_freeresult($result);
-
-				$this->template->assign_block_vars('categories', $categories);
-
-				unset($rowset[$category_id]);
-			}
-		}
-
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
-			'U_ACTION'		=> "{$this->u_action}",
-
-			'U_ADD_CATEGORY'		=> "{$this->u_action}&amp;action=add",
+			'U_ACTION'       => "{$this->u_action}",
+			'U_ADD_CATEGORY' => "{$this->u_action}&amp;action=add",
 		));
 	}
 
