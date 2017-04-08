@@ -318,7 +318,6 @@ class main_controller implements main_interface
 				$article_id = $this->request->variable('a', 0);
 				$mode = $this->request->variable('mode', '');
 
-				$submit = ($this->request->is_set_post('submit'));
 				$cancel = ($this->request->is_set_post('cancel'));
 
 				// Do we have an article or (valid) mode?
