@@ -440,10 +440,6 @@ class admin_controller implements admin_interface
 		// Add form key
 		add_form_key('delete_category');
 
-		// Initiate and load the entity
-		/** @var \kinerity\knowledgebase\entity\functions $entity */
-		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
-
 		// Build an array of categories
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
