@@ -68,8 +68,8 @@ $lang = array_merge($lang, array(
 
 	// Manage page
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED'	=> array(
-		1	=> 'La catégorie a été supprimée.<br /><br />Notez qu’il y avait %d article dans cette catégorie qui appartenait déja à la nouvelle catégorie. L’article suivant était déja présent :<br />%s',
-		2	=> 'La catégorie a été supprimée.<br /><br />Notez qu’il y avait %d articles dans cette catégorie qui appartenaient déja à la nouvelle catégorie. Les articles suivant étaient déja présents :<br />%s',
+		1	=> 'La catégorie a été supprimée.<br /><br />Notez qu’il y avait %d article dans cette catégorie qui appartenait déja à la nouvelle catégorie. L’article suivant est déja présent :<br />%s',
+		2	=> 'La catégorie a été supprimée.<br /><br />Notez qu’il y avait %d articles dans cette catégorie qui appartenaient déja à la nouvelle catégorie. Les articles suivant sont déja présents :<br />%s',
 	),
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED'	=> array(
 		1	=> 'La catégorie a été supprimée.<br /><br />Notez qu’il y avait %d article dans cette catégorie qui appartenait à une autre catégorie. L’article suivant n’a <b><u>pas</u></b> été supprimé :<br />%s',
@@ -85,6 +85,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN'	=> 'Le formulaire ci-dessous permet de supprimer une catégorie existante de la base de connaissance. Vous pouvez supprimer tous les articles associés à cette catégorie ou les déplacer dans une autre catégorie. <strong>Les articles qui existent dans d’autres catégories ne seront pas affectés.</strong>',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY'			=> 'Modifier la catégorie',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN'	=> 'Le formulaire ci-dessous permet de mettre à jour une catégorie existante qui sera affichée dans la base de connaissance.',
+	'ACP_KNOWLEDGEDABE_INVALID_HASH'			=> 'Le lien est corrompu. Le hachage n’est pas valide.',
 	'ACP_ARTICLES'								=> 'Articles',
 	'ACP_CATEGORIES'							=> 'Catégories',
 	'ACP_CATEGORY_SETTINGS'						=> 'Paramètres de la catégorie',

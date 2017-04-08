@@ -84,6 +84,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN'	=> 'Door gebruik te maken van het onderstaande formulier kunt u een bestaande categorie verwijderen uit de kennisbank. U kunt alle artikelen in verband met deze categorie te verwijderen of verplaatsen naar een andere categorie. <strong>Artikels die bestaan in andere categorie&euml;n zullen niet verwijderd of verplaatst worden.</strong>',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY'			=> 'Bewerk categorie',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN'	=> 'Door gebruik te maken van het onderstaande formulier kan je een bestaande categorie die getoond wordt in de kennisbank updaten.',
+	'ACP_KNOWLEDGEDABE_INVALID_HASH'			=> 'De link is beschadigd. De hash is ongeldig.',
 	'ACP_ARTICLES'								=> 'Artikels',
 	'ACP_CATEGORIES'							=> 'Categorie&euml;n',
 	'ACP_CATEGORY_SETTINGS'						=> 'Categorie instellingen',

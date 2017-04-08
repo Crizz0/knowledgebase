@@ -206,8 +206,8 @@ class admin_controller implements admin_interface
 
 				'U_DELETE'    => "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
 				'U_EDIT'      => "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
-				'U_MOVE_DOWN' => "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
-				'U_MOVE_UP'   => "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
+				'U_MOVE_DOWN' => "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id() . '&amp;hash=' . generate_link_hash('kb_move'),
+				'U_MOVE_UP'   => "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id() . '&amp;hash=' . generate_link_hash('kb_move'),
 			);
 
 			$sql = 'SELECT COUNT(article_id) AS articles
@@ -644,6 +644,13 @@ class admin_controller implements admin_interface
 	 */
 	public function move_category($category_id, $direction, $amount = 1)
 	{
+		// Before moving the currency, with check the link hash.
+		// If the hash, is invalid we return an error.
+		if (!check_link_hash($this->request->variable('hash', ''), 'kb_move'))
+		{
+			trigger_error($this->lang->lang('ACP_KNOWLEDGEDABE_INVALID_HASH') . adm_back_link($this->u_action), E_USER_WARNING);
+		};
+
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
 			WHERE category_id = ' . (int) $category_id;

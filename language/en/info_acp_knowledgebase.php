@@ -84,6 +84,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN'	=> 'Using the form below you can delete an existing category in the Knowledge Base. You can delete all articles associated with this category or move them to another category. <strong>Articles that exist in other categories will not be deleted or moved.</strong>',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY'			=> 'Edit category',
 	'ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN'	=> 'Using the form below you can update an existing category which will be displayed in the Knowledge Base.',
+	'ACP_KNOWLEDGEDABE_INVALID_HASH'			=> 'The link is corrupted. The hash is invalid.',
 	'ACP_ARTICLES'								=> 'Articles',
 	'ACP_CATEGORIES'							=> 'Categories',
 	'ACP_CATEGORY_SETTINGS'						=> 'Category settings',
