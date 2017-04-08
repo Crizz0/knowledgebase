@@ -5,7 +5,7 @@ services:
     kinerity.knowledgebase.admin.controller:
         class: kinerity\knowledgebase\controller\admin_controller
         arguments:
-            - '@cache'
+            - '@cache.driver'
             - '@config'
             - '@service_container'
             - '@controller.helper'

@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class admin_controller implements admin_interface
 {
-	/** @var \phpbb\cache\service */
+	/** @var \phpbb\cache\driver\driver_interface */
 	protected $cache;
 
 	/** @var \phpbb\config\config */
@@ -68,23 +68,23 @@ class admin_controller implements admin_interface
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\cache\service               $cache
-	 * @param \phpbb\config\config               $config
-	 * @param ContainerInterface                 $container
-	 * @param \phpbb\controller\helper           $helper
-	 * @param \phpbb\db\driver\driver_interface  $db
-	 * @param \phpbb\language\language           $lang
-	 * @param \phpbb\log\log                     $log
-	 * @param \phpbb\request\request             $request
-	 * @param \phpbb\template\template           $template
-	 * @param \phpbb\user                        $user
-	 * @param string                             $root_path
-	 * @param string                             $php_ext
-	 * @param string                             $kb_articles_table
-	 * @param string                             $kb_article_category_table
-	 * @param string                             $kb_categories_table
+	 * @param \phpbb\cache\driver\driver_interface  $cache
+	 * @param \phpbb\config\config                  $config
+	 * @param ContainerInterface                    $container
+	 * @param \phpbb\controller\helper              $helper
+	 * @param \phpbb\db\driver\driver_interface     $db
+	 * @param \phpbb\language\language              $lang
+	 * @param \phpbb\log\log                        $log
+	 * @param \phpbb\request\request                $request
+	 * @param \phpbb\template\template              $template
+	 * @param \phpbb\user                           $user
+	 * @param string                                $root_path
+	 * @param string                                $php_ext
+	 * @param string                                $kb_articles_table
+	 * @param string                                $kb_article_category_table
+	 * @param string                                $kb_categories_table
 	 */
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, ContainerInterface $container, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_articles_table, $kb_article_category_table, $kb_categories_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\config\config $config, ContainerInterface $container, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $lang, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext, $kb_articles_table, $kb_article_category_table, $kb_categories_table)
 	{
 		$this->cache = $cache;
 		$this->config = $config;
@@ -196,36 +196,39 @@ class admin_controller implements admin_interface
 		}
 		$this->db->sql_freeresult($result);
 
-		foreach ($rowlist as $category_id)
+		if (!empty($rowlist))
 		{
-			$row = $rowset[$category_id];
-
-			$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
-
-			// Set output block vars for display in the template
-			$categories = array(
-				'CATEGORY_NAME'			=> $entity->get_title(),
-				'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
-
-				'U_DELETE'		=> "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
-				'U_EDIT'		=> "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
-				'U_MOVE_DOWN'	=> "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
-				'U_MOVE_UP'		=> "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
-			);
-
-			$sql = 'SELECT COUNT(article_id) AS articles
-				FROM ' . $this->kb_article_category_table . ' ac
-				WHERE category_id = ' . $row['category_id'];
-			$result = $this->db->sql_query($sql);
-			while ($data = $this->db->sql_fetchrow($result))
+			foreach ($rowlist as $category_id)
 			{
-				$categories['ARTICLES'] = $data['articles'];
+				$row = $rowset[$category_id];
+
+				$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
+
+				// Set output block vars for display in the template
+				$categories = array(
+					'CATEGORY_NAME'			=> $entity->get_title(),
+					'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
+
+					'U_DELETE'		=> "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
+					'U_EDIT'		=> "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
+					'U_MOVE_DOWN'	=> "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
+					'U_MOVE_UP'		=> "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
+				);
+
+				$sql = 'SELECT COUNT(article_id) AS articles
+					FROM ' . $this->kb_article_category_table . ' ac
+					WHERE category_id = ' . $row['category_id'];
+				$result = $this->db->sql_query($sql);
+				while ($data = $this->db->sql_fetchrow($result))
+				{
+					$categories['ARTICLES'] = $data['articles'];
+				}
+				$this->db->sql_freeresult($result);
+
+				$this->template->assign_block_vars('categories', $categories);
+
+				unset($rowset[$category_id]);
 			}
-			$this->db->sql_freeresult($result);
-
-			$this->template->assign_block_vars('categories', $categories);
-
-			unset($rowset[$category_id]);
 		}
 
 		// Set output vars for display in the template
@@ -383,7 +386,7 @@ class admin_controller implements admin_interface
 				}
 				catch (\kinerity\knowledgebase\exception\out_of_bounds $e)
 				{
-					trigger_error($e->get_message($this->user) . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($e->get_message($this->lang) . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_EDIT_LOG', time(), array($data['category_name']));
@@ -400,7 +403,7 @@ class admin_controller implements admin_interface
 				}
 				catch (\kinerity\knowledgebase\exception\out_of_bounds $e)
 				{
-					trigger_error($e->get_message($this->user) . adm_back_link($this->u_action), E_USER_WARNING);
+					trigger_error($e->get_message($this->lang) . adm_back_link($this->u_action), E_USER_WARNING);
 				}
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_ADD_LOG', time(), array($data['category_name']));
@@ -454,7 +457,8 @@ class admin_controller implements admin_interface
 			FROM ' . $this->kb_categories_table . '
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql);
-		$options_list = $rows = $data = array();
+		$options_list = '';
+		$rows = $data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$rows[] = $row['category_id'];
@@ -526,6 +530,7 @@ class admin_controller implements admin_interface
 			if ($this->request->is_set_post('submit'))
 			{
 				$j = 0;
+				$list = '';
 
 				if ($delete_action == 'delete')
 				{
