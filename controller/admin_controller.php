@@ -445,7 +445,7 @@ class admin_controller implements admin_interface
 			FROM ' . $this->kb_categories_table . '
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql);
-		$options_list = '';
+		$options_list = $category_name ='';
 		$rows = $data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -518,7 +518,7 @@ class admin_controller implements admin_interface
 			if ($this->request->is_set_post('submit'))
 			{
 				$j = 0;
-				$list = '';
+				$list = $message = '';
 
 				if ($delete_action == 'delete')
 				{
@@ -559,7 +559,7 @@ class admin_controller implements admin_interface
 						$list .= '<br />- ' . $subject;
 					}
 
-					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED', $j, $list);
+					$message = $this->lang->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED', $j, $list);
 				}
 				else if ($delete_action == 'move')
 				{
@@ -606,7 +606,7 @@ class admin_controller implements admin_interface
 						$this->db->sql_query($sql);
 					}
 
-					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED', $j, $list);
+					$message = $this->lang->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED', $j, $list);
 				}
 
 				// All articles handled, delete the category and log an entry
@@ -616,7 +616,7 @@ class admin_controller implements admin_interface
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
 
-				$message = ($j > 0) ? $message : $this->user->lang('ACP_CATEGORY_DELETED');
+				$message = ($j > 0) ? $message : $this->lang->lang('ACP_CATEGORY_DELETED');
 				trigger_error($message . adm_back_link($this->u_action));
 			}
 
