@@ -202,6 +202,7 @@ class admin_controller implements admin_interface
 			{
 				$row = $rowset[$category_id];
 
+				/** @var \kinerity\knowledgebase\entity\functions $entity */
 				$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
 
 				// Set output block vars for display in the template
@@ -251,6 +252,7 @@ class admin_controller implements admin_interface
 		add_form_key('add_edit_category');
 
 		// Initiate an entity
+		/** @var \kinerity\knowledgebase\entity\functions $entity */
 		$entity = $this->container->get('kinerity.knowledgebase.functions.entity');
 
 		// Collect the form data
@@ -286,6 +288,7 @@ class admin_controller implements admin_interface
 		add_form_key('add_edit_category');
 
 		// Initiate and load the entity
+		/** @var \kinerity\knowledgebase\entity\functions $entity */
 		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 		// Collect the form data
@@ -311,8 +314,8 @@ class admin_controller implements admin_interface
 	/**
 	 * Process category data to be added or edited
 	 *
-	 * @param array $entity The entity object
-	 * @param array $data The form data to be processed
+	 * @param \kinerity\knowledgebase\entity\functions $entity The entity object
+	 * @param array                                    $data   The form data to be processed
 	 * @return void
 	 * @access protected
 	 */
@@ -450,6 +453,7 @@ class admin_controller implements admin_interface
 		add_form_key('delete_category');
 
 		// Initiate and load the entity
+		/** @var \kinerity\knowledgebase\entity\functions $entity */
 		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 		// Build an array of categories
@@ -648,9 +652,9 @@ class admin_controller implements admin_interface
 	/**
 	 * Move a category up/down
 	 *
-	 * @param int $category_id The category identifier to move
-	 * @param string $direction The direction (up|down)
-	 * @param int $amount The number of places to move the category
+	 * @param int    $category_id The category identifier to move
+	 * @param string $direction   The direction (up|down)
+	 * @param int    $amount      The number of places to move the category
 	 * @return void
 	 * @access public
 	 */
@@ -684,7 +688,7 @@ class admin_controller implements admin_interface
 		if (!sizeof($target))
 		{
 			// The category is already on top or bottom
-			return false;
+			return;
 		}
 
 		/**

@@ -246,6 +246,7 @@ class main_controller implements main_interface
 
 				if ($category_id != 0)
 				{
+					/** @var \kinerity\knowledgebase\entity\functions $entity */
 					$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 					$this->template->assign_vars(array(
