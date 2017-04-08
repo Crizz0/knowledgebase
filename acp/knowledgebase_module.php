@@ -86,13 +86,9 @@ class knowledgebase_module
 					break;
 
 					case 'move_down':
-						// Move a category down one position
-						$admin_controller->move_category($category_id, 'down');
-					break;
-
 					case 'move_up':
-						// Move a category up one position
-						$admin_controller->move_category($category_id, 'up');
+						// Move a category
+						$admin_controller->move_category($category_id, $action);
 					break;
 
 					case 'delete':

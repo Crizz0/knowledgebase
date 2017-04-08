@@ -638,11 +638,10 @@ class admin_controller implements admin_interface
 	 *
 	 * @param int    $category_id The category identifier to move
 	 * @param string $direction   The direction (up|down)
-	 * @param int    $amount      The number of places to move the category
 	 * @return void
 	 * @access public
 	 */
-	public function move_category($category_id, $direction, $amount = 1)
+	public function move_category($category_id, $direction)
 	{
 		// Before moving the currency, with check the link hash.
 		// If the hash, is invalid we return an error.
@@ -658,16 +657,41 @@ class admin_controller implements admin_interface
 		$item = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
+		$move_cat_name = $this->move_category_by($item, $direction);
+
+		if ($move_cat_name !== false)
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_' . strtoupper($direction) . '_LOG', time(), array($item['category_name'], $move_cat_name));
+			$this->cache->destroy('sql', $this->kb_categories_table);
+		}
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array('success' => ($move_cat_name !== false)));
+		}
+	}
+
+	/**
+	 * Move category position by $steps up/down
+	 *
+	 * @param array  $cat_row
+	 * @param string $direction
+	 * @param int    $steps
+	 *
+	 * @return string
+	 */
+	private function move_category_by($cat_row, $direction = 'move_up', $steps = 1)
+	{
 		/**
-		 * Fetch all the siblings between the module's current spot
-		 * and where we want to move it to. If there are less than $amount
+		 * Fetch all the siblings between the category's current spot
+		 * and where we want to move it to. If there are less than $steps
 		 * siblings between the current spot and the target then the
-		 * module will move as far as possible
+		 * category will move as far as possible
 		 */
 		$sql = 'SELECT category_id, category_name, left_id, right_id
 			FROM ' . $this->kb_categories_table . "
-			WHERE " . (($direction == 'up') ? "right_id < {$item['right_id']} ORDER BY right_id DESC" : "left_id > {$item['left_id']} ORDER BY left_id ASC");
-		$result = $this->db->sql_query_limit($sql, $amount);
+			WHERE " . (($direction == 'move_up') ? "right_id < {$cat_row['right_id']} ORDER BY right_id DESC" : "left_id > {$cat_row['left_id']} ORDER BY left_id ASC");
+		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -679,36 +703,36 @@ class admin_controller implements admin_interface
 		if (!sizeof($target))
 		{
 			// The category is already on top or bottom
-			return;
+			return false;
 		}
 
 		/**
 		 * $left_id and $right_id define the scope of the nodes that are affected by the move.
-		 * $diff_up and $diff_down are the values to subtract or add to each node's left_id
+		 * $diff_up and $diff_down are the values to substract or add to each node's left_id
 		 * and right_id in order to move them up or down.
 		 * $move_up_left and $move_up_right define the scope of the nodes that are moving
 		 * up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
 		 */
-		if ($direction == 'up')
+		if ($direction == 'move_up')
 		{
 			$left_id = $target['left_id'];
-			$right_id = $item['right_id'];
+			$right_id = $cat_row['right_id'];
 
-			$diff_up = $item['left_id'] - $target['left_id'];
-			$diff_down = $item['right_id'] + 1 - $item['left_id'];
+			$diff_up = $cat_row['left_id'] - $target['left_id'];
+			$diff_down = $cat_row['right_id'] + 1 - $cat_row['left_id'];
 
-			$move_up_left = $item['left_id'];
-			$move_up_right = $item['right_id'];
+			$move_up_left = $cat_row['left_id'];
+			$move_up_right = $cat_row['right_id'];
 		}
 		else
 		{
-			$left_id = $item['left_id'];
+			$left_id = $cat_row['left_id'];
 			$right_id = $target['right_id'];
 
-			$diff_up = $item['right_id'] + 1 - $item['left_id'];
-			$diff_down = $target['right_id'] - $item['right_id'];
+			$diff_up = $cat_row['right_id'] + 1 - $cat_row['left_id'];
+			$diff_down = $target['right_id'] - $cat_row['right_id'];
 
-			$move_up_left = $item['right_id'] + 1;
+			$move_up_left = $cat_row['right_id'] + 1;
 			$move_up_right = $target['right_id'];
 		}
 
@@ -727,8 +751,7 @@ class admin_controller implements admin_interface
 				AND right_id BETWEEN {$left_id} AND {$right_id}";
 		$this->db->sql_query($sql);
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_MOVE_' . strtoupper($direction) . '_LOG', time(), array($item['category_name'], $target['category_name']));
-		$this->cache->destroy('sql', $this->kb_categories_table);
+		return $target['cat_name'];
 	}
 
 	/**

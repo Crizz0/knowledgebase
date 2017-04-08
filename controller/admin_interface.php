@@ -64,11 +64,10 @@ interface admin_interface
 	 *
 	 * @param int $category_id The category identifier to move
 	 * @param string $direction The direction (up|down)
-	 * @param int $amount The number of places to move the category
 	 * @return void
 	 * @access public
 	 */
-	public function move_category($category_id, $direction, $amount = 1);
+	public function move_category($category_id, $direction);
 
 	/**
 	 * Set page url
