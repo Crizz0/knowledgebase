@@ -139,7 +139,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 	/**
 	 * Custom function to add sample data to the database
 	 *
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function insert_sample_data()

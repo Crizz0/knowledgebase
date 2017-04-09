@@ -167,7 +167,7 @@ class article_in_queue extends \phpbb\notification\type\base
 	 * @param array $data The type specific data
 	 * @param array $pre_create_data Data from pre_create_insert_array()
 	 *
-	 * @return array Array of data ready to be inserted into the database
+	 * @return void
 	 */
 	public function create_insert_array($data, $pre_create_data = array())
 	{

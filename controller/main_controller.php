@@ -246,6 +246,7 @@ class main_controller implements main_interface
 
 				if ($category_id != 0)
 				{
+					/** @var \kinerity\knowledgebase\entity\functions $entity */
 					$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 					$this->template->assign_vars(array(
@@ -317,8 +318,7 @@ class main_controller implements main_interface
 				$article_id = $this->request->variable('a', 0);
 				$mode = $this->request->variable('mode', '');
 
-				$submit = ($this->request->is_set_post('submit')) ? true : false;
-				$cancel = ($this->request->is_set_post('cancel')) ? true : false;
+				$cancel = ($this->request->is_set_post('cancel'));
 
 				// Do we have an article or (valid) mode?
 				if (!$article_id)
@@ -496,8 +496,8 @@ class main_controller implements main_interface
 					$article_id = $this->request->variable('a', 0);
 				}
 
-				$submit = ($this->request->is_set_post('submit')) ? true : false;
-				$cancel = ($this->request->is_set_post('cancel')) ? true : false;
+				$submit = ($this->request->is_set_post('submit'));
+				$cancel = ($this->request->is_set_post('cancel'));
 
 				// Is there a valid mode?
 				if (!in_array($mode, array('delete', 'edit', 'post')))
@@ -798,6 +798,7 @@ class main_controller implements main_interface
 				$this->db->sql_freeresult($result);
 
 				// Grab the categories this article belongs to
+				$category_list = array();
 				$sql_ary = array(
 					'SELECT'	=> 'c.*',
 

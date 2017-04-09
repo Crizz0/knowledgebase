@@ -185,57 +185,46 @@ class admin_controller implements admin_interface
 	 */
 	public function display_categories()
 	{
-		$sql = 'SELECT *
-			FROM ' . $this->kb_categories_table . '
-			ORDER BY left_id ASC';
-		$result = $this->db->sql_query($sql);
+		$sql_ary = array(
+			'SELECT'   => 'category_id',
+			'FROM'     => array($this->kb_categories_table => 'kb'),
+			'ORDER_BY' => 'kb.left_id',
+		);
+		$result = $this->db->sql_query($this->db->sql_build_query('SELECT', $sql_ary));
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$rowlist[] = (int) $row['category_id'];
-			$rowset[$row['category_id']] = $row;
+			$category_id = (int) $row['category_id'];
+
+			/** @var \kinerity\knowledgebase\entity\functions $entity */
+			$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
+
+			// Set output block vars for display in the template
+			$categories = array(
+				'CATEGORY_NAME'        => $entity->get_title(),
+				'CATEGORY_DESCRIPTION' => $entity->get_description_for_display(),
+
+				'U_DELETE'    => "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
+				'U_EDIT'      => "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
+				'U_MOVE_DOWN' => "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id() . '&amp;hash=' . generate_link_hash('kb_move'),
+				'U_MOVE_UP'   => "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id() . '&amp;hash=' . generate_link_hash('kb_move'),
+			);
+
+			$sql = 'SELECT COUNT(article_id) AS articles
+				FROM ' . $this->kb_article_category_table . ' ac
+				WHERE category_id = ' . $category_id;
+			$articles_result = $this->db->sql_query($sql);
+			$categories['ARTICLES'] = $this->db->sql_fetchfield('articles');
+			$this->db->sql_freeresult($articles_result);
+
+			$this->template->assign_block_vars('categories', $categories);
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!empty($rowlist))
-		{
-			foreach ($rowlist as $category_id)
-			{
-				$row = $rowset[$category_id];
-
-				$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($row['category_id']);
-
-				// Set output block vars for display in the template
-				$categories = array(
-					'CATEGORY_NAME'			=> $entity->get_title(),
-					'CATEGORY_DESCRIPTION'	=> $entity->get_description_for_display(),
-
-					'U_DELETE'		=> "{$this->u_action}&amp;action=delete&amp;category_id=" . $entity->get_id(),
-					'U_EDIT'		=> "{$this->u_action}&amp;action=edit&amp;category_id=" . $entity->get_id(),
-					'U_MOVE_DOWN'	=> "{$this->u_action}&amp;action=move_down&amp;category_id=" . $entity->get_id(),
-					'U_MOVE_UP'		=> "{$this->u_action}&amp;action=move_up&amp;category_id=" . $entity->get_id(),
-				);
-
-				$sql = 'SELECT COUNT(article_id) AS articles
-					FROM ' . $this->kb_article_category_table . ' ac
-					WHERE category_id = ' . $row['category_id'];
-				$result = $this->db->sql_query($sql);
-				while ($data = $this->db->sql_fetchrow($result))
-				{
-					$categories['ARTICLES'] = $data['articles'];
-				}
-				$this->db->sql_freeresult($result);
-
-				$this->template->assign_block_vars('categories', $categories);
-
-				unset($rowset[$category_id]);
-			}
-		}
-
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
-			'U_ACTION'		=> "{$this->u_action}",
-
-			'U_ADD_CATEGORY'		=> "{$this->u_action}&amp;action=add",
+			'U_ACTION'       => "{$this->u_action}",
+			'U_ADD_CATEGORY' => "{$this->u_action}&amp;action=add",
 		));
 	}
 
@@ -251,6 +240,7 @@ class admin_controller implements admin_interface
 		add_form_key('add_edit_category');
 
 		// Initiate an entity
+		/** @var \kinerity\knowledgebase\entity\functions $entity */
 		$entity = $this->container->get('kinerity.knowledgebase.functions.entity');
 
 		// Collect the form data
@@ -286,6 +276,7 @@ class admin_controller implements admin_interface
 		add_form_key('add_edit_category');
 
 		// Initiate and load the entity
+		/** @var \kinerity\knowledgebase\entity\functions $entity */
 		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
 
 		// Collect the form data
@@ -311,8 +302,8 @@ class admin_controller implements admin_interface
 	/**
 	 * Process category data to be added or edited
 	 *
-	 * @param array $entity The entity object
-	 * @param array $data The form data to be processed
+	 * @param \kinerity\knowledgebase\entity\functions $entity The entity object
+	 * @param array                                    $data   The form data to be processed
 	 * @return void
 	 * @access protected
 	 */
@@ -449,15 +440,12 @@ class admin_controller implements admin_interface
 		// Add form key
 		add_form_key('delete_category');
 
-		// Initiate and load the entity
-		$entity = $this->container->get('kinerity.knowledgebase.functions.entity')->load($category_id);
-
 		// Build an array of categories
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql);
-		$options_list = '';
+		$options_list = $category_name ='';
 		$rows = $data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -530,7 +518,7 @@ class admin_controller implements admin_interface
 			if ($this->request->is_set_post('submit'))
 			{
 				$j = 0;
-				$list = '';
+				$list = $message = '';
 
 				if ($delete_action == 'delete')
 				{
@@ -571,7 +559,7 @@ class admin_controller implements admin_interface
 						$list .= '<br />- ' . $subject;
 					}
 
-					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED', $j, $list);
+					$message = $this->lang->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED', $j, $list);
 				}
 				else if ($delete_action == 'move')
 				{
@@ -618,7 +606,7 @@ class admin_controller implements admin_interface
 						$this->db->sql_query($sql);
 					}
 
-					$message = $this->user->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED', $j, $list);
+					$message = $this->lang->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED', $j, $list);
 				}
 
 				// All articles handled, delete the category and log an entry
@@ -628,7 +616,7 @@ class admin_controller implements admin_interface
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
 
-				$message = ($j > 0) ? $message : $this->user->lang('ACP_CATEGORY_DELETED');
+				$message = ($j > 0) ? $message : $this->lang->lang('ACP_CATEGORY_DELETED');
 				trigger_error($message . adm_back_link($this->u_action));
 			}
 
@@ -648,14 +636,20 @@ class admin_controller implements admin_interface
 	/**
 	 * Move a category up/down
 	 *
-	 * @param int $category_id The category identifier to move
-	 * @param string $direction The direction (up|down)
-	 * @param int $amount The number of places to move the category
+	 * @param int    $category_id The category identifier to move
+	 * @param string $direction   The direction (up|down)
 	 * @return void
 	 * @access public
 	 */
-	public function move_category($category_id, $direction, $amount = 1)
+	public function move_category($category_id, $direction)
 	{
+		// Before moving the currency, with check the link hash.
+		// If the hash, is invalid we return an error.
+		if (!check_link_hash($this->request->variable('hash', ''), 'kb_move'))
+		{
+			trigger_error($this->lang->lang('ACP_KNOWLEDGEDABE_INVALID_HASH') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
 			WHERE category_id = ' . (int) $category_id;
@@ -663,16 +657,41 @@ class admin_controller implements admin_interface
 		$item = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
+		$move_cat_name = $this->move_category_by($item, $direction);
+
+		if ($move_cat_name !== false)
+		{
+			$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_' . strtoupper($direction) . '_LOG', time(), array($item['category_name'], $move_cat_name));
+			$this->cache->destroy('sql', $this->kb_categories_table);
+		}
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array('success' => ($move_cat_name !== false)));
+		}
+	}
+
+	/**
+	 * Move category position by $steps up/down
+	 *
+	 * @param array  $cat_row
+	 * @param string $direction
+	 * @param int    $steps
+	 *
+	 * @return string
+	 */
+	private function move_category_by($cat_row, $direction = 'move_up', $steps = 1)
+	{
 		/**
-		 * Fetch all the siblings between the module's current spot
-		 * and where we want to move it to. If there are less than $amount
+		 * Fetch all the siblings between the category's current spot
+		 * and where we want to move it to. If there are less than $steps
 		 * siblings between the current spot and the target then the
-		 * module will move as far as possible
+		 * category will move as far as possible
 		 */
 		$sql = 'SELECT category_id, category_name, left_id, right_id
 			FROM ' . $this->kb_categories_table . "
-			WHERE " . (($direction == 'up') ? "right_id < {$item['right_id']} ORDER BY right_id DESC" : "left_id > {$item['left_id']} ORDER BY left_id ASC");
-		$result = $this->db->sql_query_limit($sql, $amount);
+			WHERE " . (($direction == 'move_up') ? "right_id < {$cat_row['right_id']} ORDER BY right_id DESC" : "left_id > {$cat_row['left_id']} ORDER BY left_id ASC");
+		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
 		while ($row = $this->db->sql_fetchrow($result))
@@ -689,31 +708,31 @@ class admin_controller implements admin_interface
 
 		/**
 		 * $left_id and $right_id define the scope of the nodes that are affected by the move.
-		 * $diff_up and $diff_down are the values to subtract or add to each node's left_id
+		 * $diff_up and $diff_down are the values to substract or add to each node's left_id
 		 * and right_id in order to move them up or down.
 		 * $move_up_left and $move_up_right define the scope of the nodes that are moving
 		 * up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
 		 */
-		if ($direction == 'up')
+		if ($direction == 'move_up')
 		{
 			$left_id = $target['left_id'];
-			$right_id = $item['right_id'];
+			$right_id = $cat_row['right_id'];
 
-			$diff_up = $item['left_id'] - $target['left_id'];
-			$diff_down = $item['right_id'] + 1 - $item['left_id'];
+			$diff_up = $cat_row['left_id'] - $target['left_id'];
+			$diff_down = $cat_row['right_id'] + 1 - $cat_row['left_id'];
 
-			$move_up_left = $item['left_id'];
-			$move_up_right = $item['right_id'];
+			$move_up_left = $cat_row['left_id'];
+			$move_up_right = $cat_row['right_id'];
 		}
 		else
 		{
-			$left_id = $item['left_id'];
+			$left_id = $cat_row['left_id'];
 			$right_id = $target['right_id'];
 
-			$diff_up = $item['right_id'] + 1 - $item['left_id'];
-			$diff_down = $target['right_id'] - $item['right_id'];
+			$diff_up = $cat_row['right_id'] + 1 - $cat_row['left_id'];
+			$diff_down = $target['right_id'] - $cat_row['right_id'];
 
-			$move_up_left = $item['right_id'] + 1;
+			$move_up_left = $cat_row['right_id'] + 1;
 			$move_up_right = $target['right_id'];
 		}
 
@@ -732,8 +751,7 @@ class admin_controller implements admin_interface
 				AND right_id BETWEEN {$left_id} AND {$right_id}";
 		$this->db->sql_query($sql);
 
-		$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_MOVE_' . strtoupper($direction) . '_LOG', time(), array($item['category_name'], $target['category_name']));
-		$this->cache->destroy('sql', $this->kb_categories_table);
+		return $target['cat_name'];
 	}
 
 	/**

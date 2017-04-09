@@ -21,10 +21,13 @@ class knowledgebase_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $request;
+		global $phpbb_container;
 
 		/** @var \phpbb\language\language $lang */
 		$lang = $phpbb_container->get('language');
+
+		/** @var \phpbb\request\request $request */
+		$request = $phpbb_container->get('request');
 
 		// Get an instance of the admin controller
 		$admin_controller = $phpbb_container->get('kinerity.knowledgebase.admin.controller');
@@ -83,13 +86,9 @@ class knowledgebase_module
 					break;
 
 					case 'move_down':
-						// Move a category down one position
-						$admin_controller->move_category($category_id, 'down');
-					break;
-
 					case 'move_up':
-						// Move a category up one position
-						$admin_controller->move_category($category_id, 'up');
+						// Move a category
+						$admin_controller->move_category($category_id, $action);
 					break;
 
 					case 'delete':
