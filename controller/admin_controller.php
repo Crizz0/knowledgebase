@@ -648,7 +648,7 @@ class admin_controller implements admin_interface
 		if (!check_link_hash($this->request->variable('hash', ''), 'kb_move'))
 		{
 			trigger_error($this->lang->lang('ACP_KNOWLEDGEDABE_INVALID_HASH') . adm_back_link($this->u_action), E_USER_WARNING);
-		};
+		}
 
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
