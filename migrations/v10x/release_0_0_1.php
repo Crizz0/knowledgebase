@@ -14,10 +14,28 @@ use \phpbb\db\migration\container_aware_migration;
 
 class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 {
+	/**
+	 * Assign migration file dependencies for this migration
+	 *
+	 * @return void
+	 * @access public
+	 */
+	static public function depends_on()
+	{
+		return array('\phpbb\db\migration\data\v320\v320');
+	}
+
+	/**
+	 * Add the knowledgebase table schema to the database
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function update_schema()
 	{
 		return array(
 			'add_tables'		=> array(
+				// Articles table
 				$this->table_prefix . 'kb_articles'	=> array(
 					'COLUMNS'		=> array(
 						'article_id'				=> array('UINT', NULL, 'auto_increment'),
@@ -40,6 +58,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 					'PRIMARY_KEY'	=> 'article_id',
 				),
 
+				// Article <> Category relationship table
 				$this->table_prefix . 'kb_article_category'	=> array(
 					'COLUMNS'		=> array(
 						'category_id'		=> array('UINT', 0),
@@ -47,6 +66,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 					),
 				),
 
+				// Categories table
 				$this->table_prefix . 'kb_categories'	=> array(
 					'COLUMNS'		=> array(
 						'category_id'				=> array('UINT', null, 'auto_increment'),
@@ -64,13 +84,21 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 		);
 	}
 
+	/**
+	 * Add or update data in the database
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function update_data()
 	{
-		return array(
+		$data = array(
+			// Add config
 			array('config.add', array('knowledgebase_enable', '0')),
 			array('config.add', array('knowledgebase_header_link', '1')),
 			array('config.add', array('knowledgebase_font_icon', 'clone')),
 
+			// Add permissions
 			array('permission.add', array('u_kb_read')),
 			array('permission.add', array('u_kb_post')),
 			array('permission.add', array('u_kb_edit')),
@@ -84,31 +112,10 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 
 			array('permission.add', array('a_kb_manage')),
 
-			array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_read')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_read')),
-			array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_post')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_post')),
-			array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_edit')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_edit')),
-			array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_delete')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_delete')),
-			array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_noapprove')),
-			array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_noapprove')),
-
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_edit')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_edit')),
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_delete')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_delete')),
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_approve')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_approve')),
-			array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_chgposter')),
-			array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_chgposter')),
-
-			array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_kb_manage')),
-			array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_kb_manage')),
-
+			// Insert sample knowledgebase data
 			array('custom', array(array($this, 'insert_sample_data'))),
 
+			// Add module
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
@@ -123,8 +130,60 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 				),
 			)),
 		);
+
+		if ($this->role_exists('ROLE_USER_STANDARD'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_read'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_post'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_edit'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_delete'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_STANDARD', 'u_kb_noapprove'));
+		}
+
+		if ($this->role_exists('ROLE_USER_FULL'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_read'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_post'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_edit'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_delete'));
+			$data[] = array('permission.permission_set', array('ROLE_USER_FULL', 'u_kb_noapprove'));
+		}
+
+		if ($this->role_exists('ROLE_MOD_STANDARD'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_edit'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_delete'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_approve'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_STANDARD', 'm_kb_chgposter'));
+		}
+
+		if ($this->role_exists('ROLE_MOD_FULL'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_edit'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_delete'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_approve'));
+			$data[] = array('permission.permission_set', array('ROLE_MOD_FULL', 'm_kb_chgposter'));
+		}
+
+		if ($this->role_exists('ROLE_ADMIN_STANDARD'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_STANDARD', 'a_kb_manage'));
+		}
+
+		if ($this->role_exists('ROLE_ADMIN_FULL'))
+		{
+			$data[] = array('permission.permission_set', array('ROLE_ADMIN_FULL', 'a_kb_manage'));
+		}
+
+		return $data;
 	}
 
+	/**
+	 * Drop the knowledgebase table schema from the database
+	 *
+	 * @return void
+	 * @access public
+	 */
 	public function revert_schema()
 	{
 		return array(
@@ -137,6 +196,24 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 	}
 
 	/**
+	 * Custom function query permission roles
+	 *
+	 * @return void
+	 * @access public
+	 */
+	private function role_exists($role)
+	{
+		$sql = 'SELECT role_id
+			FROM ' . ACL_ROLES_TABLE . "
+			WHERE role_name = '" . $this->db->sql_escape($role) . "'";
+		$result = $this->db->sql_query_limit($sql, 1);
+		$role_id = $this->db->sql_fetchfield('role_id');
+		$this->db->sql_freeresult($result);
+
+		return $role_id;
+	}
+
+	/**
 	 * Custom function to add sample data to the database
 	 *
 	 * @return void
@@ -146,7 +223,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 	{
 		$user = $this->container->get('user');
 
-		// Define sample data
+		// Define sample category data
 		$sample_data_categories = array(
 			array(
 				'category_id'				=> 1,
@@ -160,6 +237,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 			),
 		);
 
+		// Define sample article data
 		$sample_data_articles = array(
 			array(
 				'article_id'				=> 1,
@@ -181,6 +259,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 			),
 		);
 
+		// Define sample article <> category relationship data
 		$sample_data_article_category = array(
 			array(
 				'category_id'		=> 1,
