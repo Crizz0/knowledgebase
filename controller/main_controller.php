@@ -280,7 +280,7 @@ class main_controller implements main_interface
 					while ($row = $this->db->sql_fetchrow($result))
 					{
 						// Set the category link here, the list will be imploded later
-						$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
+						$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
 						$category_list[$row['article_id']][] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 					}
 					$this->db->sql_freeresult($result);
@@ -821,7 +821,7 @@ class main_controller implements main_interface
 				$result = $this->db->sql_query($sql);
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-					$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}/app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
+					$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
 					$category_list[] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 				}
 				$this->db->sql_freeresult($result);
