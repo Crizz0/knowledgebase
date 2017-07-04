@@ -663,7 +663,7 @@ class main_controller implements main_interface
 							'article_text'			=> $text,
 							'bbcode_bitfield'		=> $bitfield,
 							'bbcode_uid'			=> $uid,
-							'article_visibility'	=> ($mode == 'edit') ? $row['article_visibility'] : ($this->auth->acl_get('u_kb_noapprove') ? constants::ARTICLE_APPROVED : constants::ARTICLE_DISAPPROVED),
+							'article_visibility'	=> $this->auth->acl_get('u_kb_noapprove') ? constants::ARTICLE_APPROVED : constants::ARTICLE_DISAPPROVED,
 							'article_views'			=> ($mode == 'edit') ? $row['article_views'] : 0,
 						);
 
@@ -701,13 +701,20 @@ class main_controller implements main_interface
 							$this->db->sql_query($sql);
 						}
 
-						if ($mode == 'post' && !$this->auth->acl_get('m_kb_approve') && !$this->auth->acl_get('u_kb_noapprove'))
+						if (($mode == 'post' || $mode == 'edit') && !$this->auth->acl_get('m_kb_approve') && !$this->auth->acl_get('u_kb_noapprove'))
 						{
 							// Store the notification data we will use in an array
 							$notification_data = array(
 								'article_id'	=> (int) $article_id,
+								'article_poster_id'	=> (int) $user_row['user_id'],
 								'article_title'	=> $title,
 							);
+
+							if ($mode == 'edit')
+							{
+								// Delete the notification
+								$this->notification_manager->delete_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
+							}
 
 							// Create the notification
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
@@ -825,6 +832,11 @@ class main_controller implements main_interface
 					$category_list[] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 				}
 				$this->db->sql_freeresult($result);
+
+				if ($data['article_visibility'] <> constants::ARTICLE_APPROVED && !$this->auth->acl_get('m_kb_approve'))
+				{
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+				}
 
 				// Update the views counter
 				$sql = 'UPDATE ' . $this->kb_articles_table . ' SET article_views = article_views + 1 WHERE article_id = ' . (int) $article_id;
