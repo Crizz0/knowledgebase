@@ -437,6 +437,8 @@ class admin_controller implements admin_interface
 	 */
 	public function delete_category($category_id)
 	{
+		// No form key functions needed - https://wiki.phpbb.com/Function.confirm_box
+
 		// Build an array of categories
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '
