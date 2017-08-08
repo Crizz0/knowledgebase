@@ -437,9 +437,6 @@ class admin_controller implements admin_interface
 	 */
 	public function delete_category($category_id)
 	{
-		// Add form key
-		add_form_key('delete_category');
-
 		// Build an array of categories
 		$sql = 'SELECT *
 			FROM ' . $this->kb_categories_table . '

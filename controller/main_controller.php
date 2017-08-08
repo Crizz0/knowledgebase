@@ -130,6 +130,7 @@ class main_controller implements main_interface
 			case 'index':
 				$type = $this->request->variable('type', 'approved');
 				$category_id = $this->request->variable('c', 0);
+				$rowset = $article_list = $category_list = array();
 
 				// Basic pagewide vars
 				$this->template->assign_vars(array(
@@ -280,7 +281,7 @@ class main_controller implements main_interface
 					while ($row = $this->db->sql_fetchrow($result))
 					{
 						// Set the category link here, the list will be imploded later
-						$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
+						$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index', 'c' => (int) $row['category_id']));
 						$category_list[$row['article_id']][] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 					}
 					$this->db->sql_freeresult($result);
@@ -392,6 +393,16 @@ class main_controller implements main_interface
 						{
 							// Set the article title to a var it can be referenced later
 							$title = $row['article_title'];
+
+							// Store the notification data we will use in an array
+							$notification_data = array(
+								'article_id'		=> (int) $article_id,
+								'article_poster_id'	=> (int) $row['article_poster_id'],
+								'article_title'		=> $row['article_title'],
+							);
+
+							// Create the notification
+							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.delete_article', $notification_data);
 
 							$sql = 'DELETE FROM ' . $this->kb_articles_table . '
 								WHERE article_id = ' . (int) $article_id;
@@ -828,7 +839,7 @@ class main_controller implements main_interface
 				$result = $this->db->sql_query($sql);
 				while ($row = $this->db->sql_fetchrow($result))
 				{
-					$url = $this->config['enable_mod_rewrite'] ? append_sid("{$this->root_path}kb/index", 'c=' . (int) $row['category_id']) : append_sid("{$this->root_path}app.$this->php_ext" . '/kb/index', 'c=' . (int) $row['category_id']);
+					$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index', 'c' => (int) $row['category_id']));
 					$category_list[] = '<a href="' . $url . '">' . $row['category_name'] . '</a>';
 				}
 				$this->db->sql_freeresult($result);
@@ -866,6 +877,7 @@ class main_controller implements main_interface
 					'U_EDIT'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $data['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit', 'a' => (int) $article_id)) : '',
 
 					'U_VIEW_ARTICLE'		=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id)),
+					//'U_VIEW_ARTICLE_LINK'	=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id)),
 					'U_VIEW_ARTICLE_LINK'	=> $this->config['enable_mod_rewrite'] ? append_sid($board_url . '/kb/viewarticle', 'a=' . (int) $article_id) : append_sid($board_url . '/app.' . $this->php_ext . '/kb/viewarticle', 'a=' . (int) $article_id),
 				));
 

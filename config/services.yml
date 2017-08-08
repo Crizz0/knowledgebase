@@ -79,6 +79,15 @@ services:
         tags:
             - { name: notification.type }
 
+    kinerity.knowledgebase.notification.type.delete_article:
+        class: kinerity\knowledgebase\notification\type\delete_article
+        shared: false # service MUST not be shared for this to work!
+        parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
+        tags:
+            - { name: notification.type }
+
     kinerity.knowledgebase.notification.type.deny_article:
         class: kinerity\knowledgebase\notification\type\deny_article
         shared: false # service MUST not be shared for this to work!

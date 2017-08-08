@@ -20,7 +20,7 @@ class ext extends \phpbb\extension\base
 	 * The current phpBB version should meet or exceed
 	 * the minimum version required by this extension:
 	 *
-	 * Requires phpBB 3.2.0 and PHP 5.3.3.
+	 * Requires phpBB 3.2.0 and PHP 5.4.0.
 	 *
 	 * @return bool
 	 * @access public
@@ -29,7 +29,7 @@ class ext extends \phpbb\extension\base
 	{
 		$config = $this->container->get('config');
 
-		return phpbb_version_compare($config['version'], '3.2.0', '>=') && version_compare(PHP_VERSION, '5.3.3', '>=');
+		return phpbb_version_compare($config['version'], '3.2.0', '>=') && version_compare(PHP_VERSION, '5.4.0', '>=');
 	}
 
 	/**
@@ -48,6 +48,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('kinerity.knowledgebase.notification.type.article_in_queue');
 				$phpbb_notifications->enable_notifications('kinerity.knowledgebase.notification.type.approve_article');
+				$phpbb_notifications->enable_notifications('kinerity.knowledgebase.notification.type.delete_article');
 				$phpbb_notifications->enable_notifications('kinerity.knowledgebase.notification.type.deny_article');
 				$phpbb_notifications->enable_notifications('kinerity.knowledgebase.notification.type.disapprove_article');
 				return 'notification';
@@ -78,6 +79,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('kinerity.knowledgebase.notification.type.article_in_queue');
 				$phpbb_notifications->disable_notifications('kinerity.knowledgebase.notification.type.approve_article');
+				$phpbb_notifications->disable_notifications('kinerity.knowledgebase.notification.type.delete_article');
 				$phpbb_notifications->disable_notifications('kinerity.knowledgebase.notification.type.deny_article');
 				$phpbb_notifications->disable_notifications('kinerity.knowledgebase.notification.type.disapprove_article');
 				return 'notification';
@@ -108,6 +110,7 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->purge_notifications('kinerity.knowledgebase.notification.type.article_in_queue');
 				$phpbb_notifications->purge_notifications('kinerity.knowledgebase.notification.type.approve_article');
+				$phpbb_notifications->purge_notifications('kinerity.knowledgebase.notification.type.delete_article');
 				$phpbb_notifications->purge_notifications('kinerity.knowledgebase.notification.type.deny_article');
 				$phpbb_notifications->purge_notifications('kinerity.knowledgebase.notification.type.disapprove_article');
 				return 'notification';

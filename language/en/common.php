@@ -88,6 +88,7 @@ $lang = array_merge($lang, array(
 	'NARROW_SEARCH'	=> 'Narrow down your search by selecting a category',
 
 	'NOTIFICATION_ARTICLE_APPROVED'		=> '<strong>Article approved</strong>: %1$s',
+	'NOTIFICATION_ARTICLE_DELETED'		=> '<strong>Article deleted</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DENIED'		=> '<strong>Article denied</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DISAPPROVED'	=> '<strong>Article disapproved</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_IN_QUEUE'		=> '<strong>Knowledge Base article approval</strong> request: %1$s',
