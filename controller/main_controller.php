@@ -11,6 +11,7 @@
 namespace kinerity\knowledgebase\controller;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use kinerity\knowledgebase\constants;
 
 /**
@@ -519,7 +520,7 @@ class main_controller implements main_interface
 				// Was cancel pressed? If so, redirect back to where we were
 				if ($cancel)
 				{
-					$param = $article_id ? array('page' => 'viewarticle', 'a' => (int) $article_id) : array('page' => 'index');
+					$param = isset($article_id) ? array('page' => 'viewarticle', 'a' => (int) $article_id) : array('page' => 'index');
 					$url = $this->helper->route('kinerity_knowledgebase_main_controller', $param);
 					redirect($url);
 				}
@@ -877,8 +878,7 @@ class main_controller implements main_interface
 					'U_EDIT'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $data['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit', 'a' => (int) $article_id)) : '',
 
 					'U_VIEW_ARTICLE'		=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id)),
-					//'U_VIEW_ARTICLE_LINK'	=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id)),
-					'U_VIEW_ARTICLE_LINK'	=> $this->config['enable_mod_rewrite'] ? append_sid($board_url . '/kb/viewarticle', 'a=' . (int) $article_id) : append_sid($board_url . '/app.' . $this->php_ext . '/kb/viewarticle', 'a=' . (int) $article_id),
+					'U_VIEW_ARTICLE_LINK'	=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id), true, false, UrlGeneratorInterface::ABSOLUTE_URL),
 				));
 
 				return $this->helper->render('viewarticle_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $data['article_title']);
