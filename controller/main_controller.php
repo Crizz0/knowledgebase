@@ -628,14 +628,9 @@ class main_controller implements main_interface
 
 				if ($submit)
 				{
-					// You can't use isset() on the result of an expression, so assign them to a variable here
-					$disable_bbcode = $this->request->is_set_post('disable_bbcode');
-					$disable_smilies = $this->request->is_set_post('disable_smilies');
-					$disable_magic_url = $this->request->is_set_post('disable_magic_url');
-
-					$article_bbcode		= (!$bbcode_status || isset($disable_bbcode)) ? false : true;
-					$article_smilies	= (!$smilies_status || isset($disable_smilies)) ? false : true;
-					$article_urls		= (isset($disable_magic_url)) ? 0 : 1;
+					$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
+					$article_smilies	= (!$smilies_status || $this->request->is_set_post('disable_smilies')) ? false : true;
+					$article_urls		= ($this->request->is_set_post('disable_magic_url')) ? 0 : 1;
 
 					// Grab the user_id from the username field
 					$sql = 'SELECT *
