@@ -556,8 +556,15 @@ class main_controller implements main_interface
 				display_custom_bbcodes();
 				generate_smilies('inline', 0);
 
+				// HTML, BBCode, Smilies, Images and Flash status
+				$bbcode_status	= ($this->config['allow_bbcode']) ? true : false;
+				$smilies_status	= ($this->config['allow_smilies']) ? true : false;
+				$img_status		= ($bbcode_status) ? true : false;
+				$url_status		= ($this->config['allow_post_links']) ? true : false;
+				$flash_status	= ($bbcode_status && $this->config['allow_post_flash']) ? true : false;
+				$quote_status	= true;
+
 				$uid = $bitfield = $options = '';
-				$allow_bbcode = $allow_urls = $allow_smilies = true;
 
 				switch ($mode)
 				{
@@ -621,6 +628,15 @@ class main_controller implements main_interface
 
 				if ($submit)
 				{
+					// You can't use isset() on the result of an expression, so assign them to a variable here
+					$disable_bbcode = $this->request->is_set_post('disable_bbcode');
+					$disable_smilies = $this->request->is_set_post('disable_smilies');
+					$disable_magic_url = $this->request->is_set_post('disable_magic_url');
+
+					$article_bbcode		= (!$bbcode_status || isset($disable_bbcode)) ? false : true;
+					$article_smilies	= (!$smilies_status || isset($disable_smilies)) ? false : true;
+					$article_urls		= (isset($disable_magic_url)) ? 0 : 1;
+
 					// Grab the user_id from the username field
 					$sql = 'SELECT *
 						FROM ' . USERS_TABLE . "
@@ -658,7 +674,7 @@ class main_controller implements main_interface
 
 					if (!sizeof($error))
 					{
-						generate_text_for_storage($text, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
+						generate_text_for_storage($text, $uid, $bitfield, $options, (bool) $article_bbcode, (bool) $article_smilies, (bool) $article_urls);
 
 						// Create an array with all data to be inserted
 						$sql_array = array(
@@ -669,9 +685,9 @@ class main_controller implements main_interface
 							'article_poster_colour'	=> $user_row['user_colour'],
 							'article_time'			=> ($mode == 'edit') ? $row['article_time'] : $current_time,
 							'article_edit_time'		=> ($mode == 'edit') ? $current_time : 0,
-							'enable_bbcode'			=> $allow_bbcode,
-							'enable_smilies'		=> $allow_smilies,
-							'enable_magic_url'		=> $allow_urls,
+							'enable_bbcode'			=> (bool) $article_bbcode,
+							'enable_smilies'		=> (bool) $article_smilies,
+							'enable_magic_url'		=> (bool) $article_urls,
 							'article_text'			=> $text,
 							'bbcode_bitfield'		=> $bitfield,
 							'bbcode_uid'			=> $uid,
@@ -776,6 +792,10 @@ class main_controller implements main_interface
 				}
 				$this->db->sql_freeresult($result);
 
+				$bbcode_checked		= (isset($article_bbcode)) ? !$article_bbcode : (($this->config['allow_bbcode']) ? !$this->user->optionget('bbcode') : 1);
+				$smilies_checked	= (isset($article_smilies)) ? !$article_smilies : (($this->config['allow_smilies']) ? !$this->user->optionget('smilies') : 1);
+				$urls_checked		= (isset($article_urls)) ? !$article_urls : 0;
+
 				// Now assign vars to the template
 				$this->template->assign_vars(array(
 					'USERNAME'				=> ($mode == 'edit') ? $row['username'] : $username,
@@ -783,12 +803,31 @@ class main_controller implements main_interface
 					'ARTICLE_DESCRIPTION'	=> ($mode == 'edit') ? $row['article_description'] : $description,
 					'ARTICLE_TEXT'			=> ($mode == 'edit') ? $row['article_text'] : $text,
 
+					'BBCODE_STATUS'			=> $this->lang->lang(($bbcode_status ? 'BBCODE_IS_ON' : 'BBCODE_IS_OFF'), '<a href="' . $this->helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
+					'IMG_STATUS'			=> ($img_status) ? $this->lang->lang('IMAGES_ARE_ON') : $this->lang->lang('IMAGES_ARE_OFF'),
+					'FLASH_STATUS'			=> ($flash_status) ? $this->lang->lang('FLASH_IS_ON') : $this->lang->lang('FLASH_IS_OFF'),
+					'SMILIES_STATUS'		=> ($smilies_status) ? $this->lang->lang('SMILIES_ARE_ON') : $this->lang->lang('SMILIES_ARE_OFF'),
+					'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->lang->lang('URL_IS_ON') : $this->lang->lang('URL_IS_OFF'),
+
 					'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : '',
 
 					'S_CATEGORY_OPTIONS'	=> $s_category_options,
 					'S_CHGPOSTER'			=> $this->auth->acl_get('m_kb_chgposter') ? true : false,
+
+					'S_BBCODE_ALLOWED'			=> ($bbcode_status) ? 1 : 0,
+					'S_BBCODE_CHECKED'			=> ($bbcode_checked) ? ' checked="checked"' : '',
+					'S_SMILIES_ALLOWED'			=> $smilies_status,
+					'S_SMILIES_CHECKED'			=> ($smilies_checked) ? ' checked="checked"' : '',
+					'S_LINKS_ALLOWED'			=> $url_status,
+					'S_MAGIC_URL_CHECKED'		=> ($urls_checked) ? ' checked="checked"' : '',
+
+					'S_BBCODE_IMG'			=> $img_status,
+					'S_BBCODE_URL'			=> $url_status,
+					'S_BBCODE_FLASH'		=> $flash_status,
+					'S_BBCODE_QUOTE'		=> $quote_status,
+
 					'S_SHOW_SMILEY_LINK'	=> true,
-					'S_SMILIES_ALLOWED'		=> true,
+					'S_KNOWLEDGEBASE'		=> true,
 
 					'U_FIND_USERNAME'	=> append_sid("{$this->root_path}memberlist.$this->php_ext", 'mode=searchuser&amp;form=postform&amp;field=username&amp;select_single=true'),
 					'U_MORE_SMILIES'	=> append_sid("{$this->root_path}posting.$this->php_ext", 'mode=smilies'),
