@@ -606,6 +606,9 @@ class main_controller implements main_interface
 						}
 
 						decode_message($row['article_text'], $row['bbcode_uid']);
+						$article_bbcode		= $row['enable_bbcode'];
+						$article_smilies	= $row['enable_smilies'];
+						$article_urls		= $row['enable_magic_url'];
 					break;
 
 					case 'post':
@@ -630,7 +633,7 @@ class main_controller implements main_interface
 				{
 					$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
 					$article_smilies	= (!$smilies_status || $this->request->is_set_post('disable_smilies')) ? false : true;
-					$article_urls		= ($this->request->is_set_post('disable_magic_url')) ? 0 : 1;
+					$article_urls		= (!url_status || $this->request->is_set_post('disable_magic_url')) ? false : true;
 
 					// Grab the user_id from the username field
 					$sql = 'SELECT *
@@ -669,7 +672,7 @@ class main_controller implements main_interface
 
 					if (!sizeof($error))
 					{
-						generate_text_for_storage($text, $uid, $bitfield, $options, (bool) $article_bbcode, (bool) $article_smilies, (bool) $article_urls);
+						generate_text_for_storage($text, $uid, $bitfield, $options, (bool) $article_bbcode, (bool) $article_urls, (bool) $article_smilies);
 
 						// Create an array with all data to be inserted
 						$sql_array = array(
@@ -809,7 +812,7 @@ class main_controller implements main_interface
 					'S_CATEGORY_OPTIONS'	=> $s_category_options,
 					'S_CHGPOSTER'			=> $this->auth->acl_get('m_kb_chgposter') ? true : false,
 
-					'S_BBCODE_ALLOWED'			=> ($bbcode_status) ? 1 : 0,
+					'S_BBCODE_ALLOWED'			=> $bbcode_status,
 					'S_BBCODE_CHECKED'			=> ($bbcode_checked) ? ' checked="checked"' : '',
 					'S_SMILIES_ALLOWED'			=> $smilies_status,
 					'S_SMILIES_CHECKED'			=> ($smilies_checked) ? ' checked="checked"' : '',
