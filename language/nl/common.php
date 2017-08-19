@@ -89,7 +89,7 @@ $lang = array_merge($lang, array(
 	'NARROW_SEARCH'	=> 'Beperk uw zoekopdracht door het selecteren van een categorie',
 
 	'NOTIFICATION_ARTICLE_APPROVED'		=> '<strong>Artikel goedgekeurd</strong>: %1$s',
-    'NOTIFICATION_ARTICLE_DELETED'		=> '<strong>Artikel verwijderd</strong>: %1$s',
+	'NOTIFICATION_ARTICLE_DELETED'		=> '<strong>Artikel verwijderd</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DENIED'		=> '<strong>Artikel geweigerd</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DISAPPROVED'	=> '<strong>Artikel afgekeurd</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_IN_QUEUE'		=> '<strong>Kennisbank artikel goedkeuring</strong> request: %1$s',
