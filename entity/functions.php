@@ -128,7 +128,7 @@ class functions implements functions_interface
 		// Update the page data in the database
 		$sql = 'UPDATE ' . $this->kb_categories_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $sql_array) . '
-			WHERE category_id = ' . $this->get_id();
+			WHERE category_id = ' . (int) $this->get_id();
 		$this->db->sql_query($sql);
 
 		return $this;

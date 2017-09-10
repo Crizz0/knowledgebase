@@ -212,7 +212,7 @@ class admin_controller implements admin_interface
 
 			$sql = 'SELECT COUNT(article_id) AS articles
 				FROM ' . $this->kb_article_category_table . ' ac
-				WHERE category_id = ' . $category_id;
+				WHERE category_id = ' . (int) $category_id;
 			$articles_result = $this->db->sql_query($sql);
 			$categories['ARTICLES'] = $this->db->sql_fetchfield('articles');
 			$this->db->sql_freeresult($articles_result);
