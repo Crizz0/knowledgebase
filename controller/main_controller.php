@@ -633,7 +633,7 @@ class main_controller implements main_interface
 				{
 					$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
 					$article_smilies	= (!$smilies_status || $this->request->is_set_post('disable_smilies')) ? false : true;
-					$article_urls		= (!url_status || $this->request->is_set_post('disable_magic_url')) ? false : true;
+					$article_urls		= (!$url_status || $this->request->is_set_post('disable_magic_url')) ? false : true;
 
 					// Grab the user_id from the username field
 					$sql = 'SELECT *
