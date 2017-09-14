@@ -437,7 +437,8 @@ class admin_controller implements admin_interface
 	 */
 	public function delete_category($category_id)
 	{
-		// No form key functions needed - https://wiki.phpbb.com/Function.confirm_box
+		// Add form key
+		add_form_key('delete_category');
 
 		// Build an array of categories
 		$sql = 'SELECT *
@@ -516,6 +517,12 @@ class admin_controller implements admin_interface
 			// Was submit pressed? If so, process the requested action
 			if ($this->request->is_set_post('submit'))
 			{
+				// Test if the form is valid
+				if (!check_form_key('delete_category'))
+				{
+					trigger_error($this->lang->lang('FORM_INVALID'));
+				}
+
 				$j = 0;
 				$list = $message = '';
 
