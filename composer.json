@@ -10,12 +10,13 @@
         {
             "name": "kinerity",
             "email": "kinerity@yahoo.com",
-            "homepage": "https://www.acsyste.com",
+            "homepage": "https://www.layer-3.org",
             "role": "Extension Developer"
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "composer/installers": "~1.0"
     },
     "extra": {
         "display-name": "Knowledge Base",
