@@ -90,7 +90,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->template->assign_vars(array(
 			'KNOWLEDGEBASE_FONT_ICON' => $this->config['knowledgebase_font_icon'],
-			'S_KNOWLEDGEBASE_LINK_ENABLED' => !empty($this->config['knowledgebase_enable']) && !empty($this->config['knowledgebase_header_link']),
+			'S_KNOWLEDGEBASE_LINK_ENABLED' => !empty($this->config['knowledgebase_enable']) && !empty($this->config['knowledgebase_header_link']) && $this->auth->acl_get('u_kb_read'),
 			'U_KNOWLEDGEBASE' => $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index')),
 		));
 	}
