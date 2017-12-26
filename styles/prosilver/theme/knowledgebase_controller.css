@@ -37,6 +37,7 @@ p.description {
 .article-body .postbody {
 	float: none;
 	width: auto;
+	margin-left: 0;
 }
 
 .article-body h2.article-title, .article-body h3.article-title {
