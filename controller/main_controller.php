@@ -600,6 +600,7 @@ class main_controller implements main_interface
 					break;
 
 					case 'edit':
+						$page_title = $this->lang->lang('EDIT_ARTICLE');
 						if ((!$this->auth->acl_get('u_kb_edit') || $this->user->data['user_id'] != $row['article_poster_id']) && !$this->auth->acl_get('m_kb_edit'))
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
@@ -612,6 +613,8 @@ class main_controller implements main_interface
 					break;
 
 					case 'post':
+						$page_title = $this->lang->lang('POST_ARTICLE');
+
 						if (!$this->auth->acl_get('u_kb_post'))
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
@@ -809,6 +812,8 @@ class main_controller implements main_interface
 
 					'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : '',
 
+					'L_POST_A'	=> $page_title,
+
 					'S_CATEGORY_OPTIONS'	=> $s_category_options,
 					'S_CHGPOSTER'			=> $this->auth->acl_get('m_kb_chgposter') ? true : false,
 
@@ -831,7 +836,7 @@ class main_controller implements main_interface
 					'U_MORE_SMILIES'	=> append_sid("{$this->root_path}posting.$this->php_ext", 'mode=smilies'),
 				));
 
-				return $this->helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $this->lang->lang('POST_ARTICLE'));
+				return $this->helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $page_title);
 			break;
 
 			case 'viewarticle':
