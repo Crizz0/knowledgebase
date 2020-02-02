@@ -48,7 +48,7 @@ $lang = array_merge($lang, array(
 
 	'ACL_M_KB_EDIT'			=> 'Kann Beiträge hinzufügen',
 	'ACL_M_KB_DELETE'		=> 'Kann Beiträge löschen',
-	'ACL_M_KB_APPROVE'		=> 'Kann Beiträge genehmigen<br /><em>Die beinhaltet auch ablehnen und verweigern!</em>',
+	'ACL_M_KB_APPROVE'		=> 'Kann Beiträge genehmigen<br /><em>Dies beinhaltet auch ablehnen und verweigern!</em>',
 	'ACL_M_KB_CHGPOSTER'	=> 'Kann Autor ändern',
 
 	'ACL_A_KB_MANAGE'		=> 'Kann Knowledge Base verwalten',

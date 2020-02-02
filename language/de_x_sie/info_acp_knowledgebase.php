@@ -59,20 +59,20 @@ $lang = array_merge($lang, array(
 	// Settings page
 	'ACP_KNOWLEDGEBASE_SETTINGS_EXPLAIN'	=> 'Hier können die wesentlichen Einstellungen vorgenommen werden.',
 	'ACP_KNOWLEDGEBASE_ENABLE'		=> 'Knowledge Base aktivieren',
-	'ACP_KNOWLEDGEBASE_HEADER_LINK'		=> 'Knowledge Base link im Header zeigen',
-	'ACP_KNOWLEDGEBASE_FONT_ICON'		=> 'Knowledge Base link icon',
+	'ACP_KNOWLEDGEBASE_HEADER_LINK'		=> 'Knowledge Base Link im Header zeigen',
+	'ACP_KNOWLEDGEBASE_FONT_ICON'		=> 'Knowledge Base Link Icon',
 	'ACP_KNOWLEDGEBASE_FONT_ICON_EXPLAIN'	=> 'Namen eines <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a> Icons eingeben. <br /> Dies wird vor dem Linknamen angezeigt. Lasse dieses Feld leer, wenn kein Icon angezeigt werden soll',
-	'ACP_KNOWLEDGEBASE_FONT_ICON_INVALID'	=> 'Das Knowledge Base link Icon enthält ungültige Zeichen.',
+	'ACP_KNOWLEDGEBASE_FONT_ICON_INVALID'	=> 'Das Knowledge Base Link Icon enthält ungültige Zeichen.',
 	'ACP_KNOWLEDGEBASE_SETTINGS_CHANGED'	=> 'Knowledge Base Einstellungen gespeichert',
 
 	// Manage page
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED'	=> array(
-		1	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachte Sie, dass es in dieser Kategorie bereits %d Beitrag gab, der einer neuen Kategorie angehörte. Der folgende Beitrag war bereits vorhanden:<br />%s',
-		2	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachte Sie, dass es in dieser Kategorie bereits %d Beiträge gab, die einer neuen Kategorie angehörten. Die folgenden Beiträge war bereits vorhanden:<br />%s',
+		1	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachten Sie, dass es in dieser Kategorie bereits %d Beitrag gab, der einer neuen Kategorie angehörte. Der folgende Beitrag war bereits vorhanden:<br />%s',
+		2	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachten Sie, dass es in dieser Kategorie bereits %d Beiträge gab, die einer neuen Kategorie angehörten. Die folgenden Beiträge war bereits vorhanden:<br />%s',
 	),
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED'	=> array(
-		1	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachte Sie, dass es in dieser Kategorie bereits %d Beitrag gab, der einer anderen Kategorie angehörte. Der folgende Beitrag wurde <b><u>nicht</u></b> gelöscht:<br />%s',
-		2	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachte Sie, dass es in dieser Kategorie bereits %d Beiträge gab, die einer anderen Kategorie angehörten. Die folgenden Beiträge wurden <b><u>nicht</u></b> gelöscht:<br />%s',
+		1	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachten Sie, dass es in dieser Kategorie bereits %d Beitrag gab, der einer anderen Kategorie angehörte. Der folgende Beitrag wurde <b><u>nicht</u></b> gelöscht:<br />%s',
+		2	=> 'Kategorie erfolgreich gelöscht.<br /><br />Bitte beachten Sie, dass es in dieser Kategorie bereits %d Beiträge gab, die einer anderen Kategorie angehörten. Die folgenden Beiträge wurden <b><u>nicht</u></b> gelöscht:<br />%s',
 	),
 
 
