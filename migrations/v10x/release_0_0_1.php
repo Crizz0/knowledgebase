@@ -38,7 +38,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 				// Articles table
 				$this->table_prefix . 'kb_articles'	=> array(
 					'COLUMNS'		=> array(
-						'article_id'				=> array('UINT', NULL, 'auto_increment'),
+						'article_id'				=> array('UINT', null, 'auto_increment'),
 						'article_poster_id'			=> array('UINT', 0),
 						'article_poster_name'		=> array('VCHAR:255', ''),
 						'article_poster_colour'		=> array('VCHAR:6', ''),

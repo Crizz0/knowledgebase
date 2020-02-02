@@ -70,7 +70,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ARTICLE'	=> 'Editar artículo',
 
-	'EMTPY_TITLE'		=> 'Debe ingresar un título al publicar un artículo.',
+	'EMPTY_TITLE'		=> 'Debe ingresar un título al publicar un artículo.',
 	'EMPTY_DESCRIPTION'	=> 'Debe introducir una descripción al publicar un artículo.',
 	'EMPTY_CATEGORY'	=> 'Debe especificar al menos una categoría para que este artículo pertenezca a ella.',
 	'EMPTY_TEXT'		=> 'Debe introducir un mensaje al publicar un artículo.',

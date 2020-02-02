@@ -65,7 +65,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_FONT_ICON_EXPLAIN'	=> 'Vul de naam in van een <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a> icoon om te gebruiken voor de kennisbank link in de header. Laat dit veld leeg als je geen kennisbank icoon wenst.',
 	'ACP_KNOWLEDGEBASE_FONT_ICON_INVALID'	=> 'Het Kennisbank link icoon bevat ongeldige karakters.',
 	'ACP_KNOWLEDGEBASE_SETTINGS_CHANGED'	=> 'Kennisbank instellingen opgeslagen.',
-	
+
 	// Manage page
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_UPDATED'	=> array(
 		1	=> 'Categorie succesvol verwijderd.<br /><br />Houd er rekening mee dat er %d artikel was in deze categorie die reeds toebehoorde tot de nieuwe categorie. Het volgende artikel was reeds aanwezig:<br />%s',
@@ -74,7 +74,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_DELETE_CATEGORY_NOT_DELETED'	=> array(
 		1	=> 'Categorie succesvol verwijderd.<br /><br />Houd er rekening mee dat er %d artikel was in deze categorie die reeds toebehoorde tot de nieuwe categorie. Het volgende artikel werd <b><u>niet</u></b> verwijderd:<br />%s',
 		2	=> 'Categorie succesvol verwijderd.<br /><br />Houd er rekening mee dat er %d artikels waren in deze categorie die reeds toebehoorde tot de nieuwe categorie. De volgende artikels werden <b><u>niet</u></b> verwijderd:<br />%s',
-	),	
+	),
 
 	'ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN'			=> 'Vanaf deze pagina kunt u categorie&euml;n toevoegen, bewerken, verwijderen en sorteren. Een categorie is een groep van gerelateerde artikels. Elke categorie een ongelimiteerd aantal artikels bevatten.',
 	'ACP_KNOWLEDGEBASE_CATEGORY'				=> 'Categorie',
