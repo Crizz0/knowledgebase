@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ARTICLE'	=> 'Makaleyi düzenle',
 
-	'EMTPY_TITLE'		=> 'Makale gönderirken bir başlık girmelisiniz.',
+	'EMPTY_TITLE'		=> 'Makale gönderirken bir başlık girmelisiniz.',
 	'EMPTY_DESCRIPTION'	=> 'Makale gönderirken bir açıklama girmelisiniz.',
 	'EMPTY_CATEGORY'	=> 'Bu makale için en az bir kategori belirtmelisiniz.',
 	'EMPTY_TEXT'		=> 'Makale gönderirken bir yazı girmelisiniz.',

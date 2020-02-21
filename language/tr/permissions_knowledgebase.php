@@ -2,7 +2,7 @@
 /**
  *
  * Knowledge Base extension for the phpBB Forum Software package
- * Turkish translation by ESQARE (http://www.phpbbturkey.com) 
+ * Turkish translation by ESQARE (http://www.phpbbturkey.com)
  *
  * @copyright (c) 2017, kinerity, https://www.acsyste.com
  * @license GNU General Public License, version 2 (GPL-2.0)

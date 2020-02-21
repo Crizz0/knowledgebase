@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ARTICLE'	=> 'Bewerk artikel',
 
-	'EMTPY_TITLE'		=> 'Je moet een titel opgeven bij het posten van een artikel.',
+	'EMPTY_TITLE'		=> 'Je moet een titel opgeven bij het posten van een artikel.',
 	'EMPTY_DESCRIPTION'	=> 'Je moet een beschrijving opgeven bij het posten van een artikel.',
 	'EMPTY_CATEGORY'	=> 'Je moet ten minste 1 categorie opgeven waartoe dit artikel behoort.',
 	'EMPTY_TEXT'		=> 'Je moet een bericht opgeven bij het posten van een artikel.',

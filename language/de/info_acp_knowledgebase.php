@@ -76,7 +76,7 @@ $lang = array_merge($lang, array(
 	),
 
 
-	'ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN'		=> 'Hier könnnen Kategorien erstellt, gelöscht, geändert und neu sortiert werden. Eine Kategorie ist eine Gruppe für gleichartige Beiträge. Jede Kategorie kann unendlich viele Beiträge enthalten.',
+	'ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN'		=> 'Hier können Kategorien erstellt, gelöscht, geändert und neu sortiert werden. Eine Kategorie ist eine Gruppe für gleichartige Beiträge. Jede Kategorie kann unendlich viele Beiträge enthalten.',
 	'ACP_KNOWLEDGEBASE_CATEGORY'			=> 'Kategorie',
 	'ACP_KNOWLEDGEBASE_CREATE_CATEGORY'		=> 'Kategorie hinzufügen',
 	'ACP_KNOWLEDGEBASE_CREATE_CATEGORY_EXPLAIN'	=> 'Erstellen von neuen Kategorien, die in der Knowledge Base angezeigt werden.',
@@ -89,7 +89,7 @@ $lang = array_merge($lang, array(
 	'ACP_CATEGORIES'				=> 'Kategorien',
 	'ACP_CATEGORY_SETTINGS'				=> 'Einstellungen',
 	'ACP_CATEGORY_NAME'				=> 'Name der Kategorie',
-	'ACP_CATEGORY_NAME_EXPLAIN'			=> 'Die Kategorienamen werden allen Übersichtsseiten und im Artikel angezeigt. Kategorienamen werden auch verwendet, um die Kategorien im ACP zu identifizieren.',
+	'ACP_CATEGORY_NAME_EXPLAIN'			=> 'Die Kategorie-Namen werden in allen Übersichtsseiten und im Artikel angezeigt. Kategorie-Namen werden auch verwendet, um die Kategorien im ACP zu identifizieren.',
 	'ACP_CATEGORY_DESCRIPTION'			=> 'Beschreibung der Kategorie',
 	'ACP_CATEGORY_DESCRIPTION_EXPLAIN'		=> 'Die Beschreibung wird angezeigt, wenn sie auf der Index-Seite ausgewählt wird.',
 	'ACP_ADD_CATEGORY'				=> 'Neue Kategorie anlegen',

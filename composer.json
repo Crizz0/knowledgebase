@@ -5,7 +5,7 @@
     "homepage": "https://www.project-w.org",
     "version": "1.0.2",
     "time": "2018-04-21",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "kinerity",

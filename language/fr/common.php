@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 
 	'EDIT_ARTICLE'	=> 'Modifier l’article',
 
-	'EMTPY_TITLE'		=> 'Vous devez saisir un titre lorsque vous postez un article.',
+	'EMPTY_TITLE'		=> 'Vous devez saisir un titre lorsque vous postez un article.',
 	'EMPTY_DESCRIPTION'	=> 'Vous devez saisir une description lorsque vous postez un article.',
 	'EMPTY_CATEGORY'	=> 'Vous devez spécifier au moins une catégorie pour cet article.',
 	'EMPTY_TEXT'		=> 'Vous devez saisir un texte lorsque vous postez un article.',
