@@ -44,14 +44,14 @@ $lang = array_merge($lang, array(
 	'APPROVED'				=> 'Veröffentlicht',
 	'ARTICLES'				=> 'Artikel',
 	'ARTICLE_CONFIRM'		=> 'Sind Sie sicher, dass Sie diesen Artikel %1$s wollen?',
-	'ARTICLE_DENIED'		=> 'Artikel verweigert',
+	'ARTICLE_DENIED'		=> 'Artikel abgelehnt',
 	'ARTICLE_STORED_MOD'	=> 'Dieser Artikel wurde erfolgreich gespeichert und wird durch die Moderatoren freigegeben.',
 	'ARTICLE_DISAPPROVED'	=> 'Artikel zurückgestellt',
 	'AUTHOR'				=> 'Autor',
 
 	'BUTTON_APPROVE'		=> 'Veröffentlichen',
 	'BUTTON_DELETE'			=> 'Löschen',
-	'BUTTON_DENY'			=> 'Verweigern',
+	'BUTTON_DENY'			=> 'Ablehnen',
 	'BUTTON_EDIT'			=> 'Bearbeiten',
 	'BUTTON_NEW_ARTICLE'	=> 'Neuer Artikel',
 	'BUTTON_DISAPPROVE'		=> 'Zurückstellen',
@@ -60,11 +60,11 @@ $lang = array_merge($lang, array(
 	'CHANGE_POSTER'			=> 'Ändere Autor',
 
 	'DELETE_ARTICLE'		=> 'Artikel löschen',
-	'DENIED'				=> 'Verweigert',
+	'DENIED'				=> 'Abgelehnt',
 	'DENY'					=> 'ablehnen',
 	'DENY_ARTICLE'			=> 'Artikel ablehnen',
 	'DESCRIPTION'			=> 'Beschreibung',
-	'DISAPPROVE'			=> 'Zurückstellen',
+	'DISAPPROVE'			=> 'zurückstellen',
 	'DISAPPROVE_ARTICLE'	=> 'Artikel zurückstellen',
 	'DISAPPROVED'			=> 'Zurückgestellt',
 
@@ -89,7 +89,7 @@ $lang = array_merge($lang, array(
 
 	'NOTIFICATION_ARTICLE_APPROVED'		=> '<strong>Artikel veröffentlicht</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DELETED'		=> '<strong>Artikel gelöscht</strong>: %1$s',
-	'NOTIFICATION_ARTICLE_DENIED'		=> '<strong>Artikel verweigert</strong>: %1$s',
+	'NOTIFICATION_ARTICLE_DENIED'		=> '<strong>Artikel abgelehnt</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_DISAPPROVED'	=> '<strong>Artikel zurückgestellt</strong>: %1$s',
 	'NOTIFICATION_ARTICLE_IN_QUEUE'		=> '<strong>Freigabeanfrage zu Knowledge Base Artikel:</strong> %1$s',
 
