@@ -41,14 +41,14 @@ $lang = array_merge($lang, array(
 	'ACL_CAT_KNOWLEDGEBASE'	=> 'Knowledge Base',
 
 	'ACL_U_KB_READ'			=> 'Kann die Knowledge Base sehen',
-	'ACL_U_KB_POST'			=> 'Kann neue Beiträge hinzufügen',
-	'ACL_U_KB_EDIT'			=> 'Kann eigene Beiträge ändern',
-	'ACL_U_KB_DELETE'		=> 'Kann eigene Beiträge löschen',
-	'ACL_U_KB_NOAPPROVE'	=> 'Kann Beiträge ohne Freigabe veröffentlichen',
+	'ACL_U_KB_POST'			=> 'Kann neue Artikel hinzufügen',
+	'ACL_U_KB_EDIT'			=> 'Kann eigene Artikel ändern',
+	'ACL_U_KB_DELETE'		=> 'Kann eigene Artikel löschen',
+	'ACL_U_KB_NOAPPROVE'	=> 'Kann Artikel ohne Freigabe veröffentlichen',
 
-	'ACL_M_KB_EDIT'			=> 'Kann Beiträge hinzufügen',
-	'ACL_M_KB_DELETE'		=> 'Kann Beiträge löschen',
-	'ACL_M_KB_APPROVE'		=> 'Kann Beiträge genehmigen<br /><em>Die beinhaltet auch ablehnen und verweigern!</em>',
+	'ACL_M_KB_EDIT'			=> 'Kann Artikel hinzufügen',
+	'ACL_M_KB_DELETE'		=> 'Kann Artikel löschen',
+	'ACL_M_KB_APPROVE'		=> 'Kann Artikel genehmigen<br /><em>Dies beinhaltet auch ablehnen und zurückstellen!</em>',
 	'ACL_M_KB_CHGPOSTER'	=> 'Kann Autor ändern',
 
 	'ACL_A_KB_MANAGE'		=> 'Kann Knowledge Base verwalten',
