@@ -44,5 +44,5 @@ $lang = array_merge($lang, array(
 	'EXCEPTION_TOO_LONG'			=> 'Die Eingabe ist zu lang',
 	'EXCEPTION_NOT_UNIQUE'			=> 'Die Eingabe ist nicht eindeutig',
 	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Das Feld `%1$s` enthält unerwartete Daten. Grund: %2$s',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'Die Eingabe enthält nicht erlaubte Zeichen.',
+	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'Die Eingabe enthält unerlaubte Zeichen.',
 ));
