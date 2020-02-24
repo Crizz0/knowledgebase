@@ -59,10 +59,10 @@ $lang = array_merge($lang, array(
 	// Settings page
 	'ACP_KNOWLEDGEBASE_SETTINGS_EXPLAIN'		=> 'Hier können die wesentlichen Einstellungen vorgenommen werden.',
 	'ACP_KNOWLEDGEBASE_ENABLE'					=> 'Knowledge Base aktivieren',
-	'ACP_KNOWLEDGEBASE_HEADER_LINK'				=> 'Knowledge Base link im Header zeigen',
-	'ACP_KNOWLEDGEBASE_FONT_ICON'				=> 'Knowledge Base link icon',
+	'ACP_KNOWLEDGEBASE_HEADER_LINK'				=> 'Knowledge Base Link im Header zeigen',
+	'ACP_KNOWLEDGEBASE_FONT_ICON'				=> 'Knowledge Base Link Icon',
 	'ACP_KNOWLEDGEBASE_FONT_ICON_EXPLAIN'		=> 'Namen eines <a href="https://fortawesome.github.io/Font-Awesome/icons/" target="_blank">Font Awesome</a> Icons eingeben. <br /> Dies wird vor dem Linknamen angezeigt. Lasse dieses Feld leer, wenn kein Icon angezeigt werden soll',
-	'ACP_KNOWLEDGEBASE_FONT_ICON_INVALID'		=> 'Das Knowledge Base link Icon enthält ungültige Zeichen.',
+	'ACP_KNOWLEDGEBASE_FONT_ICON_INVALID'		=> 'Das Knowledge Base Link Icon enthält ungültige Zeichen.',
 	'ACP_KNOWLEDGEBASE_SETTINGS_CHANGED'		=> 'Knowledge Base Einstellungen gespeichert',
 
 	// Manage page
