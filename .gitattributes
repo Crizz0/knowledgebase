@@ -1,2 +1,4 @@
 * text=auto
 * text eol=lf
+.github/ export-ignore
+.gitattributes	export-ignore
