@@ -84,6 +84,7 @@ $lang = array_merge($lang, array(
 	'KNOWLEDGEBASE_TITLE'		=> 'Bekijk de Kennisbank',
 
 	'LAST_MODIFIED'		=> 'Laatst bewerkt',
+'LAST_MODIFIED_BY'	=> 'Last modified by',
 	'LINK_TO_ARTICLE'	=> 'Link naar dit artikel',
 
 	'NARROW_SEARCH'	=> 'Beperk uw zoekopdracht door het selecteren van een categorie',

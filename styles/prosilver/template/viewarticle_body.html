@@ -52,9 +52,10 @@
 		<!-- ENDIF -->
 
 		<h2 class="article-title"><a href="{U_VIEW_ARTICLE}">{ARTICLE_TITLE}</a></h2>
-		<p class="article-meta"><strong>{L_WRITTEN_BY}{L_COLON}</strong> {ARTICLE_AUTHOR_FULL}<br />
+		<p class="article-meta"><strong>{L_WRITTEN_BY}{L_COLON}</strong> {ARTICLE_AUTHOR_FULL}<br>
 		<strong>{L_WRITTEN_ON}{L_COLON}</strong> {ARTICLE_DATE}<br />
-		<!-- IF ARTICLE_EDIT_DATE --><strong>{L_LAST_MODIFIED}{L_COLON}</strong> {ARTICLE_EDIT_DATE}<br /><!-- ENDIF -->
+		<!-- IF ARTICLE_EDIT_DATE --><strong>{L_LAST_MODIFIED}{L_COLON}</strong> {ARTICLE_EDIT_DATE}<br><!-- ENDIF -->
+		<!-- IF ARTICLE_EDIT_NAME --><strong>{L_LAST_MODIFIED_BY}{L_COLON}</strong> {ARTICLE_EDIT_NAME}<br><!-- ENDIF -->
 		<strong>{L_VIEWS}{L_COLON}</strong> {ARTICLE_VIEWS}</p>
 		<p class="article-description"><strong>{L_DESCRIPTION}{L_COLON}</strong> {ARTICLE_DESCRIPTION}</p>
 		<p class="article-categories"><strong>{L_CATEGORIES}{L_COLON}</strong> {CATEGORIES}</p>

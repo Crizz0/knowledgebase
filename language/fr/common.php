@@ -84,6 +84,7 @@ $lang = array_merge($lang, array(
 	'KNOWLEDGEBASE_TITLE'	=> 'Consulter la base de connaissance',
 
 	'LAST_MODIFIED'		=> 'Dernière modification',
+'LAST_MODIFIED_BY'	=> 'Last modified by',
 	'LINK_TO_ARTICLE'	=> 'Lien vers cet article',
 
 	'NARROW_SEARCH'	=> 'Affiner la recherche en sélectionnant une catégorie',

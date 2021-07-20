@@ -373,7 +373,7 @@ class main_controller implements main_interface
 							// Create the notification
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.approve_article', $notification_data);
 
-							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_APPROVED_LOG', time(), array($row['article_title']));
+							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_APPROVED_LOG', time(), array($row['article_title']));
 
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id));
 							redirect($url);
@@ -413,7 +413,7 @@ class main_controller implements main_interface
 								WHERE article_id = ' . (int) $article_id;
 							$this->db->sql_query($sql);
 
-							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG', time(), array($title));
+							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG', time(), array($title));
 
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index'));
 							redirect($url);
@@ -447,7 +447,7 @@ class main_controller implements main_interface
 							// Create the notification
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.deny_article', $notification_data);
 
-							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DENIED_LOG', time(), array($row['article_title']));
+							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DENIED_LOG', time(), array($row['article_title']));
 
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id));
 							redirect($url);
@@ -482,7 +482,7 @@ class main_controller implements main_interface
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.disapprove_article', $notification_data);
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
 
-							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DISAPPROVED_LOG', time(), array($row['article_title']));
+							$this->log->add('mod', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DISAPPROVED_LOG', time(), array($row['article_title']));
 
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id));
 							redirect($url);
@@ -502,17 +502,18 @@ class main_controller implements main_interface
 
 				$this->lang->add_lang(array('posting'));
 
-				// $article_id is only present in delete and edit
-				if ($mode == 'delete' || $mode == 'edit')
+				// $article_id is only present in delete, edit and preview
+				if ($mode == 'delete' || $mode == 'edit' || $mode == 'edit_preview')
 				{
 					$article_id = $this->request->variable('a', 0);
 				}
 
 				$submit = ($this->request->is_set_post('submit'));
 				$cancel = ($this->request->is_set_post('cancel'));
+				$preview = false;
 
 				// Is there a valid mode?
-				if (!in_array($mode, array('delete', 'edit', 'post')))
+				if (!in_array($mode, array('delete', 'edit', 'post', 'edit_preview', 'post_preview')))
 				{
 					throw new \phpbb\exception\http_exception(404, $this->lang->lang('INVALID_MODE'));
 				}
@@ -525,8 +526,8 @@ class main_controller implements main_interface
 					redirect($url);
 				}
 
-				// Only allow delete and edit when an article id is provided
-				if (in_array($mode, array('delete', 'edit')) && $article_id)
+				// Only allow delete, edit and edit_preview when an article id is provided
+				if (in_array($mode, array('delete', 'edit', 'edit_preview')) && $article_id)
 				{
 					// Grab all article data
 					$sql = 'SELECT a.*, u.username
@@ -588,7 +589,7 @@ class main_controller implements main_interface
 								WHERE article_id = ' . (int) $article_id;
 							$this->db->sql_query($sql);
 
-							$this->log->add('user', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG', time(), array($title));
+							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG', time(), array($title));
 
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index'));
 							redirect($url);
@@ -610,6 +611,9 @@ class main_controller implements main_interface
 						$article_bbcode		= $row['enable_bbcode'];
 						$article_smilies	= $row['enable_smilies'];
 						$article_urls		= $row['enable_magic_url'];
+						$this->template->assign_vars([
+							'U_EDIT_PREVIEW'	=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $row['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'posting', 'mode' => 'edit_preview', 'a' => (int) $article_id)) : '',
+						]);
 					break;
 
 					case 'post':
@@ -619,16 +623,118 @@ class main_controller implements main_interface
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
 						}
+						$this->template->assign_vars([
+							'U_POST_PREVIEW'	=> $this->auth->acl_get('u_kb_post') ? $this->helper->route('kinerity_knowledgebase_main_controller', ['page' => 'posting', 'mode' => 'post_preview']) : '',
+						]);
+					break;
+
+					case 'post_preview':
+					case 'edit_preview':
+						$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
+						$article_smilies	= (!$smilies_status || $this->request->is_set_post('disable_smilies')) ? false : true;
+						$article_urls		= (!$url_status || $this->request->is_set_post('disable_magic_url')) ? false : true;
+						$text = $this->request->variable('article_text', '', true);
+						generate_text_for_storage($text, $uid, $bitfield, $options, (bool) $article_bbcode, (bool) $article_urls, (bool) $article_smilies);
+
+						$preview = true;
+						// Grab the user_id from the username field
+						$sql = 'SELECT *
+							FROM ' . USERS_TABLE . "
+							WHERE username_clean = '" . $this->db->sql_escape(utf8_clean_string($this->request->variable('username', '', true))) . "'";
+						$result = $this->db->sql_query($sql);
+						$user_data = $this->db->sql_fetchrow($result);
+						$this->db->sql_freeresult($result);
+
+						$s_name = [];
+						$category_list = $this->request->variable('category_list', array(0));
+						$sql = 'SELECT category_id, category_name
+							FROM ' . $this->kb_categories_table . '
+							ORDER BY left_id ASC';
+						$result = $this->db->sql_query($sql);
+						$s_category_options = '';
+						while ($data = $this->db->sql_fetchrow($result))
+						{
+							$s_selected = '';
+							if (in_array($data['category_id'], $category_list))
+							{
+								$s_name[] = $data['category_name'];
+								$s_selected	= ' selected="selected"';
+							}
+							$s_category_options .= '<option value="' . $data['category_id'] . '"' . $s_selected . '>' . $data['category_name'] . '</option>';
+						}
+						$this->db->sql_freeresult($result);
+
+						$this->template->assign_vars([
+							'ARTICLE_AUTHOR_FULL'	=> get_username_string('full', $user_data['user_id'], $user_data['username'], $user_data['user_colour']),
+
+							'CATEGORIES'			=> implode(', ', $s_name),
+
+							'USERNAME'				=> $this->request->variable('username', '', true),
+							'ARTICLE_TITLE'			=> $this->request->variable('article_title', '', true),
+							'ARTICLE_DESCRIPTION'	=> $this->request->variable('article_description', '', true),
+							'ARTICLE_TEXT'			=> $this->request->variable('article_text', '', true),
+							'S_CATEGORY_OPTIONS'	=> $s_category_options,
+						]);
+
+						if ($mode == 'edit_preview')
+						{
+							$page_title = $this->lang->lang('EDIT_ARTICLE');
+
+							$bbcode_options = (($row['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
+								(($row['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
+								(($row['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
+
+							$this->template->assign_vars([
+								'ARTICLE_ID'			=> (int) $article_id,
+
+								'ARTICLE_DATE'			=> $this->user->format_date($row['article_time']),
+								'ARTICLE_EDIT_DATE'		=> $row['article_edit_time'] > 0 ? $this->user->format_date($row['article_edit_time']) : false,
+								'ARTICLE_EDIT_NAME'		=> get_username_string('full', $this->user->data['user_id'], $this->user->data['username'], $this->user->data['user_colour']),
+								'ARTICLE_VIEWS'			=> $row['article_views'],
+
+								'MESSAGE'				=> generate_text_for_display($text, $article_bbcode, $row['bbcode_bitfield'], $bbcode_options),
+
+								'U_VIEW_ARTICLE_LINK'	=> $this->helper->route('kinerity_knowledgebase_main_controller', ['page' => 'viewarticle', 'a' => (int) $article_id], true, false, UrlGeneratorInterface::ABSOLUTE_URL),
+								'U_EDIT_PREVIEW'		=> $this->auth->acl_get('m_kb_edit') || ($this->auth->acl_get('u_kb_edit') && $this->user->data['user_id'] == $data['article_poster_id']) ? $this->helper->route('kinerity_knowledgebase_main_controller', ['page' => 'posting', 'mode' => 'edit_preview', 'a' => (int) $article_id]) : '',
+								'U_POST_PREVIEW'		=> '',
+							]);
+						}
+
+						if ($mode == 'post_preview')
+						{
+							$page_title = $this->lang->lang('POST_ARTICLE');
+
+							$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
+
+							$bbcode_options = (($bbcode_status) ? OPTION_FLAG_BBCODE : 0) +
+								(($smilies_status) ? OPTION_FLAG_SMILIES : 0) +
+								(($url_status) ? OPTION_FLAG_LINKS : 0);
+
+							$this->template->assign_vars([
+								'ARTICLE_ID'			=> 0,
+
+								'ARTICLE_DATE'			=> $this->user->format_date($current_time),
+								'ARTICLE_EDIT_DATE'		=> false,
+								'ARTICLE_EDIT_NAME'		=> false,
+								'ARTICLE_VIEWS'			=> false,
+
+								'MESSAGE'				=> generate_text_for_display($text, $article_bbcode, $bitfield, $bbcode_options),
+
+								'U_EDIT_PREVIEW'		=> '',
+								'U_POST_PREVIEW'		=> $this->auth->acl_get('u_kb_post') ? $this->helper->route('kinerity_knowledgebase_main_controller', ['page' => 'posting', 'mode' => 'post_preview']) : '',
+							]);
+						}
 					break;
 				}
 
 				// Set vars for use when submitting articles
-				if ($mode == 'post' || $submit)
+				if ($mode == 'post' || $mode == 'post_preview' || $submit)
 				{
 					$username = $this->auth->acl_get('m_kb_chgposter') ? $this->request->variable('username', $this->user->data['username'], true) : $this->user->data['username'];
 					$title = $this->request->variable('article_title', '', true);
 					$description = $this->request->variable('article_description', '', true);
 					$category_list = $this->request->variable('category_list', array(0));
+
 					$text = $this->request->variable('article_text', '', true);
 				}
 
@@ -663,14 +769,14 @@ class main_controller implements main_interface
 						$error[] .= $this->lang->lang('EMPTY_DESCRIPTION');
 					}
 
-					if (utf8_clean_string($text) === '')
-					{
-						$error[] .= $this->lang->lang('EMPTY_TEXT');
-					}
-
 					if (!sizeof($category_list))
 					{
 						$error[] .= $this->lang->lang('EMPTY_CATEGORY');
+					}
+
+					if (utf8_clean_string($text) === '')
+					{
+						$error[] .= $this->lang->lang('EMPTY_TEXT');
 					}
 
 					if (!sizeof($error))
@@ -684,8 +790,8 @@ class main_controller implements main_interface
 							'article_poster_id'		=> $user_row['user_id'],
 							'article_poster_name'	=> $user_row['username'],
 							'article_poster_colour'	=> $user_row['user_colour'],
-							'article_time'			=> ($mode == 'edit') ? $row['article_time'] : $current_time,
-							'article_edit_time'		=> ($mode == 'edit') ? $current_time : 0,
+							'article_time'			=> ($mode == 'edit' || $mode == 'edit_preview') ? $row['article_time'] : $current_time,
+							'article_edit_time'		=> ($mode == 'edit' || $mode == 'edit_preview') ? $current_time : 0,
 							'enable_bbcode'			=> (bool) $article_bbcode,
 							'enable_smilies'		=> (bool) $article_smilies,
 							'enable_magic_url'		=> (bool) $article_urls,
@@ -693,11 +799,12 @@ class main_controller implements main_interface
 							'bbcode_bitfield'		=> $bitfield,
 							'bbcode_uid'			=> $uid,
 							'article_visibility'	=> $this->auth->acl_get('u_kb_noapprove') ? constants::ARTICLE_APPROVED : constants::ARTICLE_DISAPPROVED,
-							'article_views'			=> ($mode == 'edit') ? $row['article_views'] : 0,
+							'article_views'			=> ($mode == 'edit' || $mode == 'edit_preview') ? $row['article_views'] : 0,
+							'article_edit_name'		=> ($mode == 'edit' || $mode == 'edit_preview') ? $this->user->data['username'] : '',
 						);
 
 						// Update the kb_articles_table
-						if ($mode == 'post')
+						if ($mode == 'post' || $mode == 'post_preview')
 						{
 							$sql = 'INSERT INTO ' . $this->kb_articles_table . ' ' . $this->db->sql_build_array('INSERT', $sql_array);
 						}
@@ -711,7 +818,7 @@ class main_controller implements main_interface
 						$article_id = (isset($row['article_id'])) ? $row['article_id'] : $this->db->sql_nextid();
 
 						// Delete any existing entries, prevents duplicate category_ids being stored
-						if ($mode == 'edit')
+						if ($mode == 'edit' || $mode == 'edit_preview')
 						{
 							$sql = 'DELETE FROM ' . $this->kb_article_category_table . '
 								WHERE article_id = ' . (int) $row['article_id'];
@@ -747,6 +854,11 @@ class main_controller implements main_interface
 
 							// Create the notification
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
+						}
+
+						if ($mode == 'edit' || $mode == 'edit_preview')
+						{
+							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG', time(), array($title));
 						}
 
 						// Set correct url, show message to users unable to post without approval
@@ -798,12 +910,18 @@ class main_controller implements main_interface
 				$urls_checked		= (isset($article_urls)) ? !$article_urls : 0;
 
 				// Now assign vars to the template
-				$this->template->assign_vars(array(
-					'USERNAME'				=> ($mode == 'edit') ? $row['username'] : $username,
-					'ARTICLE_TITLE'			=> ($mode == 'edit') ? $row['article_title'] : $title,
-					'ARTICLE_DESCRIPTION'	=> ($mode == 'edit') ? $row['article_description'] : $description,
-					'ARTICLE_TEXT'			=> ($mode == 'edit') ? $row['article_text'] : $text,
+				if (!$preview)
+				{
+					$this->template->assign_vars(array(
+						'USERNAME'				=> ($mode == 'edit') ? $row['username'] : $username,
+						'ARTICLE_TITLE'			=> ($mode == 'edit') ? $row['article_title'] : $title,
+						'ARTICLE_DESCRIPTION'	=> ($mode == 'edit') ? $row['article_description'] : $description,
+						'ARTICLE_TEXT'			=> ($mode == 'edit') ? $row['article_text'] : $text,
+						'S_CATEGORY_OPTIONS'	=> $s_category_options,
+					));
+				}
 
+				$this->template->assign_vars(array(
 					'BBCODE_STATUS'			=> $this->lang->lang(($bbcode_status ? 'BBCODE_IS_ON' : 'BBCODE_IS_OFF'), '<a href="' . $this->helper->route('phpbb_help_bbcode_controller') . '">', '</a>'),
 					'IMG_STATUS'			=> ($img_status) ? $this->lang->lang('IMAGES_ARE_ON') : $this->lang->lang('IMAGES_ARE_OFF'),
 					'FLASH_STATUS'			=> ($flash_status) ? $this->lang->lang('FLASH_IS_ON') : $this->lang->lang('FLASH_IS_OFF'),
@@ -814,7 +932,6 @@ class main_controller implements main_interface
 
 					'L_POST_A'	=> $page_title,
 
-					'S_CATEGORY_OPTIONS'	=> $s_category_options,
 					'S_CHGPOSTER'			=> $this->auth->acl_get('m_kb_chgposter') ? true : false,
 
 					'S_BBCODE_ALLOWED'			=> $bbcode_status,
@@ -834,6 +951,7 @@ class main_controller implements main_interface
 
 					'U_FIND_USERNAME'	=> append_sid("{$this->root_path}memberlist.$this->php_ext", 'mode=searchuser&amp;form=postform&amp;field=username&amp;select_single=true'),
 					'U_MORE_SMILIES'	=> append_sid("{$this->root_path}posting.$this->php_ext", 'mode=smilies'),
+					'SHOW_PREVIEW'		=> $preview,
 				));
 
 				return $this->helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $page_title);
@@ -899,7 +1017,18 @@ class main_controller implements main_interface
 				$bbcode_options = (($data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
 					(($data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
 					(($data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
-				$board_url = generate_board_url();
+//				$board_url = generate_board_url();
+
+				if ($data['article_edit_name'] != '')
+				{
+					$sql = 'SELECT *
+						FROM ' . USERS_TABLE . "
+						WHERE username_clean = '" . $this->db->sql_escape(utf8_clean_string($data['article_edit_name'])) . "'";
+					$result = $this->db->sql_query($sql);
+					$user_data = $this->db->sql_fetchrow($result);
+					$this->db->sql_freeresult($result);
+					$article_edit_name_full = get_username_string('full', $user_data['user_id'], $user_data['username'], $user_data['user_colour']);
+				}
 
 				$this->template->assign_vars(array(
 					'ARTICLE_ID'			=> (int) $article_id,
@@ -907,6 +1036,7 @@ class main_controller implements main_interface
 
 					'ARTICLE_DATE'			=> $this->user->format_date($data['article_time']),
 					'ARTICLE_EDIT_DATE'		=> $data['article_edit_time'] > 0 ? $this->user->format_date($data['article_edit_time']) : false,
+					'ARTICLE_EDIT_NAME'		=> $data['article_edit_name'] != '' ? $article_edit_name_full : false,
 					'ARTICLE_TITLE'			=> $data['article_title'],
 					'CATEGORIES'			=> implode(', ', $category_list),
 					'ARTICLE_DESCRIPTION'	=> $data['article_description'],

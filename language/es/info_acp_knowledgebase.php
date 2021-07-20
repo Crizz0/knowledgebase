@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG'		=> '<strong>Artículo de la Base de Conocimiento borrado</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_ARTICLE_DENIED_LOG'		=> '<strong>Artículo de la Base de Conocimiento denegado</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_ARTICLE_DISAPPROVED_LOG'	=> '<strong>Artículo de la Base de Conocimiento desaprobado</strong><br />» %s',
+'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG'		=> '<strong>Edited Knowledge Base article</strong><br />» %s',
 
 	'ACP_KNOWLEDGEBASE_CATEGORY_ADD_LOG'		=> '<strong>Nueva categoría de la Base de Conocimiento creada</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG'		=> '<strong>Categoría borrada de la Base de Conocimiento</strong><br />» %s',
