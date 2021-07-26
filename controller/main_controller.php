@@ -734,7 +734,6 @@ class main_controller implements main_interface
 					$title = $this->request->variable('article_title', '', true);
 					$description = $this->request->variable('article_description', '', true);
 					$category_list = $this->request->variable('category_list', array(0));
-
 					$text = $this->request->variable('article_text', '', true);
 				}
 
@@ -837,7 +836,7 @@ class main_controller implements main_interface
 							$this->db->sql_query($sql);
 						}
 
-						if (($mode == 'post' || $mode == 'edit') && !$this->auth->acl_get('m_kb_approve') && !$this->auth->acl_get('u_kb_noapprove'))
+						if (($mode == 'post' || $mode == 'post_preview' || $mode == 'edit' || $mode == 'edit_preview') && !$this->auth->acl_get('m_kb_approve') && !$this->auth->acl_get('u_kb_noapprove'))
 						{
 							// Store the notification data we will use in an array
 							$notification_data = array(
@@ -846,7 +845,7 @@ class main_controller implements main_interface
 								'article_title'	=> $title,
 							);
 
-							if ($mode == 'edit')
+							if ($mode == 'edit' || $mode == 'edit_preview')
 							{
 								// Delete the notification
 								$this->notification_manager->delete_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
@@ -856,6 +855,11 @@ class main_controller implements main_interface
 							$this->notification_manager->add_notifications('kinerity.knowledgebase.notification.type.article_in_queue', $notification_data);
 						}
 
+						// Log the action
+						if ($mode == 'post' || $mode == 'post_preview')
+						{
+							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_CREATED_LOG', time(), array($title));
+						}
 						if ($mode == 'edit' || $mode == 'edit_preview')
 						{
 							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG', time(), array($title));

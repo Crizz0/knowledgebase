@@ -50,6 +50,8 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_ARTICLE_DELETED_LOG'		=> '<strong>Article de la base de connaissance supprimé</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_ARTICLE_DENIED_LOG'		=> '<strong>Article de la base de connaissance refusé</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_ARTICLE_DISAPPROVED_LOG'	=> '<strong>Article de la base de connaissance désapprouvé</strong><br />» %s',
+
+'ACP_KNOWLEDGEBASE_ARTICLE_CREATED_LOG'		=> '<strong>Created a new Knowledge Base article</strong><br />» %s',
 'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG'		=> '<strong>Edited Knowledge Base article</strong><br />» %s',
 
 	'ACP_KNOWLEDGEBASE_CATEGORY_ADD_LOG'		=> '<strong>Nouvelle catégorie de la base de connaissance crée</strong><br />» %s',
