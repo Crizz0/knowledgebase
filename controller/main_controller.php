@@ -1021,7 +1021,6 @@ class main_controller implements main_interface
 				$bbcode_options = (($data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
 					(($data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
 					(($data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
-//				$board_url = generate_board_url();
 
 				if ($data['article_edit_name'] != '')
 				{
