@@ -1,5 +1,9 @@
 <!-- INCLUDE overall_header.html -->
 
+{% if SHOW_PREVIEW %}
+	{% INCLUDECSS '@kinerity_knowledgebase/knowledgebase_controller.css' %}
+	{% include 'preview_article.html' %}
+{% endif %}
 <form id="postform" method="post" action="{S_POST_ACTION}"{S_FORM_ENCTYPE}>
 
 <div class="panel" id="postingbox">
@@ -91,7 +95,9 @@
 	<div class="inner">
 	<fieldset class="submit-buttons">
 		<input type="submit" tabindex="5" name="cancel" value="{L_CANCEL}" class="button1" />&nbsp;
-		<input type="submit" accesskey="s" tabindex="6" name="submit" value="{L_SUBMIT}" class="button1" />&nbsp;
+		{% if U_EDIT_PREVIEW != '' %}<input type="submit" name="preview" value="{L_PREVIEW}" class="button1" formaction="{{ U_EDIT_PREVIEW }}" />&nbsp;{% endif %}
+		{% if U_POST_PREVIEW != '' %}<input type="submit" name="preview" value="{L_PREVIEW}" class="button1" formaction="{{ U_POST_PREVIEW }}" />&nbsp;{% endif %}
+		<input type="submit" accesskey="s" tabindex="6" name="submit" value="{L_SUBMIT}" class="button1" />
 
 	</fieldset>
 

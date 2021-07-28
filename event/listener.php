@@ -58,7 +58,7 @@ class listener implements EventSubscriberInterface
 		$this->php_ext = $php_ext;
 	}
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
 			'core.user_setup'				=> 'load_language_on_setup',

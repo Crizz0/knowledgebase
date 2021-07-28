@@ -10,8 +10,6 @@
 
 namespace kinerity\knowledgebase\migrations\v10x;
 
-use \phpbb\db\migration\container_aware_migration;
-
 class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 {
 	/**
@@ -20,7 +18,7 @@ class release_0_0_1 extends \phpbb\db\migration\container_aware_migration
 	 * @return void
 	 * @access public
 	 */
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array('\phpbb\db\migration\data\v320\v320');
 	}

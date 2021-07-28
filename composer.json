@@ -3,11 +3,17 @@
     "type": "phpbb-extension",
     "description": "Knowledge Base extension for phpBB",
     "homepage": "https://www.project-w.org",
-    "version": "1.0.2",
-    "time": "2018-04-21",
+    "version": "1.1.0-dev",
+    "time": "2021-07-26 12:11:57",
     "license": "GPL-2.0-only",
     "authors": [
-        {
+		{
+			"name": "Michael Vormwald",
+			"homepage": "http://www.mike-on-tour.com",
+			"email": "webmaster@mike-on-tour.de",
+			"role": "Update Developer"
+		},
+		{
             "name": "kinerity",
             "email": "kinerity@yahoo.com",
             "homepage": "https://www.layer-3.org",
@@ -20,7 +26,7 @@
     "extra": {
         "display-name": "Knowledge Base",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2.0,<3.3.0@dev"
+            "phpbb/phpbb": ">=3.2.0"
         },
         "version-check": {
             "host": "www.phpbb.com",

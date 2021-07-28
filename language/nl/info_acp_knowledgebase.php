@@ -51,6 +51,9 @@ $lang = array_merge($lang, array(
 	'ACP_KNOWLEDGEBASE_ARTICLE_DENIED_LOG'		=> '<strong>Geweigerde Kennisbank artikels</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_ARTICLE_DISAPPROVED_LOG'	=> '<strong>Afgekeurde Kennisbank artikels</strong><br />» %s',
 
+'ACP_KNOWLEDGEBASE_ARTICLE_CREATED_LOG'		=> '<strong>Created a new Knowledge Base article</strong><br />» %s',
+'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG'		=> '<strong>Edited Knowledge Base article</strong><br />» %s',
+
 	'ACP_KNOWLEDGEBASE_CATEGORY_ADD_LOG'		=> '<strong>Maakte nieuwe Kennisbank categorie aan</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG'		=> '<strong>Verwijderde Kennisbank categorie</strong><br />» %s',
 	'ACP_KNOWLEDGEBASE_CATEGORY_EDIT_LOG'		=> '<strong>Update Kennisbank categorie informatie</strong><br />» %1$s',
