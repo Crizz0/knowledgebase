@@ -24,6 +24,6 @@ class invalid_argument extends base
 	 */
 	public function get_message(\phpbb\language\language $lang)
 	{
-		return $this->translate_portions($lang, $this->message_full, 'EXCEPTION_INVALID_ARGUMENT');
+		return $this->translate_portions($lang, $this->message_full, 'KB_EXCEPTION_INVALID_ARGUMENT');
 	}
 }

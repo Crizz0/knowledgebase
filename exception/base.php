@@ -101,10 +101,10 @@ class base extends \Exception
 		foreach ($message_portions as &$message)
 		{
 			// Attempt to translate each portion
-			$translated_message = $lang->lang('EXCEPTION_' . $message);
+			$translated_message = $lang->lang('KB_EXCEPTION_' . $message);
 
 			// Check if translating did anything
-			if ($translated_message !== 'EXCEPTION_' . $message)
+			if ($translated_message !== 'KB_EXCEPTION_' . $message)
 			{
 				// It did, so replace message with the translated version
 				$message = $translated_message;

@@ -24,6 +24,6 @@ class unexpected_value extends base
 	 */
 	public function get_message(\phpbb\language\language $lang)
 	{
-		return $this->translate_portions($lang, $this->message_full, 'EXCEPTION_UNEXPECTED_VALUE');
+		return $this->translate_portions($lang, $this->message_full, 'KB_EXCEPTION_UNEXPECTED_VALUE');
 	}
 }
