@@ -189,7 +189,7 @@ class main_controller implements main_interface
 				// Check for valid type
 				if (!in_array($type, $type_array))
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('INVALID_TYPE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_INVALID_TYPE'));
 				}
 
 				// Prevent altering the URI to bypass the $sql_where var
@@ -313,7 +313,7 @@ class main_controller implements main_interface
 					}
 				}
 
-				return $this->helper->render('index_body.html', $this->lang->lang('KNOWLEDGEBASE'));
+				return $this->helper->render('index_body.html', $this->lang->lang('KB_KNOWLEDGEBASE'));
 			break;
 
 			case 'mcp':
@@ -325,13 +325,13 @@ class main_controller implements main_interface
 				// Do we have an article or (valid) mode?
 				if (!$article_id)
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 				}
 
 				// Check for a valid mode
 				if (!in_array($mode, array('approve', 'delete', 'deny', 'disapprove')))
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('INVALID_MODE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_INVALID_MODE'));
 				}
 
 				$sql = 'SELECT *
@@ -380,7 +380,7 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('ARTICLE_CONFIRM', strtolower($this->lang->lang('APPROVE'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('APPROVE'))));
 						}
 					break;
 
@@ -420,7 +420,7 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('ARTICLE_CONFIRM', strtolower($this->lang->lang('DELETE'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('DELETE'))));
 						}
 					break;
 
@@ -454,7 +454,7 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('ARTICLE_CONFIRM', strtolower($this->lang->lang('DENY'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('KB_DENY'))));
 						}
 					break;
 
@@ -489,7 +489,7 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('ARTICLE_CONFIRM', strtolower($this->lang->lang('DISAPPROVE'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('KB_DISAPPROVE'))));
 						}
 					break;
 				}
@@ -515,7 +515,7 @@ class main_controller implements main_interface
 				// Is there a valid mode?
 				if (!in_array($mode, array('delete', 'edit', 'post', 'edit_preview', 'post_preview')))
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('INVALID_MODE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_INVALID_MODE'));
 				}
 
 				// Was cancel pressed? If so, redirect back to where we were
@@ -541,14 +541,14 @@ class main_controller implements main_interface
 					// Is the article actually in the database?
 					if (!$row)
 					{
-						throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+						throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 					}
 				}
 
 				// Do we have an article for the correct mode?
 				if (in_array($mode, array('delete', 'edit')) && !$article_id)
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 				}
 
 				include ($this->root_path . 'includes/functions_posting.' . $this->php_ext);
@@ -596,12 +596,12 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('ARTICLE_CONFIRM', strtolower($this->lang->lang('DELETE'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('KB_DELETE'))));
 						}
 					break;
 
 					case 'edit':
-						$page_title = $this->lang->lang('EDIT_ARTICLE');
+						$page_title = $this->lang->lang('KB_EDIT_ARTICLE');
 						if ((!$this->auth->acl_get('u_kb_edit') || $this->user->data['user_id'] != $row['article_poster_id']) && !$this->auth->acl_get('m_kb_edit'))
 						{
 							throw new \phpbb\exception\http_exception(403, $this->lang->lang('NOT_AUTHORISED'));
@@ -617,7 +617,7 @@ class main_controller implements main_interface
 					break;
 
 					case 'post':
-						$page_title = $this->lang->lang('POST_ARTICLE');
+						$page_title = $this->lang->lang('KB_POST_ARTICLE');
 
 						if (!$this->auth->acl_get('u_kb_post'))
 						{
@@ -678,7 +678,7 @@ class main_controller implements main_interface
 
 						if ($mode == 'edit_preview')
 						{
-							$page_title = $this->lang->lang('EDIT_ARTICLE');
+							$page_title = $this->lang->lang('KB_EDIT_ARTICLE');
 
 							$bbcode_options = (($row['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
 								(($row['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) +
@@ -702,7 +702,7 @@ class main_controller implements main_interface
 
 						if ($mode == 'post_preview')
 						{
-							$page_title = $this->lang->lang('POST_ARTICLE');
+							$page_title = $this->lang->lang('KB_POST_ARTICLE');
 
 							$article_bbcode		= (!$bbcode_status || $this->request->is_set_post('disable_bbcode')) ? false : true;
 
@@ -760,22 +760,22 @@ class main_controller implements main_interface
 					// Check posting vars
 					if (utf8_clean_string($title) === '')
 					{
-						$error[] .= $this->lang->lang('EMPTY_TITLE');
+						$error[] .= $this->lang->lang('KB_EMPTY_TITLE');
 					}
 
 					if (utf8_clean_string($description) === '')
 					{
-						$error[] .= $this->lang->lang('EMPTY_DESCRIPTION');
+						$error[] .= $this->lang->lang('KB_EMPTY_DESCRIPTION');
 					}
 
 					if (!count($category_list))
 					{
-						$error[] .= $this->lang->lang('EMPTY_CATEGORY');
+						$error[] .= $this->lang->lang('KB_EMPTY_CATEGORY');
 					}
 
 					if (utf8_clean_string($text) === '')
 					{
-						$error[] .= $this->lang->lang('EMPTY_TEXT');
+						$error[] .= $this->lang->lang('KB_EMPTY_TEXT');
 					}
 
 					if (!count($error))
@@ -871,7 +871,7 @@ class main_controller implements main_interface
 							$url = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index'));
 							meta_refresh(3, $url);
 
-							$message = $this->lang->lang('ARTICLE_STORED_MOD');
+							$message = $this->lang->lang('KB_ARTICLE_STORED_MOD');
 							trigger_error($message);
 						}
 						else
@@ -958,7 +958,7 @@ class main_controller implements main_interface
 					'SHOW_PREVIEW'		=> $preview,
 				));
 
-				return $this->helper->render('posting_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $page_title);
+				return $this->helper->render('posting_body.html', $this->lang->lang('KB_KNOWLEDGEBASE') . ' - ' . $page_title);
 			break;
 
 			case 'viewarticle':
@@ -967,7 +967,7 @@ class main_controller implements main_interface
 				// Do we have a article id?
 				if (!$article_id)
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 				}
 
 				$sql_where = (!$this->auth->acl_get('m_kb_approve')) ? ' AND article_visibility = ' . constants::ARTICLE_APPROVED : '';
@@ -1011,7 +1011,7 @@ class main_controller implements main_interface
 
 				if ($data['article_visibility'] <> constants::ARTICLE_APPROVED && !$this->auth->acl_get('m_kb_approve'))
 				{
-					throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_ARTICLE'));
+					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 				}
 
 				// Update the views counter
@@ -1056,11 +1056,11 @@ class main_controller implements main_interface
 					'U_VIEW_ARTICLE_LINK'	=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'viewarticle', 'a' => (int) $article_id), true, false, UrlGeneratorInterface::ABSOLUTE_URL),
 				));
 
-				return $this->helper->render('viewarticle_body.html', $this->lang->lang('KNOWLEDGEBASE') . ' - ' . $data['article_title']);
+				return $this->helper->render('viewarticle_body.html', $this->lang->lang('KB_KNOWLEDGEBASE') . ' - ' . $data['article_title']);
 			break;
 
 			default:
-				throw new \phpbb\exception\http_exception(404, $this->lang->lang('NO_PAGE_MODE'));
+				throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_PAGE_MODE'));
 			break;
 		}
 	}

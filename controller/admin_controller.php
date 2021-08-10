@@ -383,7 +383,7 @@ class admin_controller implements admin_interface
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_EDIT_LOG', time(), array($data['category_name']));
 
 				// Show user confirmation of the saved category and provide link back to the previous page
-				trigger_error($this->lang->lang('ACP_CATEGORY_EDITED') . adm_back_link("{$this->u_action}"));
+				trigger_error($this->lang->lang('ACP_KNOWLEDGEBASE_CATEGORY_EDITED') . adm_back_link("{$this->u_action}"));
 			}
 			else
 			{
@@ -400,7 +400,7 @@ class admin_controller implements admin_interface
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_ADD_LOG', time(), array($data['category_name']));
 
 				// Show user confirmation of the added category and provide link back to the previous page
-				trigger_error($this->lang->lang('ACP_CATEGORY_ADDED') . adm_back_link("{$this->u_action}"));
+				trigger_error($this->lang->lang('ACP_KNOWLEDGEBASE_CATEGORY_ADDED') . adm_back_link("{$this->u_action}"));
 			}
 		}
 
@@ -479,7 +479,7 @@ class admin_controller implements admin_interface
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
 
-				trigger_error($this->lang->lang('ACP_CATEGORY_DELETED') . adm_back_link("{$this->u_action}"));
+				trigger_error($this->lang->lang('ACP_KNOWLEDGEBASE_CATEGORY_DELETED') . adm_back_link("{$this->u_action}"));
 			}
 			else
 			{
@@ -622,7 +622,7 @@ class admin_controller implements admin_interface
 
 				$this->log->add('admin', $this->user->data['user_id'], $this->user->data['user_ip'], 'ACP_KNOWLEDGEBASE_CATEGORY_DELETE_LOG', time(), array($category_name));
 
-				$message = ($j > 0) ? $message : $this->lang->lang('ACP_CATEGORY_DELETED');
+				$message = ($j > 0) ? $message : $this->lang->lang('ACP_KNOWLEDGEBASE_CATEGORY_DELETED');
 				trigger_error($message . adm_back_link($this->u_action));
 			}
 
@@ -653,7 +653,7 @@ class admin_controller implements admin_interface
 		// If the hash, is invalid we return an error.
 		if (!check_link_hash($this->request->variable('hash', ''), 'kb_move'))
 		{
-			trigger_error($this->lang->lang('ACP_KNOWLEDGEDABE_INVALID_HASH') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->lang->lang('ACP_KNOWLEDGEBASE_INVALID_HASH') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		$sql = 'SELECT *
