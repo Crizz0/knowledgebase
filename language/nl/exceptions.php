@@ -39,11 +39,11 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Verplicht veld ontbreekt',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Ongeldig argument opgegeven voor `%1$s`. Reden: %2$s',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'Het veld `%1$s` heeft data ontvangen buiten haar grenzen',
-	'EXCEPTION_TOO_LONG'			=> 'De opgave was langer dan de maximum lengte.',
-	'EXCEPTION_NOT_UNIQUE'			=> 'De opgave was niet uniek.',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'Het veld `%1$s` ontving onverwachte data. Reden: %2$s',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'Op opgave bevatte illegale karakters.',
+	'KB_EXCEPTION_FIELD_MISSING'		=> 'Verplicht veld ontbreekt',
+	'KB_EXCEPTION_INVALID_ARGUMENT'	=> 'Ongeldig argument opgegeven voor `%1$s`. Reden: %2$s',
+	'KB_EXCEPTION_OUT_OF_BOUNDS'		=> 'Het veld `%1$s` heeft data ontvangen buiten haar grenzen',
+	'KB_EXCEPTION_TOO_LONG'			=> 'De opgave was langer dan de maximum lengte.',
+	'KB_EXCEPTION_NOT_UNIQUE'			=> 'De opgave was niet uniek.',
+	'KB_EXCEPTION_UNEXPECTED_VALUE'	=> 'Het veld `%1$s` ontving onverwachte data. Reden: %2$s',
+	'KB_EXCEPTION_ILLEGAL_CHARACTERS'	=> 'Op opgave bevatte illegale karakters.',
 ));

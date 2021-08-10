@@ -38,11 +38,11 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received data beyond its bounds',
-	'EXCEPTION_TOO_LONG'			=> 'The input was longer than the maximum length.',
-	'EXCEPTION_NOT_UNIQUE'			=> 'The input was not unique.',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field `%1$s` received unexpected data. Reason: %2$s',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The input contained illegal characters.',
+	'KB_EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
+	'KB_EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
+	'KB_EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received data beyond its bounds',
+	'KB_EXCEPTION_TOO_LONG'			=> 'The input was longer than the maximum length.',
+	'KB_EXCEPTION_NOT_UNIQUE'			=> 'The input was not unique.',
+	'KB_EXCEPTION_UNEXPECTED_VALUE'	=> 'The field `%1$s` received unexpected data. Reason: %2$s',
+	'KB_EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The input contained illegal characters.',
 ));
