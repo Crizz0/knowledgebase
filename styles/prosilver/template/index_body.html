@@ -1,22 +1,22 @@
 <!-- INCLUDECSS @kinerity_knowledgebase/knowledgebase_controller.css -->
 <!-- INCLUDE overall_header.html -->
-<h2 class="forum-title"><a href="{U_KNOWLEDGEBASE}">{L_KNOWLEDGEBASE}</a></h2>
-<p>{L_KNOWLEDGEBASE_EXPLAIN}</p>
+<h2 class="forum-title"><a href="{U_KNOWLEDGEBASE}">{L_KB_KNOWLEDGEBASE}</a></h2>
+<p>{L_KB_KNOWLEDGEBASE_EXPLAIN}</p>
 
 <!-- IF S_DISPLAY_POST_BUTTON or S_DISPLAY_TYPE_MENU -->
 	<div class="action-bar bar-top">
 
 	<!-- IF not S_IS_BOT and S_DISPLAY_POST_BUTTON -->
 
-		<a href="{U_POST_NEW_ARTICLE}" class="button" title="{L_POST_ARTICLE}">
-				<span>{L_BUTTON_NEW_ARTICLE}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
+		<a href="{U_POST_NEW_ARTICLE}" class="button" title="{L_KB_POST_ARTICLE}">
+				<span>{L_KB_BUTTON_NEW_ARTICLE}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
 		</a>
 
 	<!-- ENDIF -->
 
 	<!-- IF S_DISPLAY_TYPE_MENU -->
 	<div class="dropdown-container dropdown-button-control topic-tools">
-		<span title="{L_TYPE}" class="button button-secondary dropdown-trigger dropdown-select">
+		<span title="{L_KB_TYPE}" class="button button-secondary dropdown-trigger dropdown-select">
 			{TYPE}
 			<span class="caret"><i class="icon fa-sort-down fa-fw" aria-hidden="true"></i></span>
 		</span>
@@ -39,11 +39,11 @@
 		<div class="main-content">
 			<div class="inner">
 
-			<p id="explain" class="explain">{L_NARROW_SEARCH}{L_COLON}</p>
+			<p id="explain" class="explain">{L_KB_NARROW_SEARCH}{L_COLON}</p>
 			<form method="get" id="categories" action="">
 				<fieldset>
 					<select name="c" id="category_id" onchange="document.getElementById('categories').submit()">
-					<option value="all">{L_ALL_CATEGORIES}</option>
+					<option value="all">{L_KB_ALL_CATEGORIES}</option>
 						<!-- BEGIN categories -->
 						<option value="{categories.CATEGORY_ID}"<!-- IF categories.S_SELECTED --> selected="selected"<!-- ENDIF -->>{categories.CATEGORY_NAME}</option>
 						<!-- END categories -->
@@ -63,9 +63,9 @@
 		<ul class="topiclist">
 			<li class="header">
 				<dl class="row-item">
-					<dt><div class="list-inner">{L_ARTICLES}</div></dt>
-					<dd class="views">{L_VIEWS}</dd>
-					<dd class="lastpost"><span>{L_AUTHOR}</span></dd>
+					<dt><div class="list-inner">{L_KB_ARTICLES}</div></dt>
+					<dd class="views">{L_KB_VIEWS}</dd>
+					<dd class="lastpost"><span>{L_KB_AUTHOR}</span></dd>
 				</dl>
 			</li>
 		</ul>
@@ -79,12 +79,12 @@
 							<br />
 							<span>{articlerow.ARTICLE_DESCRIPTION}</span>
 						<br />
-						<b>{L_CATEGORIES}{L_COLON}</b> {articlerow.CATEGORIES}
+						<b>{L_KB_CATEGORIES}{L_COLON}</b> {articlerow.CATEGORIES}
 					</div>
 				</dt>
-				<dd class="views">{articlerow.VIEWS} <dfn>{L_VIEWS}</dfn></dd>
+				<dd class="views">{articlerow.VIEWS} <dfn>{L_KB_VIEWS}</dfn></dd>
 				<dd class="lastpost">
-					<span><dfn>{L_AUTHOR} </dfn>{articlerow.ARTICLE_AUTHOR_FULL}
+					<span><dfn>{L_KB_AUTHOR} </dfn>{articlerow.ARTICLE_AUTHOR_FULL}
 						<br />{articlerow.ARTICLE_TIME}
 					</span>
 				</dd>
@@ -98,7 +98,7 @@
 <!-- ELSE -->
 	<div class="panel">
 		<div class="inner">
-		<strong>{L_NO_ARTICLES}</strong>
+		<strong>{L_KB_NO_ARTICLES}</strong>
 		</div>
 	</div>
 <!-- ENDIF -->
