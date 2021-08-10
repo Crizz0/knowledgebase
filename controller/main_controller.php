@@ -256,7 +256,7 @@ class main_controller implements main_interface
 					));
 				}
 
-				if (sizeof($article_list))
+				if (count($article_list))
 				{
 					// Get the categories for each article
 					$sql_ary = array(
@@ -768,7 +768,7 @@ class main_controller implements main_interface
 						$error[] .= $this->lang->lang('EMPTY_DESCRIPTION');
 					}
 
-					if (!sizeof($category_list))
+					if (!count($category_list))
 					{
 						$error[] .= $this->lang->lang('EMPTY_CATEGORY');
 					}
@@ -778,7 +778,7 @@ class main_controller implements main_interface
 						$error[] .= $this->lang->lang('EMPTY_TEXT');
 					}
 
-					if (!sizeof($error))
+					if (!count($error))
 					{
 						generate_text_for_storage($text, $uid, $bitfield, $options, (bool) $article_bbcode, (bool) $article_urls, (bool) $article_smilies);
 
@@ -932,7 +932,7 @@ class main_controller implements main_interface
 					'SMILIES_STATUS'		=> ($smilies_status) ? $this->lang->lang('SMILIES_ARE_ON') : $this->lang->lang('SMILIES_ARE_OFF'),
 					'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->lang->lang('URL_IS_ON') : $this->lang->lang('URL_IS_OFF'),
 
-					'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : '',
+					'ERROR'	=> (count($error)) ? implode('<br />', $error) : '',
 
 					'L_POST_A'	=> $page_title,
 

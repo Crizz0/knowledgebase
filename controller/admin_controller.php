@@ -706,7 +706,7 @@ class admin_controller implements admin_interface
 		}
 		$this->db->sql_freeresult($result);
 
-		if (!sizeof($target))
+		if (!count($target))
 		{
 			// The category is already on top or bottom
 			return false;
@@ -757,7 +757,7 @@ class admin_controller implements admin_interface
 				AND right_id BETWEEN {$left_id} AND {$right_id}";
 		$this->db->sql_query($sql);
 
-		return $target['cat_name'];
+		return $target['category_name'];
 	}
 
 	/**

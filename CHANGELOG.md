@@ -4,6 +4,20 @@ All changes to `Knowledge Base` will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
   
+## [1.1.1] - 2021-08-03
+
+### Added
+  
+### Changed
+-	The `composer.json` file according to new version
+-	Changed the use of `sizeof()` to `count()` in `controller/admin_controller.php` and `controller/main_controller.php`
+  
+### Fixed
+-	The undefined index `cat_name` to `category_name` in `controller/admin_controller.php`, line 760
+  
+### Removed
+
+    
 ## [1.1.0] - 2021-07-26
 
 ### Added
