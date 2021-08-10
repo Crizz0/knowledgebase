@@ -123,7 +123,7 @@ class article_in_queue extends \phpbb\notification\type\base
 	public function get_title()
 	{
 		return $this->language->lang(
-			'NOTIFICATION_ARTICLE_IN_QUEUE',
+			'KB_NOTIFICATION_ARTICLE_IN_QUEUE',
 			$this->get_data('article_title')
 		);
 	}
