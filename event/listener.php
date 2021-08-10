@@ -104,7 +104,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($event['on_page'][1] === 'app' && (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/kb/index') === 0 || strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/kb/viewcategory') === 0 || strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/kb/viewarticle') === 0))
 		{
-			$event['location'] = $this->lang->lang('VIEWING_KNOWLEDGEBASE');
+			$event['location'] = $this->lang->lang('KB_VIEWING_KNOWLEDGEBASE');
 			$event['location_url'] = $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index'));
 		}
 	}
