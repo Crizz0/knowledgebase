@@ -596,7 +596,7 @@ class main_controller implements main_interface
 						}
 						else
 						{
-							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('KB_DELETE'))));
+							confirm_box(false, $this->lang->lang('KB_ARTICLE_CONFIRM', strtolower($this->lang->lang('DELETE'))));
 						}
 					break;
 
