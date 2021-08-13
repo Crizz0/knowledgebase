@@ -135,7 +135,7 @@ class main_controller implements main_interface
 
 				// Basic pagewide vars
 				$this->template->assign_vars(array(
-					'TYPE'	=> $this->lang->lang(strtoupper($type)),
+					'TYPE'	=> $this->lang->lang('KB_' . strtoupper($type)),
 
 					'S_DISPLAY_POST_BUTTON'	=> $this->auth->acl_get('u_kb_post') ? true : false,
 					'S_DISPLAY_TYPE_MENU'	=> $this->auth->acl_get('m_kb_approve') ? true : false,
@@ -150,7 +150,7 @@ class main_controller implements main_interface
 				foreach ($type_array as $key)
 				{
 					$this->template->assign_block_vars('types', array(
-						'TYPE'	=> $this->lang->lang(strtoupper($key)),
+						'TYPE'	=> $this->lang->lang('KB_' . strtoupper($key)),
 
 						'U_TYPE'	=> $this->helper->route('kinerity_knowledgebase_main_controller', array('page' => 'index', 'type' => $key)),
 					));
