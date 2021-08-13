@@ -1,4 +1,4 @@
-# phpBB 3.2/3.3 Extension - phpBB.de Knowledge Base
+# phpBB 3.2/3.3 Extension - Knowledge Base
 
 This extension adds a knowledge base to your phpBB board, where you can create categories with articles. 
 The articles can be created by users with the necessary permissions and t0 
