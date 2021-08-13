@@ -79,9 +79,9 @@ $lang = array_merge($lang, array(
 	'KB_INVALID_MODE'	=> 'Ongeldige modus',
 	'KB_INVALID_TYPE'	=> 'Ongeldig type',
 
-	'KB_KNOWLEDGEBASE'				=> 'Kennisbank',
-	'KB_KNOWLEDGEBASE_EXPLAIN'		=> 'Dit gedeelte bevat gedetailleerde artikels voortbordurend op een aantal van de voorkomende problemen die gebruikers ondervinden. Artikels die ingezonden worden door de leden van het forum worden gecontroleerd door het team. Indien je geen antwoorden vind op je vragen raden we je aan om het forum eens te doorzoeken. Je kan ook de zoekfunctie gebruiken.',
-	'KB_KNOWLEDGEBASE_TITLE'		=> 'Bekijk de Kennisbank',
+	'KNOWLEDGEBASE'				=> 'Kennisbank',
+	'KNOWLEDGEBASE_EXPLAIN'		=> 'Dit gedeelte bevat gedetailleerde artikels voortbordurend op een aantal van de voorkomende problemen die gebruikers ondervinden. Artikels die ingezonden worden door de leden van het forum worden gecontroleerd door het team. Indien je geen antwoorden vind op je vragen raden we je aan om het forum eens te doorzoeken. Je kan ook de zoekfunctie gebruiken.',
+	'KNOWLEDGEBASE_TITLE'		=> 'Bekijk de Kennisbank',
 
 	'KB_LAST_MODIFIED'		=> 'Laatst bewerkt',
 'KB_LAST_MODIFIED_BY'	=> 'Last modified by',

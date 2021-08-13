@@ -79,9 +79,9 @@ $lang = array_merge($lang, array(
 	'KB_INVALID_MODE'	=> 'Geçersiz Mod',
 	'KB_INVALID_TYPE'	=> 'Geçersiz Tür',
 
-	'KB_KNOWLEDGEBASE'			=> 'Bilgi Tabanı',
-	'KB_KNOWLEDGEBASE_EXPLAIN'	=> 'Bu bölümde kullanıcıların karşılaştığı bazı genel sorunlarla ilgili ayrıntılı makaleler yer almaktadır. Mesaj panosunun üyeleri tarafından girilen makaleler doğruluk açısından yönetici ve moderatörler tarafından kontrol edilir. Eğer sorunuzun cevabını burada bulamazsanız, hem forumlara bakmanızı hem de arama fonksiyonunu kullanmanızı öneririz.',
-	'KB_KNOWLEDGEBASE_TITLE'	=> 'Bilgi Tabanını görüntüle',
+	'KNOWLEDGEBASE'			=> 'Bilgi Tabanı',
+	'KNOWLEDGEBASE_EXPLAIN'	=> 'Bu bölümde kullanıcıların karşılaştığı bazı genel sorunlarla ilgili ayrıntılı makaleler yer almaktadır. Mesaj panosunun üyeleri tarafından girilen makaleler doğruluk açısından yönetici ve moderatörler tarafından kontrol edilir. Eğer sorunuzun cevabını burada bulamazsanız, hem forumlara bakmanızı hem de arama fonksiyonunu kullanmanızı öneririz.',
+	'KNOWLEDGEBASE_TITLE'	=> 'Bilgi Tabanını görüntüle',
 
 	'KB_LAST_MODIFIED'		=> 'Son düzenleme',
 'KB_LAST_MODIFIED_BY'	=> 'Last modified by',

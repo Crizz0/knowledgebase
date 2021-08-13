@@ -78,9 +78,9 @@ $lang = array_merge($lang, array(
 	'KB_INVALID_MODE'	=> 'Modo no válido',
 	'KB_INVALID_TYPE'	=> 'Tipo no válido',
 
-	'KB_KNOWLEDGEBASE'			=> 'Base de Conocimiento',
-	'KB_KNOWLEDGEBASE_EXPLAIN'	=> 'Esta sección contiene artículos detallados que explican algunos de los problemas comunes que los usuarios encuentran. Los artículos presentados por los miembros de la comunidad son revisados para que el equipo los compruebe con exactitud. Si no encuentra la respuesta a su pregunta aquí, le recomendamos visite los foros y utilice la búsqueda.',
-	'KB_KNOWLEDGEBASE_TITLE'	=> 'Ver la Base de Conocimiento',
+	'KNOWLEDGEBASE'			=> 'Base de Conocimiento',
+	'KNOWLEDGEBASE_EXPLAIN'	=> 'Esta sección contiene artículos detallados que explican algunos de los problemas comunes que los usuarios encuentran. Los artículos presentados por los miembros de la comunidad son revisados para que el equipo los compruebe con exactitud. Si no encuentra la respuesta a su pregunta aquí, le recomendamos visite los foros y utilice la búsqueda.',
+	'KNOWLEDGEBASE_TITLE'	=> 'Ver la Base de Conocimiento',
 
 	'KB_LAST_MODIFIED'		=> 'Última modificación',
 'KB_LAST_MODIFIED_BY'	=> 'Last modified by',
