@@ -112,7 +112,7 @@ class delete_article extends \phpbb\notification\type\base
 	public function get_title()
 	{
 		return $this->language->lang(
-			'NOTIFICATION_ARTICLE_DELETED',
+			'KB_NOTIFICATION_ARTICLE_DELETED',
 			$this->get_data('article_title')
 		);
 	}

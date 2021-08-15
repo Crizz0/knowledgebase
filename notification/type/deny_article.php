@@ -112,7 +112,7 @@ class deny_article extends \phpbb\notification\type\base
 	public function get_title()
 	{
 		return $this->language->lang(
-			'NOTIFICATION_ARTICLE_DENIED',
+			'KB_NOTIFICATION_ARTICLE_DENIED',
 			$this->get_data('article_title')
 		);
 	}

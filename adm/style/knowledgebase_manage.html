@@ -27,13 +27,13 @@
 
 	<form id="add_edit_category" method="post" action="<!-- IF S_ADD_CATEGORY -->{U_ADD_ACTION}<!-- ELSE -->{U_EDIT_ACTION}<!-- ENDIF -->">
 		<fieldset>
-			<legend>{L_ACP_CATEGORY_SETTINGS}</legend>
+			<legend>{L_ACP_KNOWLEDGEBASE_CATEGORY_SETTINGS}</legend>
 			<dl>
-				<dt><label for="category_name">{L_ACP_CATEGORY_NAME}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_NAME_EXPLAIN}</span></dt>
+				<dt><label for="category_name">{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}{L_COLON}</label><br /><span>{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME_EXPLAIN}</span></dt>
 				<dd><input class="text medium" type="text" id="category_name" name="category_name" value="{CATEGORY_NAME}" maxlength="200" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="category_description">{L_ACP_CATEGORY_DESCRIPTION}{L_COLON}</label><br /><span>{L_ACP_CATEGORY_DESCRIPTION_EXPLAIN}</span></dt>
+				<dt><label for="category_description">{L_ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION}{L_COLON}</label><br /><span>{L_ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION_EXPLAIN}</span></dt>
 				<dd>
 					<textarea id="category_description" name="category_description" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{CATEGORY_DESCRIPTION}</textarea>
 				</dd>
@@ -74,14 +74,14 @@
 		<fieldset>
 			<legend>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY}</legend>
 			<dl>
-				<dt><label for="category_name">{L_ACP_CATEGORY_NAME}{L_COLON}</label></dt>
+				<dt><label for="category_name">{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}{L_COLON}</label></dt>
 				<dd>{CATEGORY_NAME}</dd>
 			</dl>
 			<dl>
 				<dt><label for="delete_action">{L_ACTION}{L_COLON}</label></dt>
-				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="delete" checked="checked" /> {L_ACP_DELETE_ARTICLES}</label></dd>
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="delete" checked="checked" /> {L_ACP_KNOWLEDGEBASE_DELETE_ARTICLES}</label></dd>
 				<!-- IF S_MOVE_ARTICLES_OPTIONS -->
-				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="move" /> {L_ACP_MOVE_ARTICLES}</label> <select name="id">{MOVE_ARTICLES_OPTIONS}</select></dd>
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="move" /> {L_ACP_KNOWLEDGEBASE_MOVE_ARTICLES}</label> <select name="id">{MOVE_ARTICLES_OPTIONS}</select></dd>
 				<!-- ENDIF -->
 			</dl>
 		</fieldset>
@@ -103,7 +103,7 @@
 		<colgroup><col class="row1" /><col class="row1" /><col class="row2" /></colgroup>
 		<thead>
 			<tr>
-				<th colspan="2">{L_ACP_CATEGORIES}</th>
+				<th colspan="2">{L_ACP_KNOWLEDGEBASE_CATEGORIES}</th>
 				<th>{L_ACTION}</th>
 			</tr>
 		</thead>
@@ -115,7 +115,7 @@
 				<td class="forum-desc">
 					<strong>{categories.CATEGORY_NAME}</strong>
 					<!-- IF categories.CATEGORY_DESCRIPTION --><br /><span>{categories.CATEGORY_DESCRIPTION}</span><!-- ENDIF -->
-					<br /><br /><span>{L_ACP_ARTICLES}{L_COLON} <strong>{categories.ARTICLES}</strong></span>
+					<br /><br /><span>{L_ACP_KNOWLEDGEBASE_ARTICLES}{L_COLON} <strong>{categories.ARTICLES}</strong></span>
 				</td>
 				<td class="actions">
 					<span class="up-disabled" style="display:none;">{ICON_MOVE_UP_DISABLED}</span>
@@ -134,8 +134,8 @@
 	<form id="categories" method="post" action="{U_ACTION}">
 
 	<fieldset class="quick">
-		{L_ACP_ADD_CATEGORY}{L_COLON}
-		<input type="text" name="category_name" value="" maxlength="200" placeholder="{L_ACP_CATEGORY_NAME}" />
+		{L_ACP_KNOWLEDGEBASE_ADD_CATEGORY}{L_COLON}
+		<input type="text" name="category_name" value="" maxlength="200" placeholder="{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}" />
 		<input class="button2" name="addcategory" type="submit" value="{L_SUBMIT}" />
 		<input type="hidden" name="action" value="add" />
 		{S_FORM_TOKEN}
