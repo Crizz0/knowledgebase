@@ -10,13 +10,13 @@
 						{% if U_EDIT_PREVIEW != '' %}<a href="{{ U_VIEW_ARTICLE_LINK }}">{{ ARTICLE_TITLE }}</a>{% endif %}
 						{% if U_POST_PREVIEW != '' %}{{ ARTICLE_TITLE }}{% endif %}
 					</h2>
-					<p class="article-meta"><strong>{{ lang('WRITTEN_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_AUTHOR_FULL }}<br />
-					<strong>{{ lang('WRITTEN_ON') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DATE }}<br />
-					{% if ARTICLE_EDIT_DATE %}<strong>{{ lang('LAST_MODIFIED') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_DATE }}<br />{% endif %}
-					{% if ARTICLE_EDIT_NAME %}<strong>{L_LAST_MODIFIED_BY}{L_COLON}</strong> {ARTICLE_EDIT_NAME}<br>{% endif %}
+					<p class="article-meta"><strong>{{ lang('KB_WRITTEN_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_AUTHOR_FULL }}<br />
+					<strong>{{ lang('KB_WRITTEN_ON') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DATE }}<br />
+					{% if ARTICLE_EDIT_DATE %}<strong>{{ lang('KB_LAST_MODIFIED') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_DATE }}<br />{% endif %}
+					{% if ARTICLE_EDIT_NAME %}<strong>{L_KB_LAST_MODIFIED_BY}{L_COLON}</strong> {ARTICLE_EDIT_NAME}<br>{% endif %}
 					{% if ARTICLE_VIEWS %}<strong>{{ lang('VIEWS') }}{{ lang('COLON') }}</strong> {{ ARTICLE_VIEWS }}</p>{% endif %}
-					<p class="article-description"><strong>{{ lang('DESCRIPTION') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DESCRIPTION }}</p>
-					<p class="article-categories"><strong>{{ lang('CATEGORIES') }}{{ lang('COLON') }}</strong> {{ CATEGORIES }}</p>
+					<p class="article-description"><strong>{{ lang('KB_DESCRIPTION') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DESCRIPTION }}</p>
+					<p class="article-categories"><strong>{{ lang('KB_CATEGORIES') }}{{ lang('COLON') }}</strong> {{ CATEGORIES }}</p>
 
 					<div class="content">
 						{% if U_EDIT_PREVIEW != '' %}
