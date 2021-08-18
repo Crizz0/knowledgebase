@@ -1,6 +1,6 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<!-- IF S_ADD_CATEGORY or S_EDIT_CATEGORY -->
+{% if S_ADD_CATEGORY or S_EDIT_CATEGORY %}
 
 	<script>
 		var form_name = 'add_edit_category';
@@ -8,57 +8,57 @@
 
 	<a id="maincontent"></a>
 
-	<!-- IF S_ADD_CATEGORY -->
-		<h1>{L_ACP_KNOWLEDGEBASE_CREATE_CATEGORY} :: {CATEGORY_NAME}</h1>
+	{% if S_ADD_CATEGORY %}
+		<h1>{{ lang('ACP_KNOWLEDGEBASE_CREATE_CATEGORY') }} :: {{ CATEGORY_NAME }}</h1>
 
-		<p>{L_ACP_KNOWLEDGEBASE_CREATE_CATEGORY_EXPLAIN}</p>
-	<!-- ELSE -->
-		<h1>{L_ACP_KNOWLEDGEBASE_EDIT_CATEGORY} :: {CATEGORY_NAME}</h1>
+		<p>{{ lang('ACP_KNOWLEDGEBASE_CREATE_CATEGORY_EXPLAIN') }}</p>
+	{% else %}
+		<h1>{{ lang('ACP_KNOWLEDGEBASE_EDIT_CATEGORY') }} :: {{ CATEGORY_NAME }}</h1>
 
-		<p>{L_ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN}</p>
-	<!-- ENDIF -->
+		<p>{{ lang('ACP_KNOWLEDGEBASE_EDIT_CATEGORY_EXPLAIN') }}</p>
+	{% endif %}
 
-	<!-- IF S_ERROR -->
+	{% if S_ERROR %}
 	<div class="errorbox">
-		<h3>{L_WARNING}</h3>
-		<p>{ERROR_MSG}</p>
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR_MSG }}</p>
 	</div>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<form id="add_edit_category" method="post" action="<!-- IF S_ADD_CATEGORY -->{U_ADD_ACTION}<!-- ELSE -->{U_EDIT_ACTION}<!-- ENDIF -->">
+	<form id="add_edit_category" method="post" action="{% if S_ADD_CATEGORY %}{{ U_ADD_ACTION }}{% else %}{{ U_EDIT_ACTION }}{% endif %}">
 		<fieldset>
-			<legend>{L_ACP_KNOWLEDGEBASE_CATEGORY_SETTINGS}</legend>
+			<legend>{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_SETTINGS') }}</legend>
 			<dl>
-				<dt><label for="category_name">{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}{L_COLON}</label><br /><span>{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME_EXPLAIN}</span></dt>
-				<dd><input class="text medium" type="text" id="category_name" name="category_name" value="{CATEGORY_NAME}" maxlength="200" /></dd>
+				<dt><label for="category_name">{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_NAME') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_NAME_EXPLAIN') }}</span></dt>
+				<dd><input class="text medium" type="text" id="category_name" name="category_name" value="{{ CATEGORY_NAME }}" maxlength="200" /></dd>
 			</dl>
 			<dl>
-				<dt><label for="category_description">{L_ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION}{L_COLON}</label><br /><span>{L_ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION_EXPLAIN}</span></dt>
+				<dt><label for="category_description">{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_DESCRIPTION_EXPLAIN') }}</span></dt>
 				<dd>
-					<textarea id="category_description" name="category_description" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{CATEGORY_DESCRIPTION}</textarea>
+					<textarea id="category_description" name="category_description" rows="5" cols="30" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" data-bbcode="true">{{ CATEGORY_DESCRIPTION }}</textarea>
 				</dd>
 				<dd>
-					<!-- IF S_BBCODE_ALLOWED -->
-						<label><input type="checkbox" class="radio" name="disable_bbcode"<!-- IF S_BBCODE_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_BBCODE}</label>
-					<!-- ENDIF -->
-					<!-- IF S_SMILIES_ALLOWED -->
-						<label><input type="checkbox" class="radio" name="disable_smilies"<!-- IF S_SMILIES_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_SMILIES}</label>
-					<!-- ENDIF -->
-					<!-- IF S_LINKS_ALLOWED -->
-						<label><input type="checkbox" class="radio" name="disable_magic_url"<!-- IF S_MAGIC_URL_DISABLE_CHECKED and not S_ADD_CATEGORY --> checked="checked"<!-- ENDIF --> /> {L_DISABLE_MAGIC_URL}</label>
-					<!-- ENDIF -->
+					{% if S_BBCODE_ALLOWED %}
+						<label><input type="checkbox" class="radio" name="disable_bbcode"{% if S_BBCODE_DISABLE_CHECKED and not S_ADD_CATEGORY %} checked="checked"{% endif %} /> {{ lang('DISABLE_BBCODE') }}</label>
+					{% endif %}
+					{% if S_SMILIES_ALLOWED %}
+						<label><input type="checkbox" class="radio" name="disable_smilies"{% if S_SMILIES_DISABLE_CHECKED and not S_ADD_CATEGORY %} checked="checked"{% endif %} /> {{ lang('DISABLE_SMILIES') }}</label>
+					{% endif %}
+					{% if S_LINKS_ALLOWED %}
+						<label><input type="checkbox" class="radio" name="disable_magic_url"{% if S_MAGIC_URL_DISABLE_CHECKED and not S_ADD_CATEGORY %} checked="checked"{% endif %} /> {{ lang('DISABLE_MAGIC_URL') }}</label>
+					{% endif %}
 				</dd>
-				<dd><strong>{L_OPTIONS}{L_COLON} </strong>{BBCODE_STATUS} :: {URL_STATUS} :: {SMILIES_STATUS}</dd>
+				<dd><strong>{{ lang('OPTIONS') }}{{ lang('COLON') }} </strong>{{ BBCODE_STATUS }} :: {{ URL_STATUS }} :: {{ SMILIES_STATUS }}</dd>
 			</dl>
 		</fieldset>
 
 		<fieldset class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			{S_FORM_TOKEN}
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			{{ S_FORM_TOKEN }}
 		</fieldset>
 	</form>
 
-<!-- ELSEIF S_DELETE_CATEGORY -->
+{% elseif S_DELETE_CATEGORY %}
 
 	<script>
 		var form_name = 'delete_category';
@@ -66,82 +66,82 @@
 
 	<a id="maincontent"></a>
 
-	<h1>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY} :: {CATEGORY_NAME}</h1>
+	<h1>{{ lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY') }} :: {{ CATEGORY_NAME }}</h1>
 
-	<p>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN}</p>
+	<p>{{ lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_EXPLAIN') }}</p>
 
-	<form id="delete_category" method="post" action="{U_DELETE_ACTION}">
+	<form id="delete_category" method="post" action="{{ U_DELETE_ACTION }}">
 		<fieldset>
-			<legend>{L_ACP_KNOWLEDGEBASE_DELETE_CATEGORY}</legend>
+			<legend>{{ lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY') }}</legend>
 			<dl>
-				<dt><label for="category_name">{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}{L_COLON}</label></dt>
-				<dd>{CATEGORY_NAME}</dd>
+				<dt><label for="category_name">{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_NAME') }}{{ lang('COLON') }}</label></dt>
+				<dd>{{ CATEGORY_NAME }}</dd>
 			</dl>
 			<dl>
-				<dt><label for="delete_action">{L_ACTION}{L_COLON}</label></dt>
-				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="delete" checked="checked" /> {L_ACP_KNOWLEDGEBASE_DELETE_ARTICLES}</label></dd>
-				<!-- IF S_MOVE_ARTICLES_OPTIONS -->
-				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="move" /> {L_ACP_KNOWLEDGEBASE_MOVE_ARTICLES}</label> <select name="id">{MOVE_ARTICLES_OPTIONS}</select></dd>
-				<!-- ENDIF -->
+				<dt><label for="delete_action">{{ lang('ACTION') }}{{ lang('COLON') }}</label></dt>
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="delete" checked="checked" /> {{ lang('ACP_KNOWLEDGEBASE_DELETE_ARTICLES') }}</label></dd>
+				{% if S_MOVE_ARTICLES_OPTIONS %}
+				<dd><label><input type="radio" class="radio" id="delete_action" name="delete_action" value="move" /> {{ lang('ACP_KNOWLEDGEBASE_MOVE_ARTICLES') }}</label> <select name="id">{{ MOVE_ARTICLES_OPTIONS }}</select></dd>
+				{% endif %}
 			</dl>
 		</fieldset>
 
 		<fieldset class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			{S_FORM_TOKEN}
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			{{ S_FORM_TOKEN }}
 		</fieldset>
 	</form>
 
-<!-- ELSE -->
+{% else %}
 
-	<h1>{L_ACP_KNOWLEDGEBASE_MANAGE}</h1>
+	<h1>{{ lang('ACP_KNOWLEDGEBASE_MANAGE') }}</h1>
 
-	<p>{L_ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN}</p>
+	<p>{{ lang('ACP_KNOWLEDGEBASE_MANAGE_EXPLAIN') }}</p>
 
-	<!-- IF .categories -->
+	{% if loops.categories|length %}
 	<table class="table1 forums">
 		<colgroup><col class="row1" /><col class="row1" /><col class="row2" /></colgroup>
 		<thead>
 			<tr>
-				<th colspan="2">{L_ACP_KNOWLEDGEBASE_CATEGORIES}</th>
-				<th>{L_ACTION}</th>
+				<th colspan="2">{{ lang('ACP_KNOWLEDGEBASE_CATEGORIES') }}</th>
+				<th>{{ lang('ACTION') }}</th>
 			</tr>
 		</thead>
 		<tbody>
-			<!-- BEGIN categories -->
+			{% for categories in loops.categories %}
 			<tr>
 				<td class="folder">
-					<img src="images/icon_subfolder.gif" alt="{L_ACP_KNOWLEDGEBASE_CATEGORY}" />
+					<img src="images/icon_subfolder.gif" alt="{{ lang('ACP_KNOWLEDGEBASE_CATEGORY') }}" />
 				<td class="forum-desc">
-					<strong>{categories.CATEGORY_NAME}</strong>
-					<!-- IF categories.CATEGORY_DESCRIPTION --><br /><span>{categories.CATEGORY_DESCRIPTION}</span><!-- ENDIF -->
-					<br /><br /><span>{L_ACP_KNOWLEDGEBASE_ARTICLES}{L_COLON} <strong>{categories.ARTICLES}</strong></span>
+					<strong>{{ categories.CATEGORY_NAME }}</strong>
+					{% if categories.CATEGORY_DESCRIPTION %}<br /><span>{{ categories.CATEGORY_DESCRIPTION }}</span>{% endif %}
+					<br /><br /><span>{{ lang('ACP_KNOWLEDGEBASE_ARTICLES') }}{{ lang('COLON') }} <strong>{{ categories.ARTICLES }}</strong></span>
 				</td>
 				<td class="actions">
-					<span class="up-disabled" style="display:none;">{ICON_MOVE_UP_DISABLED}</span>
-					<span class="up"><a href="{categories.U_MOVE_UP}">{ICON_MOVE_UP}</a></span>
-					<span class="down-disabled" style="display:none;">{ICON_MOVE_DOWN_DISABLED}</span>
-					<span class="down"><a href="{categories.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a></span>
-					<a href="{categories.U_EDIT}">{ICON_EDIT}</a>
-					<a href="{categories.U_DELETE}">{ICON_DELETE}</a>
+					<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+					<span class="up"><a href="{{ categories.U_MOVE_UP }}">{{ ICON_MOVE_UP }}</a></span>
+					<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+					<span class="down"><a href="{{ categories.U_MOVE_DOWN }}">{{ ICON_MOVE_DOWN }}</a></span>
+					<a href="{{ categories.U_EDIT }}">{{ ICON_EDIT }}</a>
+					<a href="{{ categories.U_DELETE }}">{{ ICON_DELETE }}</a>
 				</td>
 			</tr>
-		<!-- END categories -->
+		{% endfor %}
 		</tbody>
 	</table>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<form id="categories" method="post" action="{U_ACTION}">
+	<form id="categories" method="post" action="{{ U_ACTION }}">
 
 	<fieldset class="quick">
-		{L_ACP_KNOWLEDGEBASE_ADD_CATEGORY}{L_COLON}
-		<input type="text" name="category_name" value="" maxlength="200" placeholder="{L_ACP_KNOWLEDGEBASE_CATEGORY_NAME}" />
-		<input class="button2" name="addcategory" type="submit" value="{L_SUBMIT}" />
+		{{ lang('ACP_KNOWLEDGEBASE_ADD_CATEGORY') }}{{ lang('COLON') }}
+		<input type="text" name="category_name" value="" maxlength="200" placeholder="{{ lang('ACP_KNOWLEDGEBASE_CATEGORY_NAME') }}" />
+		<input class="button2" name="addcategory" type="submit" value="{{ lang('SUBMIT') }}" />
 		<input type="hidden" name="action" value="add" />
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 	</form>
 
-<!-- ENDIF -->
+{% endif %}
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}

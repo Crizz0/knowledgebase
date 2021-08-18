@@ -4,7 +4,7 @@
 		<div class="article-body">
 			<div class="postbody">
 
-				<div id="post_content{ARTICLE_ID}">
+				<div id="post_content{{ ARTICLE_ID }}">
 
 					<h2 class="article-title">
 						{% if U_EDIT_PREVIEW != '' %}<a href="{{ U_VIEW_ARTICLE_LINK }}">{{ ARTICLE_TITLE }}</a>{% endif %}
@@ -13,7 +13,7 @@
 					<p class="article-meta"><strong>{{ lang('KB_WRITTEN_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_AUTHOR_FULL }}<br />
 					<strong>{{ lang('KB_WRITTEN_ON') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DATE }}<br />
 					{% if ARTICLE_EDIT_DATE %}<strong>{{ lang('KB_LAST_MODIFIED') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_DATE }}<br />{% endif %}
-					{% if ARTICLE_EDIT_NAME %}<strong>{L_KB_LAST_MODIFIED_BY}{L_COLON}</strong> {ARTICLE_EDIT_NAME}<br>{% endif %}
+					{% if ARTICLE_EDIT_NAME %}<strong>{{ lang('KB_LAST_MODIFIED_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_NAME }}<br>{% endif %}
 					{% if ARTICLE_VIEWS %}<strong>{{ lang('VIEWS') }}{{ lang('COLON') }}</strong> {{ ARTICLE_VIEWS }}</p>{% endif %}
 					<p class="article-description"><strong>{{ lang('KB_DESCRIPTION') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DESCRIPTION }}</p>
 					<p class="article-categories"><strong>{{ lang('KB_CATEGORIES') }}{{ lang('COLON') }}</strong> {{ CATEGORIES }}</p>
@@ -22,7 +22,7 @@
 						{% if U_EDIT_PREVIEW != '' %}
 						<div class="codebox">
 							<p>{{ lang('LINK_TO_ARTICLE') }}: <a href="#" onclick="selectCode(this); return false;">{{ lang('SELECT_ALL_CODE') }}</a></p>
-							<code>[url={U_VIEW_ARTICLE_LINK}]{{ lang('KNOWLEDGEBASE') }} - {{ ARTICLE_TITLE }}[/url]</code>
+							<code>[url={{ U_VIEW_ARTICLE_LINK }}]{{ lang('KNOWLEDGEBASE') }} - {{ ARTICLE_TITLE }}[/url]</code>
 						</div>
 						{% endif %}
 
