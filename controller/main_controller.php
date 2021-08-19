@@ -934,7 +934,7 @@ class main_controller implements main_interface
 
 					'ERROR'	=> (count($error)) ? implode('<br />', $error) : '',
 
-					'L_KB_POST_A'			=> $page_title,
+					'KB_POST_A'			=> $page_title,
 
 					'S_CHGPOSTER'			=> $this->auth->acl_get('m_kb_chgposter') ? true : false,
 

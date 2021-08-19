@@ -1,73 +1,73 @@
-<!-- INCLUDECSS @kinerity_knowledgebase/knowledgebase_controller.css -->
-<!-- INCLUDE overall_header.html -->
+{% INCLUDECSS '@kinerity_knowledgebase/knowledgebase_controller.css' %}
+{% INCLUDE 'overall_header.html' %}
 
-	<div id="p{ARTICLE_ID}" class="post bg1">
+	<div id="p{{ ARTICLE_ID }}" class="post bg1">
 		<div class="inner">
 
 		<div class="article-body">
 		<div class="postbody">
-			<div id="post_content{ARTICLE_ID}">
+			<div id="post_content{{ ARTICLE_ID }}">
 
-		<!-- DEFINE $SHOW_POST_BUTTONS = (U_EDIT or U_DELETE or U_APPROVE or U_DISAPPROVE or U_DENY) -->
-		<!-- IF not S_IS_BOT -->
-			<!-- IF $SHOW_POST_BUTTONS -->
+		{% DEFINE SHOW_POST_BUTTONS = (U_EDIT or U_DELETE or U_APPROVE or U_DISAPPROVE or U_DENY) %}
+		{% if not S_IS_BOT %}
+			{% if definition.SHOW_POST_BUTTONS %}
 				<ul class="post-buttons">
-					<!-- IF U_APPROVE -->
+					{% if U_APPROVE %}
 						<li>
-							<a href="{U_APPROVE}" title="{L_KB_APPROVE_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-check fa-fw" aria-hidden="true"></i><span class="sr-only">{L_KB_BUTTON_APPROVE}</span>
+							<a href="{{ U_APPROVE }}" title="{{ lang('KB_APPROVE_ARTICLE') }}" class="button button-icon-only">
+								<i class="icon fa-check fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('KB_BUTTON_APPROVE') }}</span>
 							</a>
 						</li>
-					<!-- ENDIF -->
-					<!-- IF U_DISAPPROVE -->
+					{% endif %}
+					{% if U_DISAPPROVE %}
 						<li>
-							<a href="{U_DISAPPROVE}" title="{L_KB_DISAPPROVE_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-minus fa-fw" aria-hidden="true"></i><span class="sr-only">{L_KB_BUTTON_DISAPPROVE}</span>
+							<a href="{{ U_DISAPPROVE }}" title="{{ lang('KB_DISAPPROVE_ARTICLE') }}" class="button button-icon-only">
+								<i class="icon fa-minus fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('KB_BUTTON_DISAPPROVE') }}</span>
 							</a>
 						</li>
-					<!-- ENDIF -->
-					<!-- IF U_DENY -->
+					{% endif %}
+					{% if U_DENY %}
 						<li>
-							<a href="{U_DENY}" title="{L_KB_DENY_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-ban fa-fw" aria-hidden="true"></i><span class="sr-only">{L_KB_BUTTON_DENY}</span>
+							<a href="{{ U_DENY }}" title="{{ lang('KB_DENY_ARTICLE') }}" class="button button-icon-only">
+								<i class="icon fa-ban fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('KB_BUTTON_DENY') }}</span>
 							</a>
 						</li>
-					<!-- ENDIF -->
-					<!-- IF U_EDIT -->
+					{% endif %}
+					{% if U_EDIT %}
 						<li>
-							<a href="{U_EDIT}" title="{L_KB_EDIT_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_KB_BUTTON_EDIT}</span>
+							<a href="{{ U_EDIT }}" title="{{ lang('KB_EDIT_ARTICLE') }}" class="button button-icon-only">
+								<i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('KB_BUTTON_EDIT') }}</span>
 							</a>
 						</li>
-					<!-- ENDIF -->
-					<!-- IF U_DELETE -->
+					{% endif %}
+					{% if U_DELETE %}
 						<li>
-							<a href="{U_DELETE}" title="{L_KB_DELETE_ARTICLE}" class="button button-icon-only">
-								<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_KB_BUTTON_DELETE}</span>
+							<a href="{{ U_DELETE }}" title="{{ lang('KB_DELETE_ARTICLE') }}" class="button button-icon-only">
+								<i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('KB_BUTTON_DELETE') }}</span>
 							</a>
 						</li>
-					<!-- ENDIF -->
+					{% endif %}
 				</ul>
-			<!-- ENDIF -->
-		<!-- ENDIF -->
+			{% endif %}
+		{% endif %}
 
-		<h2 class="article-title"><a href="{U_VIEW_ARTICLE}">{ARTICLE_TITLE}</a></h2>
-		<p class="article-meta"><strong>{L_KB_WRITTEN_BY}{L_COLON}</strong> {ARTICLE_AUTHOR_FULL}<br>
-		<strong>{L_KB_WRITTEN_ON}{L_COLON}</strong> {ARTICLE_DATE}<br />
-		<!-- IF ARTICLE_EDIT_DATE --><strong>{L_KB_LAST_MODIFIED}{L_COLON}</strong> {ARTICLE_EDIT_DATE}<br><!-- ENDIF -->
-		<!-- IF ARTICLE_EDIT_NAME --><strong>{L_KB_LAST_MODIFIED_BY}{L_COLON}</strong> {ARTICLE_EDIT_NAME}<br><!-- ENDIF -->
-		<strong>{L_VIEWS}{L_COLON}</strong> {ARTICLE_VIEWS}</p>
-		<p class="article-description"><strong>{L_KB_DESCRIPTION}{L_COLON}</strong> {ARTICLE_DESCRIPTION}</p>
-		<p class="article-categories"><strong>{L_KB_CATEGORIES}{L_COLON}</strong> {CATEGORIES}</p>
+		<h2 class="article-title"><a href="{{ U_VIEW_ARTICLE }}">{{ ARTICLE_TITLE }}</a></h2>
+		<p class="article-meta"><strong>{{ lang('KB_WRITTEN_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_AUTHOR_FULL }}<br>
+		<strong>{{ lang('KB_WRITTEN_ON') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DATE }}<br />
+		{% if ARTICLE_EDIT_DATE %}<strong>{{ lang('KB_LAST_MODIFIED') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_DATE }}<br>{% endif %}
+		{% if ARTICLE_EDIT_NAME %}<strong>{{ lang('KB_LAST_MODIFIED_BY') }}{{ lang('COLON') }}</strong> {{ ARTICLE_EDIT_NAME }}<br>{% endif %}
+		<strong>{{ lang('VIEWS') }}{{ lang('COLON') }}</strong> {{ ARTICLE_VIEWS }}</p>
+		<p class="article-description"><strong>{{ lang('KB_DESCRIPTION') }}{{ lang('COLON') }}</strong> {{ ARTICLE_DESCRIPTION }}</p>
+		<p class="article-categories"><strong>{{ lang('KB_CATEGORIES') }}{{ lang('COLON') }}</strong> {{ CATEGORIES }}</p>
 
 			<div class="content">
 			<div class="codebox">
-				<p>{L_KB_LINK_TO_ARTICLE}: <a href="#" onclick="selectCode(this); return false;">{L_SELECT_ALL_CODE}</a></p>
-				<code>[url={U_VIEW_ARTICLE_LINK}]{L_KNOWLEDGEBASE} - {ARTICLE_TITLE}[/url]</code>
+				<p>{{ lang('KB_LINK_TO_ARTICLE') }}{{ lang('COLON') }} <a href="#" onclick="selectCode(this); return false;">{{ lang('SELECT_ALL_CODE') }}</a></p>
+				<code>[url={{ U_VIEW_ARTICLE_LINK }}]{{ lang('KNOWLEDGEBASE') }} - {{ ARTICLE_TITLE }}[/url]</code>
 			</div>
 
 			<hr>
-			{MESSAGE}
+			{{ MESSAGE }}
 			</div>
 
 			</div>
@@ -78,4 +78,4 @@
 		</div>
 	</div>
 
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}
