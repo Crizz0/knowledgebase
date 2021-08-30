@@ -1,10 +1,10 @@
 # phpBB 3.2/3.3 Extension - Knowledge Base
 
 This extension adds a knowledge base to your phpBB board, where you can create categories with articles. 
-The articles can be created by users with the necessary permissions and t0 
+The articles can be created by users with the necessary permissions and 
 be created by users without the complete permissions, but will only be displayed after approval.
 
-The extension adds a settings menu to phpBB ACP under the extension tab. 
+The extension adds a settings page to phpBB ACP under the extension tab. 
 
 
 ## Install instructions:
