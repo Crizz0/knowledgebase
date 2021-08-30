@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.1.0] - 2021-08-16
 
 ### Added
-- A preview function for the `post´ and `edit` modes
+- A preview function for the `post` and `edit` modes
 - Inserted an additional column into the `KB_ARTICLES` table to hold the username of the last user who edited an article
 - The logging of editing an article
 - The `composer.json` file according to new version
