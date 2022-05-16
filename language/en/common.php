@@ -70,10 +70,10 @@ $lang = array_merge($lang, array(
 
 	'KB_EDIT_ARTICLE'	=> 'Edit article',
 
-	'KB_EMPTY_TITLE'		=> 'You must enter a title when posting an artilce.',
-	'KB_EMPTY_DESCRIPTION'	=> 'You must enter a description when posting an artilce.',
+	'KB_EMPTY_TITLE'		=> 'You must enter a title when posting an article.',
+	'KB_EMPTY_DESCRIPTION'	=> 'You must enter a description when posting an article.',
 	'KB_EMPTY_CATEGORY'	=> 'You must specify at least one category for this article to belong to.',
-	'KB_EMPTY_TEXT'		=> 'You must enter a message when posting an artilce.',
+	'KB_EMPTY_TEXT'		=> 'You must enter a message when posting an article.',
 
 	'KB_INVALID_MODE'	=> 'Invalid Mode',
 	'KB_INVALID_TYPE'	=> 'Invalid Type',
