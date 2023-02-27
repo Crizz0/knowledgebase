@@ -1009,7 +1009,7 @@ class main_controller implements main_interface
 				}
 				$this->db->sql_freeresult($result);
 
-				if ($data['article_visibility'] <> constants::ARTICLE_APPROVED && !$this->auth->acl_get('m_kb_approve'))
+				if (!$data || ($data['article_visibility'] <> constants::ARTICLE_APPROVED && !$this->auth->acl_get('m_kb_approve')))
 				{
 					throw new \phpbb\exception\http_exception(404, $this->lang->lang('KB_NO_ARTICLE'));
 				}
