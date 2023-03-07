@@ -32,4 +32,15 @@ class release_1_1_0 extends \phpbb\db\migration\migration
 			]
 		];
 	}
+
+	public function revert_schema()
+	{
+		return [
+			'drop_columns' => [
+				$this->table_prefix . 'kb_articles' => [
+					'article_edit_name',
+				],
+			]
+		];
+	}
 }
