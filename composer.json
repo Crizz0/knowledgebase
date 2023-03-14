@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Knowledge Base extension for phpBB",
     "homepage": "https://www.project-w.org",
-    "version": "1.1.0",
-    "time": "2021-08-16",
+    "version": "1.1.1",
+    "time": "2023-03-14",
     "license": "GPL-2.0-only",
     "authors": [
         {

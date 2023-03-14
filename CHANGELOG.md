@@ -4,6 +4,12 @@ All changes to `Knowledge Base` will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.1] - 2023-03-14
+
+### Fixed
+-	Typo in language/en/common.php in KB_EMPTY_*
+-	Array key error when accessing missing or unauthorized KB articles 
+
 ## [1.1.0] - 2021-08-16
 
 ### Added
