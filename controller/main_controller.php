@@ -858,11 +858,31 @@ class main_controller implements main_interface
 						// Log the action
 						if ($mode == 'post' || $mode == 'post_preview')
 						{
-							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_CREATED_LOG', time(), array($title));
+							$this->log->add(
+								'user',
+								$this->user->data['user_id'],
+								$this->user->data['session_ip'],
+								'ACP_KNOWLEDGEBASE_ARTICLE_CREATED_LOG',
+								time(),
+								[
+									$title,
+									'reportee_id' => $this->user->data['user_id'],
+								]
+							);
 						}
 						if ($mode == 'edit' || $mode == 'edit_preview')
 						{
-							$this->log->add('user', $this->user->data['user_id'], $this->user->data['session_ip'], 'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG', time(), array($title));
+							$this->log->add(
+								'user',
+								$this->user->data['user_id'],
+								$this->user->data['session_ip'],
+								'ACP_KNOWLEDGEBASE_ARTICLE_EDITED_LOG',
+								time(),
+								[
+									$title,
+									'reportee_id' => $this->user->data['user_id'],
+								]
+							);
 						}
 
 						// Set correct url, show message to users unable to post without approval
