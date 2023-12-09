@@ -249,6 +249,7 @@ class functions implements functions_interface
 	 */
 	public function description_bbcode_enabled()
 	{
+		$this->data['bbcode_options'] = $this->data['bbcode_options'] ?? 0;
 		return ($this->data['bbcode_options'] & OPTION_FLAG_BBCODE);
 	}
 
@@ -286,6 +287,7 @@ class functions implements functions_interface
 	 */
 	public function description_magic_url_enabled()
 	{
+		$this->data['bbcode_options'] = $this->data['bbcode_options'] ?? 0;
 		return ($this->data['bbcode_options'] & OPTION_FLAG_LINKS);
 	}
 
@@ -323,6 +325,7 @@ class functions implements functions_interface
 	 */
 	public function description_smilies_enabled()
 	{
+		$this->data['bbcode_options'] = $this->data['bbcode_options'] ?? 0;
 		return ($this->data['bbcode_options'] & OPTION_FLAG_SMILIES);
 	}
 
@@ -361,7 +364,7 @@ class functions implements functions_interface
 	protected function set_description_option($option_value, $negate = false, $reparse_description = true)
 	{
 		// Set bbcode_options to 0 if it does not yet exist
-		$this->data['bbcode_options'] = isset($this->data['bbcode_options']) ? $this->data['bbcode_options'] : 0;
+		$this->data['bbcode_options'] = $this->data['bbcode_options'] ?? 0;
 
 		// If we're setting the option and the option is not already set
 		if (!$negate && !($this->data['bbcode_options'] & $option_value))
