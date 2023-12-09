@@ -483,7 +483,7 @@ class admin_controller implements admin_interface
 			}
 			else
 			{
-				confirm_box(false, $this->lang->lang('ACP_DELETE_CATEGORY_CONFIRM'));
+				confirm_box(false, $this->lang->lang('ACP_KNOWLEDGEBASE_DELETE_CATEGORY_CONFIRM'));
 			}
 		}
 		else
