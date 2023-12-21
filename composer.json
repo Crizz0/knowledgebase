@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "Knowledge Base extension for phpBB",
     "homepage": "https://www.project-w.org",
-    "version": "1.1.1",
-    "time": "2023-03-14",
+    "version": "1.2.0",
+    "time": "2023-12-21",
     "license": "GPL-2.0-only",
     "authors": [
         {
@@ -27,12 +27,12 @@
        }
     ],
     "require": {
-        "php": ">=5.4.7"
+        "php": ">=7.2"
     },
     "extra": {
         "display-name": "Knowledge Base",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2.0"
+            "phpbb/phpbb": ">=3.3.0"
         },
         "version-check": {
             "host": "www.phpbb.com",
