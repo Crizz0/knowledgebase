@@ -4,7 +4,7 @@
     "description": "Knowledge Base extension for phpBB",
     "homepage": "https://www.project-w.org",
     "version": "1.2.0",
-    "time": "2023-12-21",
+    "time": "2024-03-24",
     "license": "GPL-2.0-only",
     "authors": [
         {
@@ -17,7 +17,7 @@
         "name": "Michael Vormwald",
         "homepage": "http://www.mike-on-tour.com",
         "email": "webmaster@mike-on-tour.de",
-        "role": "Update Developer"
+        "role": "Developer"
         },
        {
         "name": "Christian Schnegelberger",
